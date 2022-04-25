@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Проверка прайса</title>
+</head>
+<body>
+<table border="1">
+{% for i in product_list %}
+    <tr>
+    <td>{{i.Title}}</td>
+    <td>{{i.Price}}</td>
+    </tr>
+
+{% endfor %}
+
+</table>
+</body>
+</html>
