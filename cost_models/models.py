@@ -63,7 +63,7 @@ class NewPriceModel(models.Model):
                 reg_tmp = '🇷🇺'
             else:
                 reg_tmp = '🇺🇸'
-            
+
             if product['memory'] == '1':
                 mem_tmp = '1024'
             else:
@@ -93,8 +93,6 @@ class NewPriceModel(models.Model):
 
         new_cvs_data(self.new_products)
         super().save(*args, **kwargs)
-
-
 
     def _get_csv_product(self, product):
         """
@@ -132,7 +130,6 @@ class NewPriceModel(models.Model):
                                     line['Price'] = self.new_cost(current_cost=line['Price'],
                                                                   price_cost=product['cost'],
                                                                   device=product['device'])
-
 
                                     self.id_products.append({
                                         'device': device,
@@ -243,21 +240,44 @@ class NewPriceModel(models.Model):
                         if color in title or color in editions:
 
                             if memory in title.replace(' ', '') or memory in editions.replace(' ', ''):
-                                self.csv_file.remove(line)
-                                line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                              price_cost=product['cost'],
-                                                              device=product['device'])
+                                if region == 'ростест':
 
-                                self.id_products.append({
-                                    'device': device,
-                                    'series': series,
-                                    'color': color,
-                                    'memory': memory,
-                                    'Tilda UID': line['Tilda UID'],
-                                    'cost': line['Price'],
-                                    'Title': line['Title'],
-                                    'region': region})
-                                return line
+                                    if region in title.replace(' ', '') or \
+                                            region in editions.replace(' ', ''):
+                                        self.csv_file.remove(line)
+                                        line['Price'] = self.new_cost(current_cost=line['Price'],
+                                                                      price_cost=product['cost'],
+                                                                      device=product['device'])
+
+                                        self.id_products.append({
+                                            'device': device,
+                                            'series': series,
+                                            'color': color,
+                                            'memory': memory,
+                                            'Tilda UID': line['Tilda UID'],
+                                            'cost': line['Price'],
+                                            'Title': line['Title'],
+                                            'region': region})
+                                        return line
+                                else:
+                                    if 'рост' not in title.replace(' ', '') or \
+                                            'рост' not in editions.replace(' ', ''):
+                                        self.csv_file.remove(line)
+                                        line['Price'] = self.new_cost(current_cost=line['Price'],
+                                                                      price_cost=product['cost'],
+                                                                      device=product['device'])
+
+                                        self.id_products.append({
+                                            'device': device,
+                                            'series': series,
+                                            'color': color,
+                                            'memory': memory,
+                                            'Tilda UID': line['Tilda UID'],
+                                            'cost': line['Price'],
+                                            'Title': line['Title'],
+                                            'region': region})
+                                        return line
+
     @staticmethod
     def new_cost(current_cost, price_cost, device) -> str:
         markup = Markup.objects.get(name_models=f'{device.replace(" ", "")}')
@@ -280,7 +300,7 @@ class NewPriceModel(models.Model):
         :param product_list:
         :return:
         """
-        global series_1
+        global series_1, ram_mac
         global series_2
 
         wifi = None
@@ -290,7 +310,7 @@ class NewPriceModel(models.Model):
             clear_list = self.get_clear_list(product_list)
 
             for product in clear_list:
-                print('+++', product)
+
                 device = product['device'].lower()
                 series = product['series'].lower()
                 if 'ram_mac' in product:
@@ -307,8 +327,8 @@ class NewPriceModel(models.Model):
                     series_1 = series.replace(' ', '')
                     series_2 = series.replace(' ', '')
                 if device == 'watch':
-                    series_1 = series.replace(' ', '') + ','
-                    series_2 = series.replace(' ', '') + ';'
+                    series_1 = series.replace(' ', '') + ''
+                    series_2 = series.replace(' ', '') + ''
                 if device == 'macbook':
                     series_1 = series.replace(' ', '') + ''
                     series_2 = series.replace(' ', '') + ';'
@@ -321,7 +341,6 @@ class NewPriceModel(models.Model):
                     title = line['Title'].lower()
                     editions = line['Editions'].lower()
                     if device in title or device in editions:
-                        print(device, series)
 
                         if series_1 in title.replace(' ', '') or \
                                 series_2 in editions.replace(' ', ''):
@@ -401,6 +420,7 @@ class NewPriceModel(models.Model):
         series = []
         series_cost = []
         for product in products:
+
             if product['region'] == 'америка':
                 product['region'] = ''
             product['extra_series'] = product['series'] + product['memory'] + product['region']
