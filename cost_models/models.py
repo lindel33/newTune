@@ -281,7 +281,7 @@ class NewPriceModel(models.Model):
 
     @staticmethod
     def new_cost(current_cost, price_cost, device) -> str:
-        print(current_cost, price_cost, device)
+#         print(current_cost, price_cost, device)
         markup = Markup.objects.get(name_models=f'{device.replace(" ", "")}')
         if float(str(current_cost)) < float(str(price_cost)):
             if markup.flag:
@@ -290,12 +290,17 @@ class NewPriceModel(models.Model):
                 exit_cost[-3], exit_cost[-2], exit_cost[-1] = '9', '9', '0'
                 return str(int("".join(exit_cost)))
             if not markup.flag:
-                new_cost = str(float(price_cost) + float(markup.markup_int))
+                new_cost = str(int(float(price_cost)) + int(float(markup.markup_int)))
                 exit_cost = [x for x in str(int(float(new_cost)))]
                 exit_cost[-2], exit_cost[-1] = '9', '0'
+                new_cost = str(int("".join(exit_cost)))
                 return new_cost
         else:
-            return str(float(price_cost) + float(markup.markup_int))
+            new_cost = str(int(float(price_cost)) + int(float(markup.markup_int)))
+            exit_cost = [x for x in str(int(float(new_cost)))]
+            exit_cost[-2], exit_cost[-1] = '9', '0'
+            new_cost = str(int("".join(exit_cost)))
+            return new_cost
 
     def set_new_price_on_grope(self, product_list):
         """
