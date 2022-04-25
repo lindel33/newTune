@@ -291,7 +291,10 @@ class NewPriceModel(models.Model):
             if not markup.flag:
                 return str(float(price_cost) + float(markup.markup_int))
         else:
-            return str(float(price_cost) + float(markup.markup_int))
+            new_cost = str(float(price_cost) + float(markup.markup_int))
+            exit_cost = [x for x in str(int(float(new_cost)))]
+            exit_cost[-2], exit_cost[-1] = '9', '0'
+            return new_cost
 
     def set_new_price_on_grope(self, product_list):
         """
