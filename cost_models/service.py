@@ -1,11 +1,7 @@
-import datetime
 import itertools
-from difflib import SequenceMatcher
 import re
-from pprint import pprint
 
-from price.models import Global, Iphone, Markup, Ipad, MacBook1, Watch, SpecialCharacter
-
+from price.models import Global, Iphone, Ipad, MacBook1, Watch, SpecialCharacter
 
 specification = [[i.provider_variant, i.new_variant] for i in SpecialCharacter.objects.all()]
 
@@ -63,8 +59,6 @@ if '' in ipad_extra:
 # re_ipad = '|'.join(extra).replace(' ', '').lower()
 re_ipad = 'ipad2020|ipadpro11|ipadpro129|ipadair2020|ipad2020|ipad2021|ipadair|ipadpro20212021129'
 
-
-
 # MacBook
 macbook_all_info = MacBook1.objects.all()[0]
 macbook_memory = macbook_all_info.memory  # 16, 16гб, 16gb
@@ -82,7 +76,6 @@ check_names_macbook = macbook_extra_1 + macbook_extra_clear
 re_macbook_memory = '|'.join(macbook_memory_clear).replace(',', '')
 
 re_macbook = '|'.join(macbook_extra_clear + macbook_series_clear).replace(' ', '').lower()
-
 
 # Watch
 watch_all_info = Watch.objects.all()[0]
@@ -114,8 +107,10 @@ watch_extra_7 = [x[0] + ' ' + x[1] for x in itertools.product(watch_extra_clear,
                                                               watch_size_exists_clear)]
 size_watch = '|'.join(watch_size_clear + watch_size_exists_clear)
 
-check_names_watch = watch_extra_6 + watch_extra_2 + watch_extra_7
+# check_names_watch = watch_extra_6 + watch_extra_2 + watch_extra_7
+check_names_watch = watch_extra_2
 re_watch = '|'.join(check_names_watch).replace(' ', '').lower()
+
 list_error_products = []
 color_tmp = None
 memory_tmp = None
@@ -128,6 +123,7 @@ wifi_cell_tmp = None
 year = None
 size_tmp = None
 ram_mac_tmp = None
+
 
 class GetModelInfo:
     def __init__(self, line):
@@ -156,6 +152,7 @@ class GetModelInfo:
                     region_tmp = 'Америка'
                 if re.findall('россия|ростест|рос|🇷🇺', i.lower()):
                     region_tmp = 'Ростест'
+
             if models in self.line and 'ipad' not in self.line:
                 model_tmp = 'iphone'
                 memory = '64|128|256|512|1tb|1тб'
@@ -245,7 +242,6 @@ class GetModelInfo:
                         'ram_mac': ram_mac_tmp,
                         'extra': self.line_tmp,
                         }
-                pprint(info)
                 color_tmp = None
                 model_tmp = 'macbook'
                 return info
@@ -326,7 +322,7 @@ class GetModelInfo:
             if models.lower() in self.line.replace(',', ''):
                 # print('+_@_!#_!@#@!#')
                 model_tmp = 'watch'
-                memory = '64|128|256|512|1tb|1тб'
+                # memory = '64|128|256|512|1tb|1тб'
                 if re.findall('[0-9]+', self.line):
                     if int(re.findall('[0-9]+', self.line)[-1]) > 3000:
                         cost_tmp = re.findall('[0-9]+', self.line)[-1]
@@ -347,6 +343,8 @@ class GetModelInfo:
 
                 if 'watch' in series_tmp:
                     series_tmp = series_tmp.replace('watch', '')
+                sss = self.get_series_watch(series_tmp)
+                print(sss)
                 info = {'device': 'watch',
                         'color': color_tmp,
                         'memory': self.get_memory_watch(memory_tmp),
@@ -359,7 +357,6 @@ class GetModelInfo:
                 color_tmp = None
 
                 return info
-
 
         if model_tmp:
             if re.findall('[0-9]+', self.line):
@@ -384,7 +381,7 @@ class GetModelInfo:
 
     def get_ipad_series(self, series):
         if '129' in series:
-            series = series.replace('129', '12.9')
+            # series = series.replace('129', '12.9')
             series = 'pro12.9'
 
             return series
@@ -405,37 +402,12 @@ class GetModelInfo:
         return memory
 
     def get_series_watch(self, series):
-        if 'se' in series and 'series' not in series:
+        series = series[0]
+        if 's' in series and 'series' not in series:
             series = 'se'
 
             return series
-        if 's' in series and 'series' not in series:
-            series = series.replace('s', 'series')
-            return series
-
         return series
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def generator(new_price):
