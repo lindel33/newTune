@@ -42,7 +42,10 @@ class DetailModel(models.Model):
 class NewPriceModel(models.Model):
     provider = models.ForeignKey(ProviderModel, on_delete=models.CASCADE, related_name='Поставщик')
     price = models.TextField('Новый прайс')
-
+    csv_file = get_cvs_data()
+    csv_file_copy = csv_file.copy()
+    id_products = []
+    new_products = []
 
     class Meta:
         verbose_name = 'Новый прайс | Управление cvs файлом'
@@ -52,10 +55,7 @@ class NewPriceModel(models.Model):
         return self.provider.name
 
     def save(self, *args, **kwargs):
-        self.csv_file = get_cvs_data()
-        self.csv_file_copy = self.csv_file.copy()
-        self.id_products = []
-        self.new_products = []
+        
         list_new_products = get_product_list(self.price)
         zzz = 0
         for product in list_new_products:
