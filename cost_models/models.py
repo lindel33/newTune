@@ -281,6 +281,7 @@ class NewPriceModel(models.Model):
 
     @staticmethod
     def new_cost(current_cost, price_cost, device) -> str:
+        print(current_cost, price_cost, device)
         markup = Markup.objects.get(name_models=f'{device.replace(" ", "")}')
         if float(str(current_cost)) < float(str(price_cost)):
             if markup.flag:
