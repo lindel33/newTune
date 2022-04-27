@@ -1,7 +1,7 @@
 import itertools
 import re
 
-from price.models import Global, Iphone, Ipad, MacBook1, Watch, SpecialCharacter
+from price.models import Global, Iphone, Ipad, MacBook1, Watch, SpecialCharacter, AirPods
 
 specification = [[i.provider_variant, i.new_variant] for i in SpecialCharacter.objects.all()]
 
@@ -43,21 +43,15 @@ ipad_series_clear = re.sub('^\s+|\n|\r|\s+$', '', ipad_series).split(',')
 ipad_series_number_clear = re.sub('^\s+|\n|\r|\s+$', '', ipad_series_number).split(',')
 ipad_wifi_clear = re.sub('^\s+|\n|\r|\s+$', '', ipad_wifi).split(',')
 ipad_full_names_clear = re.sub('^\s+|\n|\'', '', ipad_full_names).split(',')
-ipad_extra = [x[0].lower() + ' ' + x[1].lower() for x in itertools.product(ipad_series_clear,
-                                                                           ipad_series_number_clear)]
+ipad_extra = [x[0].lower() + ' ' + x[1].lower() for x in itertools.product(ipad_series_number_clear,
+                                                                           ipad_series_clear)]
 ipad_extra_2 = [x[0].lower() + ' ' + x[1].lower() for x in itertools.product(ipad_series_clear,
                                                                              ipad_wifi_clear)]
 ipad_extra_3 = ['ipad ' + x.lower() for x in ipad_series_clear]
 extra = [x.replace(' ', '') for x in ipad_full_names_clear]
-check_names_ipad = ipad_extra + ipad_extra_2 + ipad_extra_3 + ipad_series_number.split(',')
-if '' in ipad_full_names_clear:
-    ipad_full_names_clear.remove('')
-if '' in ipad_extra_3:
-    ipad_extra_3.remove('')
-if '' in ipad_extra:
-    ipad_extra.remove('')
-# re_ipad = '|'.join(extra).replace(' ', '').lower()
-re_ipad = 'ipad2020|ipadpro11|ipadpro129|ipadair2020|ipad2020|ipad2021|ipadair|ipadpro20212021129'
+check_names_ipad = ipad_extra + ipad_extra_3 + ipad_series_number.split(',')
+
+re_ipad = "|".join(ipad_series_number_clear).replace(' ', ''). lower()
 
 # MacBook
 macbook_all_info = MacBook1.objects.all()[0]
@@ -111,6 +105,15 @@ size_watch = '|'.join(watch_size_clear + watch_size_exists_clear)
 check_names_watch = watch_extra_2
 re_watch = '|'.join(check_names_watch).replace(' ', '').lower()
 
+
+
+# AirPods
+airpods_all_info = AirPods.objects.all()[0]
+airpods_full_name = airpods_all_info.full_names  # AirPods 2,AirPods 3
+airpods_full_name_clear = re.sub('^\s+|\n|\r|\s+$', '', airpods_full_name).lower().split(',')  # AirPods 2,AirPods 3
+re_airpods = '|'.join(airpods_full_name_clear).lower().replace(' ', '')
+
+
 list_error_products = []
 color_tmp = None
 memory_tmp = None
@@ -123,7 +126,6 @@ wifi_cell_tmp = None
 year = None
 size_tmp = None
 ram_mac_tmp = None
-
 
 class GetModelInfo:
     def __init__(self, line):
@@ -193,9 +195,7 @@ class GetModelInfo:
             check_names_macbook.remove('')
         for models in check_names_macbook:
             models = models.lower().replace(' ', '')
-
             if models in self.line:
-
                 if re.findall('[0-9]+', self.line):
                     if int(re.findall('[0-9]+', self.line)[-1]) > 3000:
                         cost_tmp = re.findall('[0-9]+', self.line)[-1]
@@ -216,7 +216,6 @@ class GetModelInfo:
                         self.line = self.line.replace(series_tmp, '')
 
                 if re.findall('8|16|32', self.line):
-
                     ram_mac_tmp = re.findall('8|16|32', self.line)[0]
                     if series_tmp != '':
                         self.line = self.line.replace(series_tmp, '')
@@ -344,7 +343,6 @@ class GetModelInfo:
                 if 'watch' in series_tmp:
                     series_tmp = series_tmp.replace('watch', '')
                 sss = self.get_series_watch(series_tmp)
-                print(sss)
                 info = {'device': 'watch',
                         'color': color_tmp,
                         'memory': self.get_memory_watch(memory_tmp),
@@ -357,6 +355,75 @@ class GetModelInfo:
                 color_tmp = None
 
                 return info
+
+        # ---------------------------------> AirPods <---------------------------------#
+        for models in airpods_full_name_clear:
+
+            models = models.replace(' ', '').lower()
+            self.head_line = head_line.replace('.', '').replace(',', '')
+            for i in self.line_tmp:
+                if re.findall(country, i.lower()):
+                    region_tmp = 'америка'
+                if re.findall('россия|ростест|рос|🇷🇺', i.lower()):
+                    region_tmp = 'ростест'
+            if models in self.line_tmp.replace(' ', '').lower():
+                self.line_tmp = self.line_tmp.replace(' ', '').lower()
+                model_tmp = 'airpods'
+
+                if re.findall('[0-9]+', self.head_line):
+                    if int(re.findall('[0-9]+', self.head_line)[-1]) > 3000:
+                        cost_tmp = re.findall('[0-9]+', self.head_line)[-1]
+                        self.line_tmp = self.line_tmp.replace(cost_tmp, '')
+
+                try:
+                    if re.findall(colors, self.line_tmp):
+                        color_tmp = re.findall(colors, self.line_tmp)[0]
+                        self.line_tmp = self.line_tmp.replace(color_tmp, '')
+                except:
+                    color_tmp = None
+                if re.findall(re_airpods, self.line_tmp):
+                    series_tmp = re.findall(re_airpods, self.line_tmp)[0]
+                    self.line_tmp = self.line_tmp.replace(series_tmp, '')
+                check = [series_tmp, cost_tmp, ]
+
+                print('Сработал airpods')
+                if None in check:
+                    return False
+
+                if 'airpods' in series_tmp:
+                    series_tmp = series_tmp.replace('airpods', '')
+                if not color_tmp:
+                    color_tmp = 'Без цвета'
+                info = {'device': 'airpods',
+                        'color': color_tmp,
+                        'memory': '--',
+                        'series': series_tmp,
+                        'cost': cost_tmp,
+                        'ram': None,
+                        'extra': self.line,
+                        'wifi': None,
+                        'year': None,
+                        }
+                color_tmp = None
+
+                return info
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         if model_tmp:
             if re.findall('[0-9]+', self.line):
@@ -412,12 +479,14 @@ class GetModelInfo:
 
 def generator(new_price):
     global region_tmp
+    global head_line
     current_line = new_price.split('\n')
     for i in current_line:
         if re.findall(country, i.lower()):
             region_tmp = 'Америка'
         else:
             region_tmp = 'Ростест'
+        head_line = i
         line = re.sub('^\s+|\n|\r|\s+$', '', i)
         line = re.sub(r'[^\w\s]', '', line)
 
