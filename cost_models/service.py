@@ -51,7 +51,7 @@ ipad_extra_3 = ['ipad ' + x.lower() for x in ipad_series_clear]
 extra = [x.replace(' ', '') for x in ipad_full_names_clear]
 check_names_ipad = ipad_extra + ipad_extra_3 + ipad_series_number.split(',')
 
-re_ipad = "|".join(ipad_series_number_clear).replace(' ', ''). lower()
+re_ipad = "|".join(ipad_series_number_clear).replace(' ', '').lower().replace('(', '').replace(')', '')
 
 # MacBook
 macbook_all_info = MacBook1.objects.all()[0]
