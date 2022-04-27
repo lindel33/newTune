@@ -6,7 +6,7 @@ from .service import get_product_list
 from .startsvc import get_cvs_data, new_cvs_data
 
 mega_count = []
-
+wifi_tmp = None
 
 class ProviderModel(models.Model):
     name = models.CharField('Имя', max_length=20)
@@ -279,9 +279,89 @@ class NewPriceModel(models.Model):
                                             'region': region})
                                         return line
 
+                # -------------------> AirPods <-------------------
+
+                elif device == 'airpods':
+                    if (series.replace(' ', '') in title.replace(' ', '') or
+                            series.replace(' ', '') in editions.replace(' ', '')):
+                        if color and (color in title or color in editions):
+                            if region == 'ростест':
+                                if region in title.replace(' ', '') or \
+                                        region in editions.replace(' ', ''):
+                                    self.csv_file.remove(line)
+                                    line['Price'] = self.new_cost(current_cost=line['Price'],
+                                                                  price_cost=product['cost'],
+                                                                  device=product['device'])
+
+                                    self.id_products.append({
+                                        'device': device,
+                                        'series': series,
+                                        'color': color,
+                                        'memory': memory,
+                                        'Tilda UID': line['Tilda UID'],
+                                        'cost': line['Price'],
+                                        'Title': line['Title'],
+                                        'region': region})
+                                    return line
+                            else:
+                                if 'рост' not in title.replace(' ', '') or \
+                                        'рост' not in editions.replace(' ', ''):
+                                    self.csv_file.remove(line)
+                                    line['Price'] = self.new_cost(current_cost=line['Price'],
+                                                                  price_cost=product['cost'],
+                                                                  device=product['device'])
+
+                                    self.id_products.append({
+                                        'device': device,
+                                        'series': series,
+                                        'color': color,
+                                        'memory': memory,
+                                        'Tilda UID': line['Tilda UID'],
+                                        'cost': line['Price'],
+                                        'Title': line['Title'],
+                                        'region': region})
+                                    return line
+                        elif color == 'Без цвета':
+                            if region == 'ростест':
+                                if region in title.replace(' ', '') or \
+                                        region in editions.replace(' ', ''):
+                                    self.csv_file.remove(line)
+                                    line['Price'] = self.new_cost(current_cost=line['Price'],
+                                                                  price_cost=product['cost'],
+                                                                  device=product['device'])
+
+                                    self.id_products.append({
+                                        'device': device,
+                                        'series': series,
+                                        'color': color,
+                                        'memory': memory,
+                                        'Tilda UID': line['Tilda UID'],
+                                        'cost': line['Price'],
+                                        'Title': line['Title'],
+                                        'region': region})
+                                    return line
+                            else:
+                                if 'рост' not in title.replace(' ', '') or \
+                                        'рост' not in editions.replace(' ', ''):
+                                    self.csv_file.remove(line)
+                                    line['Price'] = self.new_cost(current_cost=line['Price'],
+                                                                  price_cost=product['cost'],
+                                                                  device=product['device'])
+
+                                    self.id_products.append({
+                                        'device': device,
+                                        'series': series,
+                                        'color': color,
+                                        'memory': memory,
+                                        'Tilda UID': line['Tilda UID'],
+                                        'cost': line['Price'],
+                                        'Title': line['Title'],
+                                        'region': region})
+                                    return line
+
     @staticmethod
     def new_cost(current_cost, price_cost, device) -> str:
-#         print(current_cost, price_cost, device)
+        #         print(current_cost, price_cost, device)
         markup = Markup.objects.get(name_models=f'{device.replace(" ", "")}')
         if float(str(current_cost)) < float(str(price_cost)):
             if markup.flag:
@@ -343,6 +423,11 @@ class NewPriceModel(models.Model):
                     series_1 = series.replace(' ', '') + ''
                     series_2 = series.replace(' ', '') + ';'
                     ram_mac = ram_mac
+
+                if device == 'airpods':
+                    series_1 = series.replace(' ', '') + ''
+                    series_2 = series.replace(' ', '') + ''
+
                 color = product['color'].lower()
                 memory = product['memory'].lower()
                 if memory == '1':
