@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Global, Iphone, Markup, Ipad, MacBook1, Watch, SpecialCharacter
+from .models import Global, Iphone, Markup, Ipad, MacBook1, Watch, SpecialCharacter, AirPods
 from cost_models.models import DetailModel
 
 
@@ -35,3 +35,8 @@ class MarkupAdmin(admin.ModelAdmin):
 @admin.register(SpecialCharacter)
 class SpecialCharacterAdmin(admin.ModelAdmin):
     list_display = ['provider_variant', 'new_variant', ]
+
+
+@admin.register(AirPods)
+class AirPodsAdmin(admin.ModelAdmin):
+    pass
