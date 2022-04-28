@@ -1,5 +1,6 @@
 import itertools
 import re
+from pprint import pprint
 
 from price.models import Global, Iphone, Ipad, MacBook1, Watch, SpecialCharacter, AirPods
 
@@ -127,11 +128,27 @@ year = None
 size_tmp = None
 ram_mac_tmp = None
 
+
+
+
+
+
+
+
+
+
+
 class GetModelInfo:
     def __init__(self, line):
         self.line = re.sub('^\s+|\n|\r|\s+$', '', line).lower().replace(' ', '')
+        for i in specification:
+            delete_name = i[0].lower().replace(' ', '')
+            new_name = i[1].lower().replace(' ', '')
+
+            if delete_name in self.line:
+                self.line = self.line.replace(delete_name, new_name)
+                # print(delete_name, ' ---> ', new_name)
         self.line_tmp = line
-        # TODO Сделать замену специфики в строке
 
     def get_info(self):
         # Проверка на iPhone
@@ -263,6 +280,15 @@ class GetModelInfo:
                     if int(re.findall('[0-9]+', self.line)[-1]) > 3000:
                         cost_tmp = re.findall('[0-9]+', self.line)[-1]
                         self.line = self.line.replace(cost_tmp, '')
+                try:
+                    if re.findall('2019|2020|2021|2022|2023|2024|2025|2026', self.line):
+                        year_tmp = re.findall('2019|2020|2021|2022|2023|2024|2025|2026', self.line)[0]
+                        self.line = self.line.replace(year_tmp, '')
+                except:
+                    pass
+
+                if year_tmp not in ['2019', '2020', '2021', '2022', '2023', '2024', '2025']:
+                    year_tmp = '2021'
                 if re.findall(memory, self.line):
                     memory_tmp = re.findall(memory, self.line)[0]
                     self.line = self.line.replace(memory_tmp, '')
@@ -270,26 +296,49 @@ class GetModelInfo:
                 if re.findall(colors, self.line):
                     color_tmp = re.findall(colors, self.line)[0]
                     self.line = self.line.replace(color_tmp, '')
-                # extra = '|'.join(x.replace(' ', '').lower() for x in ipad_full_names_clear)
-                if re.findall(re_ipad, self.line):
-                    series_tmp = re.findall(re_ipad, self.line)[0]
-                    self.line = self.line.replace(series_tmp, '')
+                series_pro = 'pro|mini|air'
+                series_129 = '129|11'
+                series_tmp = None
+                try:
+                    if re.findall(series_pro, self.line):
+                        series_pro_pro = re.findall(series_pro, self.line)[0]
+                        series_tmp = series_pro_pro
+
+                except:
+                    pass
+                try:
+                    if re.findall(series_129, self.line):
+                        series_129_129 = re.findall(series_129, self.line)[0]
+                        # self.line = self.line.replace(series_tmp, '')
+                        series_tmp = series_tmp + series_129_129
+                except:
+                    pass
+
+                if series_tmp and len(series_tmp.split()) != 2:
+                    if len(series_tmp.split()) == 1:
+                        series_tmp += year_tmp
+                    if len(series_tmp.split()) == 0:
+                        series_tmp = None
+
+
 
                 re_wifi_cell = 'wifi|cell'
                 if re.findall(re_wifi_cell, self.line):
                     result = re.findall(re_wifi_cell, self.line)[0]
                     if result == 'cell':
                         wifi_cell_tmp = 'cellular'
+                    elif result == 'wifi':
+                        wifi_cell_tmp = 'wi-fi'
                     else:
                         wifi_cell_tmp = 'wi-fi'
+
                 if not re.findall(re_wifi_cell, self.line):
                     wifi_cell_tmp = 'wi-fi'
 
                 if re.findall(size_watch, self.line):
                     size_tmp = re.findall(size_watch, self.line)[0]
                     self.line = self.line.replace(str(series_tmp), '')
-                print('Сработал ipad')
-                check = [color_tmp, memory_tmp, series_tmp, cost_tmp, ]
+                check = [color_tmp, memory_tmp, series_tmp, cost_tmp, wifi_cell_tmp]
                 if None in check:
                     return False
 
@@ -409,22 +458,6 @@ class GetModelInfo:
                 return info
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         if model_tmp:
             if re.findall('[0-9]+', self.line):
                 if int(re.findall('[0-9]+', self.line)[-1]) > 3000:
@@ -444,9 +477,11 @@ class GetModelInfo:
                     'ram': ram_tmp,
                     'extra': self.line_tmp,
                     }
+            print('Сработала ассоциация')
             return info
 
     def get_ipad_series(self, series):
+
         if '129' in series:
             # series = series.replace('129', '12.9')
             series = 'pro12.9'
@@ -454,9 +489,17 @@ class GetModelInfo:
             return series
         if series == '2020':
             series = 'ipad2020'
+
         if '2020' in series:
             series = series.replace('2020', '(2020)')
+            return series
 
+        if '2021' in series:
+            series = series.replace('2021', '(2021)')
+            return series
+
+        if '2022' in series:
+            series = series.replace('2022', '(2022)')
             return series
 
         return series
@@ -510,3 +553,6 @@ def get_product_list(price):
                 exit_product.append(models)
 
     return exit_product
+
+
+
