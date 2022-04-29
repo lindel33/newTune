@@ -190,6 +190,8 @@ class NewPriceModel(models.Model):
                 elif device == 'ipad':
                     if (series.replace(' ', '') in title.replace(' ', '') or
                             series.replace(' ', '') in editions.replace(' ', '')):
+                        print(series)
+
                         if color in title or color in editions:
                             if memory in title.replace(' ', '') or memory in editions.replace(' ', ''):
                                 wifi = product['wifi'] + ','
