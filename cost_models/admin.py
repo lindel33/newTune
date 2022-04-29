@@ -52,7 +52,7 @@ class NewPriceModelAdmin(admin.ModelAdmin):
         if res == 255:
             return HttpResponse('255')
         else:
-            return HttpResponse(res)
+            return HttpResponse('ПЕРЕЗАГРУЗКА status code <200> = SUCCESS ')
 
     def drop_csv(self, request, queryset):
         from django.http import HttpResponse
@@ -63,7 +63,7 @@ class NewPriceModelAdmin(admin.ModelAdmin):
 #         bashCommand = "yc compute instance restart tunedjango"
 #         process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 #         output, error = process.communicate()
-        return HttpResponse('Перезагрузка')
+        return HttpResponse('CSV файл успешно сброшен к нулевым ценам')
 
 
     def full_csv(self, request, *args, **kwargs):
