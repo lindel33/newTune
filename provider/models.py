@@ -38,7 +38,7 @@ class ProviderProduct(models.Model):
     name = models.CharField('Название', max_length=150, null=False,
                             help_text='Пример: iPhone 7 128 Blue ||'
                                       'Формат: Модель/ Серия/ (Память/ Цвет/ Регион)-> если есть \n ')
-    name_tmp = models.CharField('Фоновое имя', max_length=50, null=False)
+    name_tmp = models.CharField('Фоновое имя', max_length=100, null=False)
     tests = models.BooleanField('Ростест?', default=False)
     article = models.CharField('Код товара', max_length=15, null=False,
                                help_text='Пример: 20X100ZT')
