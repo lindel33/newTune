@@ -121,6 +121,7 @@ class NewPriceModel(models.Model):
                 if (series.replace(' ', '') + ',' in title.replace(' ', '') or
                     series.replace(' ', '') + ';' in editions.replace(' ', '')) \
                         and device != 'macbook':
+
                     if color in title or color in editions:
                         if memory in title.replace(' ', '') or memory in editions.replace(' ', ''):
                             if region == 'ростест':
@@ -187,13 +188,12 @@ class NewPriceModel(models.Model):
                                 return line
 
                 elif device == 'ipad':
-                    # print(product['year'], title)
                     if (series.replace(' ', '') in title.replace(' ', '') or
                             series.replace(' ', '') in editions.replace(' ', '')):
                         if color in title or color in editions:
-
                             if memory in title.replace(' ', '') or memory in editions.replace(' ', ''):
                                 wifi = product['wifi'] + ','
+
                                 if wifi in title.replace(' ', '') or wifi in editions.replace(' ', ''):
                                     if region == 'ростест':
 
