@@ -46,8 +46,13 @@ class NewPriceModelAdmin(admin.ModelAdmin):
         return response
 
     def reload(self, request, queryset):
+        from django.http import HttpResponse
         import os
-        os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
+        res = os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
+        if res == 255:
+            return HttpResponse('255')
+        else:
+            return HttpResponse(res)
 
     def drop_csv(self, request, queryset):
         from django.http import HttpResponse
