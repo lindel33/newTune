@@ -36,7 +36,7 @@ class GlobalAdmin(UserEmailSearchAdmin):
 
 @admin.register(NewPriceModel)
 class NewPriceModelAdmin(admin.ModelAdmin):
-    actions = ['download_csv', 'drop_csv', 'full_csv', 'ready_csv', 'not_update_csv']
+    actions = ['download_csv', 'drop_csv', 'full_csv', 'ready_csv', 'not_update_csv', 'reload']
 
     def download_csv(self, request, queryset):
         from django.http import HttpResponse
@@ -45,7 +45,9 @@ class NewPriceModelAdmin(admin.ModelAdmin):
         response['Content-Disposition'] = 'attachment; filename=pricetilda.csv'
         return response
 
-
+    def reload(self, request, queryset):
+        import os
+        os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
 
     def drop_csv(self, request, queryset):
         from django.http import HttpResponse
@@ -67,7 +69,9 @@ class NewPriceModelAdmin(admin.ModelAdmin):
 
     def not_update_csv(self, request, *args, **kwargs):
         return redirect('/csv_check/not_update/')
-
+    
+    
+    reload.short_description = "Перезагрузка сервера"
     drop_csv.short_description = "Сбросить csv к нулевым ценам"
     download_csv.short_description = "Скачать новый csv с ценами"
     full_csv.short_description = "Посмотреть весь csv"
