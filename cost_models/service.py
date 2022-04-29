@@ -263,7 +263,7 @@ class GetModelInfo:
                     self.line = self.line.replace('m1', '2021')
             if models in self.line:
                 model_tmp = 'ipad'
-                memory = '64|128|256|512|1tb|1тб'
+                memory = '32|64|128|256|512|1tb|1тб'
                 if re.findall('[0-9]+', self.line):
                     if int(re.findall('[0-9]+', self.line)[-1]) > 3000:
                         cost_tmp = re.findall('[0-9]+', self.line)[-1]
@@ -525,7 +525,7 @@ def get_ipad_series_new(line):
     if get_name:
         ipad_name = get_name[-1]
 
-    series_number = '129|11|9'
+    series_number = '129|11'
     get_number = re.findall(series_number, line)
     if get_number:
         ipad_number = get_number[-1]
