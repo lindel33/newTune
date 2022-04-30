@@ -13,10 +13,10 @@ class KitModelAdmin(admin.ModelAdmin):
         for i in self.product_:
             if str(i.kit) == str(obj.kit):
                 print(i.kit, obj.id)
-                Product.objects.filter(id=i.id).update(kit=int(obj.id))
+                Product.objects.filter(id=i.id).update(kit=obj.id)
         for i in self.bookingproduct:
             if str(i.kit) == str(obj.kit):
-                ProviderProduct.objects.filter(id=i.id).update(kit=int(obj.id))
+                ProviderProduct.objects.filter(id=i.id).update(kit=obj.id)
         super().save_model(request, obj, form, change)
         
 
