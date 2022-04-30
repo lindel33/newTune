@@ -59,6 +59,19 @@ choices_guaranty = [
     (guaranty_3, guaranty_3),
 ]
 
+
+class GuarantyModel(models.Model):
+    guaranty = models.CharField('Текст', max_length=255)
+    guaranty_id = models.CharField('Текст', max_length=255)
+
+    class Meta:
+        verbose_name = 'Гарантии'
+        verbose_name_plural = 'Гарантии'
+
+    def __str__(self):
+        return self.guaranty
+
+
 tests_1 = 'Ростест🇷🇺'
 tests_2 = 'Не Ростест'
 choices_tests = [
