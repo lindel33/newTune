@@ -6,3 +6,8 @@ from .models import ProviderProduct
 class ProviderProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'author', 'provider_device']
     exclude = ('booking', 'count', 'moderation', 'up_price', 'day_next_publish', 'name_tmp', 'device_provider', 'provider_device ')
+    
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            obj.author = request.user
+        super().save_model(request, obj, form, change)
