@@ -49,8 +49,7 @@ class ProviderProduct(models.Model):
     works = models.TextField('Произведенные работы', null=True, blank=True,
                              help_text='Оставить поле пустым, если не нужно')
     kit = models.CharField('Комплект', choices=choices_kit, max_length=150, null=False)
-    guaranty = models.CharField('Гарантия', choices=choices_guaranty,
-                                max_length=255, null=True, blank=True, default=default_guaranty)
+    guaranty = models.ForeignKey(GuarantyModel, on_delete=models.CASCADE, verbose_name='Гарантия')
     custom_guaranty = models.DateField('Своя гарантия', null=True, blank=True)
 
     base_text = models.TextField('Нижняя подпись к посту', null=False, default=default_text)
