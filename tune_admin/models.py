@@ -157,7 +157,7 @@ class Product(models.Model):
                                          help_text='Оставить в поле 0, если по АКБ нет информации')
     works = models.TextField('Произведенные работы', null=True, blank=True,
                              help_text='Оставить поле пустым, если не нужно')
-    kit = models.ForeignKey(KitModel, on_delete=models.CASCADE, verbose_name='Комплект', null=True, blank=True)
+    kit = models.ForeignKey(KitModel, on_delete=models.CASCADE, verbose_name='Комплект', null=True, blank=True, default=1)
 
     guaranty = models.ForeignKey(GuarantyModel, on_delete=models.CASCADE, verbose_name='Гарантия')
     custom_guaranty = models.DateField('Своя гарантия', null=True, blank=True)
