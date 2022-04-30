@@ -1,7 +1,7 @@
 import datetime
 from django.db import models
 
-from tune_admin.models import Category, SeriesCategory, get_deadline, Product, states, choices_kit, choices_guaranty, choices_smile
+from tune_admin.models import Category, SeriesCategory, get_deadline, Product, states, choices_kit, choices_guaranty, choices_smile, GuarantyModel
 from tune_admin.text_default import text_default
 
 today = datetime.date.today()
