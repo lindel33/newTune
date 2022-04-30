@@ -1,8 +1,24 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from provider.models import ProviderProduct
-from .models import Product, Category, SeriesCategory, BookingProduct, GuarantyModel
+from .models import Product, Category, SeriesCategory, BookingProduct, GuarantyModel, KitModel
 
+
+@admin.register(KitModel)
+class KitModelAdmin(admin.ModelAdmin):
+    product_ = Product.objects.all()
+    bookingproduct = ProviderProduct.objects.all()
+
+    def save_model(self, request, obj, form, change):
+        for i in self.product_:
+            if str(i.kit) == str(obj.kit):
+                print(i.kit, obj.id)
+                Product.objects.filter(id=i.id).update(kit=int(obj.id))
+        for i in self.bookingproduct:
+            if str(i.kit) == str(obj.kit):
+                ProviderProduct.objects.filter(id=i.id).update(kit=int(obj.id))
+        super().save_model(request, obj, form, change)
+        
 
 @admin.register(GuarantyModel)
 class GuarantyModelAdmin(admin.ModelAdmin):
