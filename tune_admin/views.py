@@ -33,7 +33,7 @@ def bot(request):
             return HttpResponse({'200': 'ok'})
 
         except:
-
+      
             json_data = request.body.decode('utf-8')
             update = telebot.types.Update.de_json(json_data)
             client.process_new_updates([update])
@@ -41,7 +41,7 @@ def bot(request):
             return HttpResponse({'200': 'ok'})
 
     else:
-        raise HttpResponse({'200': 'ok'})
+        return HttpResponse({'200': 'ok'})
 
 
 def get_category():
