@@ -62,7 +62,6 @@ choices_guaranty = [
 
 class GuarantyModel(models.Model):
     guaranty = models.CharField('Текст', max_length=255)
-    guaranty_id = models.CharField('Текст', max_length=255)
 
     class Meta:
         verbose_name = 'Гарантии'
