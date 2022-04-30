@@ -12,5 +12,5 @@ class ProviderProductAdmin(admin.ModelAdmin):
             obj.author = request.user
         super().save_model(request, obj, form, change)
     
-    def get_queryset(self, request):
-        ProviderProduct.objects.filter(author=request.user)
+#     def get_queryset(self, request):
+#         ProviderProduct.objects.filter(author=request.user)
