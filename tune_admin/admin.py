@@ -1,6 +1,26 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Product, Category, SeriesCategory, BookingProduct
+from provider.models import ProviderProduct
+from .models import Product, Category, SeriesCategory, BookingProduct, GuarantyModel
+
+
+@admin.register(GuarantyModel)
+class GuarantyModelAdmin(admin.ModelAdmin):
+    product_ = Product.objects.all()
+    bookingproduct = ProviderProduct.objects.all()
+
+    def save_model(self, request, obj, form, change):
+        for i in self.product_:
+            if str(i.guaranty) == str(obj.guaranty):
+                print(i.guaranty, obj.id)
+                Product.objects.filter(id=i.id).update(guaranty=obj.id)
+        for i in self.bookingproduct:
+            if str(i.guaranty) == str(obj.guaranty):
+                ProviderProduct.objects.filter(id=i.id).update(guaranty=obj.id)
+        super().save_model(request, obj, form, change)
+        
+
+
 
 @admin.action(description='++ 1000 к цене')
 def plus(modeladmin, request, queryset):
