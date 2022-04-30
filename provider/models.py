@@ -1,7 +1,7 @@
 import datetime
 from django.db import models
 
-from tune_admin.models import Category, SeriesCategory, get_deadline, Product, states, choices_kit, choices_guaranty, choices_smile, GuarantyModel
+from tune_admin.models import Category, SeriesCategory, get_deadline, Product, states, choices_kit, choices_guaranty, choices_smile, GuarantyModel, KitModel
 from tune_admin.text_default import text_default
 
 today = datetime.date.today()
@@ -48,7 +48,7 @@ class ProviderProduct(models.Model):
                                          help_text='Оставить в поле 0, если по АКБ нет информации')
     works = models.TextField('Произведенные работы', null=True, blank=True,
                              help_text='Оставить поле пустым, если не нужно')
-    kit = models.CharField('Комплект', choices=choices_kit, max_length=150, null=False)
+    kit = models.ForeignKey(KitModel, on_delete=models.CASCADE, verbose_name='Комплект', null=True, blank=True)
     guaranty = models.ForeignKey(GuarantyModel, on_delete=models.CASCADE, verbose_name='Гарантия')
     custom_guaranty = models.DateField('Своя гарантия', null=True, blank=True)
 
