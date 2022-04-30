@@ -60,6 +60,17 @@ choices_guaranty = [
 ]
 
 
+class KitModel(models.Model):
+    kit = models.CharField('Текст', max_length=255)
+
+    class Meta:
+        verbose_name = 'Комплект'
+        verbose_name_plural = 'Комплекты'
+
+    def __str__(self):
+        return self.kit
+
+
 class GuarantyModel(models.Model):
     guaranty = models.CharField('Текст', max_length=255)
     guaranty_id = models.CharField('Текст', max_length=255)      
