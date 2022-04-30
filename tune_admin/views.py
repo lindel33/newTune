@@ -33,12 +33,12 @@ def bot(request):
             return HttpResponse({'200': 'ok'})
 
         except:
-      
-            json_data = request.body.decode('utf-8')
-            update = telebot.types.Update.de_json(json_data)
-            client.process_new_updates([update])
-            print('+++++++++++++++++++++++4')
             return HttpResponse({'200': 'ok'})
+#             json_data = request.body.decode('utf-8')
+#             update = telebot.types.Update.de_json(json_data)
+#             client.process_new_updates([update])
+#             print('+++++++++++++++++++++++4')
+#             return HttpResponse({'200': 'ok'})
 
     else:
         return HttpResponse({'200': 'ok'})
