@@ -525,10 +525,20 @@ def get_ipad_series_new(line):
     if get_name:
         ipad_name = get_name[-1]
 
-    series_number = '129|11'
+    series_number = '129'
     get_number = re.findall(series_number, line)
     if get_number:
+        print(get_number)
         ipad_number = get_number[-1]
+    elif not get_number:
+        series_number = '11'
+        get_number = re.findall(series_number, line)
+        if get_number:
+            print(get_number)
+            ipad_number = get_number[-1]
+    else:
+        pass
+
 
     exit_list = [ipad_name, ipad_number, ipad_year, ]
     if None in exit_list:
@@ -537,6 +547,6 @@ def get_ipad_series_new(line):
 
     series = "".join(exit_list)
     result = 'ipad' + series
-    # print('---> ', line, ' ---> ', result)
+#     print('---> ', line, ' ---> ', result)
 
     return result
