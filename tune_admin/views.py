@@ -111,13 +111,15 @@ def get_price(price_min, price_max):
     return result
 
 def get_max_min_price(cost):
-    dia = [[15000, 25000],
+    dia = [[1000, 15000],
+            [15000, 25000],
              [25000, 35000],
              [35000, 45000],
              [45000, 55000],
              [55000, 70000],
              [70000, 100000],
-          [100000, 200000]]
+          [100000, 130000],
+          [130000, 200000],]
     for i in dia:
         if i[0] <= cost <= i[1]:
             return [i[0], i[1]]
@@ -512,30 +514,46 @@ def new_model(message):
 @client.message_handler(func=lambda message: message.text == 'Мой бюджет')
 @client.message_handler(func=lambda message: message.text == '⬅️Другой бюджет')
 def my_budget(message, text='Выберите бюджет'):
-    my_dia = [['Бюджет от 15000 до 25000'],
-              ['Бюджет от 25000 до 35000'],
-              ['Бюджет от 35000 до 45000'],
-              ['Бюджет от 45000 до 55000'],
-              ['Бюджет от 55000 до 70000'],
-              ['Бюджет от 70000 до 100000'],
-              ['Бюджет от 100000 до 200000'],
-              ['⬅️Главное меню']]
-    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard.keyboard = my_dia
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=keyboard)
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = telebot.types.KeyboardButton('от 1000 до 15000')
+    btn2 = telebot.types.KeyboardButton('от 15000 до 25000')
+    btn3 = telebot.types.KeyboardButton('от 25000 до 35000')
+    btn4 = telebot.types.KeyboardButton('от 45000 до 55000')
+    btn5 = telebot.types.KeyboardButton('от 55000 до 70000')
+    btn6 = telebot.types.KeyboardButton('от 70000 до 100000')
+    btn7 = telebot.types.KeyboardButton('от 100000 до 130000')
+    btn8 = telebot.types.KeyboardButton('от 130000 до 200000')
+    btn9 = telebot.types.KeyboardButton('⬅️Главное меню')
+    markup.add(btn1, btn2)
+    markup.add(btn3, btn4)
+    markup.add(btn5, btn6)
+    markup.add(btn7, btn8)
+    markup.add(btn9)
+    client.send_message(message.chat.id, text=text, reply_markup=markup)
+#     my_dia = [['Бюджет от 15000 до 25000'],
+#               ['Бюджет от 25000 до 35000'],
+#               ['Бюджет от 35000 до 45000'],
+#               ['Бюджет от 45000 до 55000'],
+#               ['Бюджет от 55000 до 70000'],
+#               ['Бюджет от 70000 до 100000'],
+#               ['Бюджет от 100000 до 200000'],
+#               ['⬅️Главное меню']]
+#     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+#     keyboard.keyboard = my_dia
+#     client.send_message(chat_id=message.chat.id,
+#                         text=text,
+#                         reply_markup=keyboard)
 
 
 
 
 
-@client.message_handler(func=lambda message: message.text.split()[0] == 'Бюджет')
+@client.message_handler(func=lambda message: message.text.split()[0] == 'от')
 def my_budget_show(message):
     if len(message.text.split()) >= 4:
         try:
-            price_min = message.text.split()[2]
-            price_max = message.text.split()[4]
+            price_min = message.text.split()[1]
+            price_max = message.text.split()[3]
             keyboard_products = get_price(price_min, price_max)
 
             if keyboard_products == []:
