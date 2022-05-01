@@ -162,12 +162,22 @@ def update_products():
 @client.message_handler(func=lambda message: message.text == '⬅️Главное меню')
 @client.message_handler(commands=['start'])
 def start_message(message, text='Что хотите найти?'):
-    start_category = [['💥Скидки💥'], ['Б/У Устройства'],['Новые Устройства'], ['Trade-in'], ['Мой бюджет'], ['Связаться с менеджером']]
-    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard_category.keyboard = start_category
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=keyboard_category)
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = telebot.types.KeyboardButton('💥Скидки💥')
+    btn2 = telebot.types.KeyboardButton('Новые Устройства')
+    btn3 = telebot.types.KeyboardButton('Б/У Устройства')
+    btn4 = telebot.types.KeyboardButton('Trade-in / Продажа')
+    btn5 = telebot.types.KeyboardButton('Мой бюджет')
+    # btn6 = telebot.types.KeyboardButton('Обменка')
+    # btn7 = telebot.types.KeyboardButton('FAQ')
+    btn8 = telebot.types.KeyboardButton('Связаться с менеджером')
+    markup.add(btn1)
+    markup.add(btn2, btn3)
+    markup.add(btn4)
+    markup.add(btn5)
+    # markup.add(btn6, btn7)
+    markup.add(btn8)
+    client.send_message(message.chat.id, text=text, reply_markup=markup)
 
 
 @client.message_handler(commands=['sm'])
