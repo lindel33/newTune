@@ -184,11 +184,20 @@ def start_message(message, text='Что хотите найти?'):
 @client.message_handler(func=lambda message: message.text == 'Б/У Устройства')
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Б/У')
 def support_menu(message, text='Вот все Б\У'):
-    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard_category.keyboard = [[x] for x in menu_support]
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=keyboard_category)
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = telebot.types.KeyboardButton('📱 iPhone')
+    btn2 = telebot.types.KeyboardButton('📲 iPad')
+    btn3 = telebot.types.KeyboardButton('💻 MacBook')
+    btn4 = telebot.types.KeyboardButton('🎧 AirPods')
+    btn5 = telebot.types.KeyboardButton('⌚ Watch')
+    btn8 = telebot.types.KeyboardButton('⌨ Устройства')
+    btn9 = telebot.types.KeyboardButton('⬅️Главное меню')
+    markup.add(btn1)
+    markup.add(btn2, btn3)
+    markup.add(btn4, btn5)
+    markup.add(btn8)
+    markup.add(btn9)
+    client.send_message(message.chat.id, text=text, reply_markup=markup)
 
 
 @client.message_handler(func=lambda message: message.text == '⌨ Устройства')
