@@ -543,7 +543,7 @@ def my_budget_show(message):
             pass
 
 @client.message_handler(commands=['ti'])
-@client.message_handler(func=lambda message: message.text == 'Trade-in')
+@client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
 def tradein_model(message):
     start_message(message, text='Программа trade-in доступна!\nС помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у (так же принятое по программе trade-in).\nЧтобы узнать размер скидки выберите пункт «Связаться с менеджером»\nИли позвоните по телефону: \n+7 (932) 222-54-45')
 
