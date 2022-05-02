@@ -1,7 +1,7 @@
 import datetime
 from django.db import models
 
-from tune_admin.models import Category, SeriesCategory, get_deadline, Product, states, choices_kit, choices_guaranty, choices_smile, GuarantyModel, KitModel
+from tune_admin.models import Category, SeriesCategory, get_deadline, Product, states, choices_kit, choices_guaranty, choices_smile, GuarantyModel, KitModel, StateModel
 from tune_admin.text_default import text_default
 
 today = datetime.date.today()
@@ -42,8 +42,7 @@ class ProviderProduct(models.Model):
     tests = models.BooleanField('Ростест?', default=False)
     article = models.CharField('Код товара', max_length=15, null=False,
                                help_text='Пример: 20X100ZT')
-    state = models.TextField('Состояние', choices=states, null=False,
-                             help_text='Выбор сгенерирует шаблон')
+    state = models.ForeignKey(StateModel, on_delete=models.CASCADE, verbose_name='Состояние')
     state_akb = models.SmallIntegerField('Состояние АКБ', default=0,
                                          help_text='Оставить в поле 0, если по АКБ нет информации')
     works = models.TextField('Произведенные работы', null=True, blank=True,
