@@ -20,6 +20,19 @@ states = [(state_1, 'Новый'),
           (state_5, 'Хорошее ')
           ]
 
+
+class StateModel(models.Model):
+    state = models.CharField('Текст', max_length=255)
+
+    class Meta:
+        verbose_name = 'Состояние'
+        verbose_name_plural = 'Состояния'
+
+    def __str__(self):
+        return self.state
+
+
+
 kit_1 ='Только устройство'
 kit_2 = 'Коробка'
 kit_3 = 'Коробка, кабель Lightning — USB-C для быстрой зарядки'
