@@ -171,7 +171,7 @@ class Product(models.Model):
                              help_text='Оставить поле пустым, если не нужно')
     kit = models.ForeignKey(KitModel, on_delete=models.CASCADE, verbose_name='Комплект', null=True, blank=True, default=1)
 
-    guaranty = models.ForeignKey(GuarantyModel, on_delete=models.CASCADE, verbose_name='Гарантия')
+    guaranty = models.ForeignKey(GuarantyModel, on_delete=models.CASCADE, verbose_name='Гарантия', null=True, blank=True)
     custom_guaranty = models.DateField('Своя гарантия', null=True, blank=True)
 
     base_text = models.TextField('Нижняя подпись к посту', null=False, default=default_text)
