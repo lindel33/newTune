@@ -10,6 +10,8 @@ class ProviderProductAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         if not obj.pk:
             obj.author = request.user
+        if not obj.guaranty:
+            obj.guaranty = None
         super().save_model(request, obj, form, change)
     
     def get_queryset(self, request):
