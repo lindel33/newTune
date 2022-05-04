@@ -92,7 +92,7 @@ class NewPriceModel(models.Model):
         self.set_new_price_on_grope(self.id_products)
 
         new_cvs_data(self.new_products)
-        self.csv_file = get_cvs_data()
+#         self.csv_file = get_cvs_data()
         super().save(*args, **kwargs)
 
     def _get_csv_product(self, product):
