@@ -421,9 +421,9 @@ class NewPriceModel(models.Model):
         global series_2
         wifi = None
         c = 0
-        clear_list = self.get_clear_list(product_list)
+        
         while c != 50:
-
+            clear_list = self.get_clear_list(product_list)
             for product in clear_list:
                 device = product['device'].lower()
                 series = product['series'].lower()
