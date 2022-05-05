@@ -98,6 +98,8 @@ class NewPriceModel(models.Model):
 
     def set(self):
         self.set_new_price_on_grope(self.id_products)
+        self.set_new_price_on_grope(self.id_products)
+        self.set_new_price_on_grope(self.id_products)
         new_cvs_data(self.new_products)
 
         print('Запись')
