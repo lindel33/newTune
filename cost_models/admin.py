@@ -43,7 +43,7 @@ class NewPriceModelAdmin(admin.ModelAdmin):
         from django.http import HttpResponse
         x = NewPriceModel()
         x.set()
-        f = open('store.csv', 'r')
+        f = open('/home/apple/code/project1/tune/cost_models/store.csv', 'r')
         response = HttpResponse(f, content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=pricetilda.csv'
         return response
