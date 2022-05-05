@@ -42,10 +42,10 @@ class DetailModel(models.Model):
 class NewPriceModel(models.Model):
     provider = models.ForeignKey(ProviderModel, on_delete=models.CASCADE, related_name='Поставщик')
     price = models.TextField('Новый прайс')
-    csv_file = get_cvs_data()
-    csv_file_copy = csv_file.copy()
     id_products = []
     new_products = []
+    csv_file = get_cvs_data()
+    csv_file_copy = csv_file.copy()
 
     class Meta:
         verbose_name = 'Новый прайс | Управление cvs файлом'
@@ -55,6 +55,9 @@ class NewPriceModel(models.Model):
         return self.provider.name
 
     def save(self, *args, **kwargs):
+        # self.csv_file = get_cvs_data()
+        # self.id_products = []
+        self.new_products = []
         list_new_products = get_product_list(self.price)
 
         zzz = 0
@@ -89,12 +92,15 @@ class NewPriceModel(models.Model):
             if next_product:
                 self.new_products.append(next_product)
                 zzz += 1
-        self.set_new_price_on_grope(self.id_products)
 
         new_cvs_data(self.new_products)
-#         self.csv_file = get_cvs_data()
         super().save(*args, **kwargs)
 
+    def set(self):
+        self.set_new_price_on_grope(self.id_products)
+        new_cvs_data(self.new_products)
+
+        print('Запись')
     def _get_csv_product(self, product):
         """
         Поиск всех товаров в csv_file которые есть в свежем прайсе
@@ -129,11 +135,12 @@ class NewPriceModel(models.Model):
                                 if region in title.replace(' ', '') or \
                                         region in editions.replace(' ', ''):
                                     self.csv_file.remove(line)
-                                    line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                                  price_cost=product['cost'],
-                                                                  device=product['device'])
-
-                                    self.id_products.append({
+                                    new = self.new_cost(current_cost=line['Price'],
+                                                        price_cost=product['cost'],
+                                                        device=product['device'])
+                                    if float(line['Price']) < float(new):
+                                        line['Price'] = new
+                                    id_pr = {
                                         'device': device,
                                         'series': series,
                                         'color': color,
@@ -141,18 +148,19 @@ class NewPriceModel(models.Model):
                                         'Tilda UID': line['Tilda UID'],
                                         'cost': line['Price'],
                                         'Title': line['Title'],
-                                        'region': region})
+                                        'region': region}
+                                    self.id_products.append(id_pr)
 
                                     return line
                             else:
                                 if 'рост' not in title.replace(' ', '') or \
                                         'рост' not in editions.replace(' ', ''):
-                                    self.csv_file.remove(line)
-                                    line['Price'] = self.new_cost(current_cost=line['Price'],
+                                    new = self.new_cost(current_cost=line['Price'],
                                                                   price_cost=product['cost'],
                                                                   device=product['device'])
-
-                                    self.id_products.append({
+                                    if float(line['Price']) < float(new):
+                                        line['Price'] = new
+                                    id_pr = {
                                         'device': device,
                                         'series': series,
                                         'color': color,
@@ -160,7 +168,8 @@ class NewPriceModel(models.Model):
                                         'Tilda UID': line['Tilda UID'],
                                         'cost': line['Price'],
                                         'Title': line['Title'],
-                                        'region': region})
+                                        'region': region}
+                                    self.id_products.append(id_pr)
 
                                     return line
                 elif device == 'macbook':
@@ -170,9 +179,11 @@ class NewPriceModel(models.Model):
 
                             if memory in title.replace(' ', '') or memory in editions.replace(' ', ''):
                                 self.csv_file.remove(line)
-                                line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                              price_cost=product['cost'],
-                                                              device=product['device'])
+                                new = self.new_cost(current_cost=line['Price'],
+                                                    price_cost=product['cost'],
+                                                    device=product['device'])
+                                if float(line['Price']) < float(new):
+                                    line['Price'] = new
 
                                 self.id_products.append({
                                     'device': device,
@@ -190,7 +201,6 @@ class NewPriceModel(models.Model):
                 elif device == 'ipad':
                     if (series.replace(' ', '') in title.replace(' ', '') or
                             series.replace(' ', '') in editions.replace(' ', '')):
-                        print(series)
 
                         if color in title or color in editions:
                             if memory in title.replace(' ', '') or memory in editions.replace(' ', ''):
@@ -202,9 +212,11 @@ class NewPriceModel(models.Model):
                                         if region in title.replace(' ', '') or \
                                                 region in editions.replace(' ', ''):
                                             self.csv_file.remove(line)
-                                            line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                                          price_cost=product['cost'],
-                                                                          device=product['device'])
+                                            new = self.new_cost(current_cost=line['Price'],
+                                                                price_cost=product['cost'],
+                                                                device=product['device'])
+                                            if float(line['Price']) < float(new):
+                                                line['Price'] = new
 
                                             self.id_products.append({
                                                 'device': device,
@@ -221,9 +233,11 @@ class NewPriceModel(models.Model):
                                         if 'рост' not in title.replace(' ', '') or \
                                                 'рост' not in editions.replace(' ', ''):
                                             self.csv_file.remove(line)
-                                            line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                                          price_cost=product['cost'],
-                                                                          device=product['device'])
+                                            new = self.new_cost(current_cost=line['Price'],
+                                                                price_cost=product['cost'],
+                                                                device=product['device'])
+                                            if float(line['Price']) < float(new):
+                                                line['Price'] = new
 
                                             self.id_products.append({
                                                 'device': device,
@@ -248,9 +262,11 @@ class NewPriceModel(models.Model):
                                     if region in title.replace(' ', '') or \
                                             region in editions.replace(' ', ''):
                                         self.csv_file.remove(line)
-                                        line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                                      price_cost=product['cost'],
-                                                                      device=product['device'])
+                                        new = self.new_cost(current_cost=line['Price'],
+                                                            price_cost=product['cost'],
+                                                            device=product['device'])
+                                        if float(line['Price']) < float(new):
+                                            line['Price'] = new
 
                                         self.id_products.append({
                                             'device': device,
@@ -266,9 +282,11 @@ class NewPriceModel(models.Model):
                                     if 'рост' not in title.replace(' ', '') or \
                                             'рост' not in editions.replace(' ', ''):
                                         self.csv_file.remove(line)
-                                        line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                                      price_cost=product['cost'],
-                                                                      device=product['device'])
+                                        new = self.new_cost(current_cost=line['Price'],
+                                                            price_cost=product['cost'],
+                                                            device=product['device'])
+                                        if float(line['Price']) < float(new):
+                                            line['Price'] = new
 
                                         self.id_products.append({
                                             'device': device,
@@ -291,9 +309,11 @@ class NewPriceModel(models.Model):
                                 if region in title.replace(' ', '') or \
                                         region in editions.replace(' ', ''):
                                     self.csv_file.remove(line)
-                                    line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                                  price_cost=product['cost'],
-                                                                  device=product['device'])
+                                    new = self.new_cost(current_cost=line['Price'],
+                                                        price_cost=product['cost'],
+                                                        device=product['device'])
+                                    if float(line['Price']) < float(new):
+                                        line['Price'] = new
 
                                     self.id_products.append({
                                         'device': device,
@@ -309,9 +329,11 @@ class NewPriceModel(models.Model):
                                 if 'рост' not in title.replace(' ', '') or \
                                         'рост' not in editions.replace(' ', ''):
                                     self.csv_file.remove(line)
-                                    line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                                  price_cost=product['cost'],
-                                                                  device=product['device'])
+                                    new = self.new_cost(current_cost=line['Price'],
+                                                        price_cost=product['cost'],
+                                                        device=product['device'])
+                                    if float(line['Price']) < float(new):
+                                        line['Price'] = new
 
                                     self.id_products.append({
                                         'device': device,
@@ -328,9 +350,11 @@ class NewPriceModel(models.Model):
                                 if region in title.replace(' ', '') or \
                                         region in editions.replace(' ', ''):
                                     self.csv_file.remove(line)
-                                    line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                                  price_cost=product['cost'],
-                                                                  device=product['device'])
+                                    new = self.new_cost(current_cost=line['Price'],
+                                                        price_cost=product['cost'],
+                                                        device=product['device'])
+                                    if float(line['Price']) < float(new):
+                                        line['Price'] = new
 
                                     self.id_products.append({
                                         'device': device,
@@ -346,9 +370,11 @@ class NewPriceModel(models.Model):
                                 if 'рост' not in title.replace(' ', '') or \
                                         'рост' not in editions.replace(' ', ''):
                                     self.csv_file.remove(line)
-                                    line['Price'] = self.new_cost(current_cost=line['Price'],
-                                                                  price_cost=product['cost'],
-                                                                  device=product['device'])
+                                    new = self.new_cost(current_cost=line['Price'],
+                                                        price_cost=product['cost'],
+                                                        device=product['device'])
+                                    if float(line['Price']) < float(new):
+                                        line['Price'] = new
 
                                     self.id_products.append({
                                         'device': device,
@@ -363,7 +389,6 @@ class NewPriceModel(models.Model):
 
     @staticmethod
     def new_cost(current_cost, price_cost, device) -> str:
-        #         print(current_cost, price_cost, device)
         markup = Markup.objects.get(name_models=f'{device.replace(" ", "")}')
         if float(str(current_cost)) < float(str(price_cost)):
             if markup.flag:
@@ -394,15 +419,12 @@ class NewPriceModel(models.Model):
         """
         global series_1, ram_mac
         global series_2
-
         wifi = None
         c = 0
-        # count = (self.get_products_len(clear_list) + len(self.new_products))
-        while c != 30:
-            clear_list = self.get_clear_list(product_list)
+        clear_list = self.get_clear_list(product_list)
+        while c != 50:
 
             for product in clear_list:
-
                 device = product['device'].lower()
                 series = product['series'].lower()
                 if 'ram_mac' in product:
@@ -437,61 +459,68 @@ class NewPriceModel(models.Model):
                 for line in self.csv_file:
                     title = line['Title'].lower()
                     editions = line['Editions'].lower()
-                    if device in title or device in editions:
+                    if line['Price'] == '0':
+                        if device in title or device in editions:
 
-                        if series_1 in title.replace(' ', '') or \
-                                series_2 in editions.replace(' ', ''):
+                            if series_1 in title.replace(' ', '') or \
+                                    series_2 in editions.replace(' ', ''):
 
-                            if memory in title.replace(' ', '') or memory in editions.replace(' ', ''):
-                                # print(series_1, wifi)
+                                if memory in title.replace(' ', '') or memory in editions.replace(' ', ''):
 
-                                if wifi and device == 'ipad':
+                                    if wifi and device == 'ipad':
 
-                                    if wifi in title.replace(' ', '') or \
-                                            wifi in editions.replace(' ', ''):
+                                        if wifi in title.replace(' ', '') or \
+                                                wifi in editions.replace(' ', ''):
+                                            if product['region'] == 'ростест':
+                                                if 'рост' in title.replace(' ', '') or \
+                                                        'рост' in editions.replace(' ', ''):
+                                                    if float(line['Price']) < float(product['cost']):
+                                                        line['Price'] = product['cost']
+                                                    self.new_products.append(line)
+
+                                            else:
+                                                if 'рост' not in title.replace(' ', '') or \
+                                                        'рост' not in editions.replace(' ', ''):
+                                                    # self.csv_file.remove(line)
+                                                    if float(line['Price']) < float(product['cost']):
+                                                        line['Price'] = product['cost']
+                                                    self.new_products.append(line)
+                                    elif device == 'macbook':
+
+                                        if ram_mac in title.replace(' ', '') or \
+                                                ram_mac in editions.replace(' ', ''):
+                                            if product['region'] == 'ростест':
+                                                if 'рост' in title.replace(' ', '') or \
+                                                        'рост' in editions.replace(' ', ''):
+                                                    if float(line['Price']) < float(product['cost']):
+                                                        line['Price'] = product['cost']
+                                                    self.new_products.append(line)
+
+                                            else:
+                                                if 'рост' not in title.replace(' ', '') or \
+                                                        'рост' not in editions.replace(' ', ''):
+                                                    # self.csv_file.remove(line)
+                                                    if float(line['Price']) < float(product['cost']):
+                                                        line['Price'] = product['cost']
+                                                    self.new_products.append(line)
+
+                                    elif not wifi or device != 'ipad':
+
                                         if product['region'] == 'ростест':
                                             if 'рост' in title.replace(' ', '') or \
                                                     'рост' in editions.replace(' ', ''):
-                                                line['Price'] = product['cost']
+                                                if float(line['Price']) < float(product['cost']):
+                                                    line['Price'] = product['cost']
                                                 self.new_products.append(line)
 
                                         else:
                                             if 'рост' not in title.replace(' ', '') or \
                                                     'рост' not in editions.replace(' ', ''):
-                                                # self.csv_file.remove(line)
-                                                line['Price'] = product['cost']
+
+                                                if float(line['Price']) < float(product['cost']):
+                                                    # print(line['Price'], product['cost'])
+                                                    line['Price'] = product['cost']
                                                 self.new_products.append(line)
-                                elif device == 'macbook':
-
-                                    if ram_mac in title.replace(' ', '') or \
-                                            ram_mac in editions.replace(' ', ''):
-                                        if product['region'] == 'ростест':
-                                            if 'рост' in title.replace(' ', '') or \
-                                                    'рост' in editions.replace(' ', ''):
-                                                line['Price'] = product['cost']
-                                                self.new_products.append(line)
-
-                                        else:
-                                            if 'рост' not in title.replace(' ', '') or \
-                                                    'рост' not in editions.replace(' ', ''):
-                                                # self.csv_file.remove(line)
-                                                line['Price'] = product['cost']
-                                                self.new_products.append(line)
-
-                                elif not wifi or device != 'ipad':
-
-                                    if product['region'] == 'ростест':
-                                        if 'рост' in title.replace(' ', '') or \
-                                                'рост' in editions.replace(' ', ''):
-                                            line['Price'] = product['cost']
-                                            self.new_products.append(line)
-
-                                    else:
-                                        if 'рост' not in title.replace(' ', '') or \
-                                                'рост' not in editions.replace(' ', ''):
-                                            # self.csv_file.remove(line)
-                                            line['Price'] = product['cost']
-                                            self.new_products.append(line)
 
             c += 1
 
@@ -524,24 +553,23 @@ class NewPriceModel(models.Model):
             if product['extra_series'] not in series:
                 series.append(product['extra_series'])
         xxx = list(set(series))
+
         for i in xxx:
 
             tmp_cost = '0'
             series_tmp = ''
 
             for j in products:
-
                 if i == j['extra_series']:
                     series_tmp = j
-
                     products.remove(j)
-
-                    if j['cost'] > tmp_cost:
+                    if float(j['cost']) > float(tmp_cost):
                         tmp_cost = j['cost']
 
             series_tmp['cost'] = tmp_cost
             series_cost.append(series_tmp)
             xxx.remove(i)
+
 
         return series_cost
 
