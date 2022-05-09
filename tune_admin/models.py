@@ -274,7 +274,7 @@ class Product(models.Model):
             self.base_text = str(self.base_text) + '\nРодной аккумулятор: ' + str(self.state_akb) + '%\n'
 
         if self.works:
-            self.base_text = str(self.base_text) + '\n' + str(self.works) + '\n'
+            self.base_text = str(self.base_text) + 'Произведенные работы:\n' + str(self.works) + '\n'
 
         if not self.guaranty:
             castom_guarnt = datetime.datetime.strptime(str(self.custom_guaranty),'%Y-%m-%d').strftime('%d-%m-%Y')
