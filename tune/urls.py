@@ -26,6 +26,7 @@ urlpatterns = [
     
     path('api/', include('tune_admin.urls')),
     path('csv_check/', include('cost_models.urls')),
-     path('', admin.site.urls),
+     
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += [path('', admin.site.urls)]
