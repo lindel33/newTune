@@ -55,8 +55,8 @@ class NewPriceModel(models.Model):
         return self.provider.name
 
     def save(self, *args, **kwargs):
-        # self.csv_file = get_cvs_data()
-        # self.id_products = []
+        self.csv_file = get_cvs_data()
+        self.id_products = []
         self.new_products = []
         list_new_products = get_product_list(self.price)
 
@@ -71,38 +71,35 @@ class NewPriceModel(models.Model):
                 mem_tmp = '1024'
             else:
                 mem_tmp = product['memory']
-            DetailModel.objects.create(
-                device=product['device'],
-                series=product['series'],
-                memory=mem_tmp,
-                cost=product['cost'],
-                color=product['color'],
-                region=reg_tmp,
-                extra=product['extra'],
-                provider=self.provider.name,
-                new_line=str(product['device']) + ' ' +
-                         str(product['series']) + ' ' +
-                         str(product['memory']) + ' ' +
-                         str(product['color']) + ' ' +
-                         str(product['region']) + ' ' +
-                         str(product['cost'])
-            )
+            # DetailModel.objects.create(
+            #     device=product['device'],
+            #     series=product['series'],
+            #     memory=mem_tmp,
+            #     cost=product['cost'],
+            #     color=product['color'],
+            #     region=reg_tmp,
+            #     extra=product['extra'],
+            #     provider=self.provider.name,
+            #     new_line=str(product['device']) + ' ' +
+            #              str(product['series']) + ' ' +
+            #              str(product['memory']) + ' ' +
+            #              str(product['color']) + ' ' +
+            #              str(product['region']) + ' ' +
+            #              str(product['cost'])
+            # )
             next_product = self._get_csv_product(product)  # обновленные товары что есть в прайсе
 
             if next_product:
                 self.new_products.append(next_product)
                 zzz += 1
-
+        # pprint(self.id_products)
         new_cvs_data(self.new_products)
         super().save(*args, **kwargs)
 
     def set(self):
         self.set_new_price_on_grope(self.id_products)
-        self.set_new_price_on_grope(self.id_products)
-        self.set_new_price_on_grope(self.id_products)
         new_cvs_data(self.new_products)
 
-        print('Запись')
     def _get_csv_product(self, product):
         """
         Поиск всех товаров в csv_file которые есть в свежем прайсе
@@ -123,9 +120,11 @@ class NewPriceModel(models.Model):
         if region != 'ростест':
             region = ''
         for line in self.csv_file:
+
             title = line['Title'].lower().replace(' ', '')
             editions = line['Editions'].lower().replace(' ', '')
             if device in title or device in editions:
+
                 if (series.replace(' ', '') + ',' in title.replace(' ', '') or
                     series.replace(' ', '') + ';' in editions.replace(' ', '')) \
                         and device != 'macbook':
@@ -133,7 +132,6 @@ class NewPriceModel(models.Model):
                     if color in title or color in editions:
                         if memory in title.replace(' ', '') or memory in editions.replace(' ', ''):
                             if region == 'ростест':
-
                                 if region in title.replace(' ', '') or \
                                         region in editions.replace(' ', ''):
                                     self.csv_file.remove(line)
@@ -304,9 +302,12 @@ class NewPriceModel(models.Model):
                 # -------------------> AirPods <-------------------
 
                 elif device == 'airpods':
+                    print(title)
+
                     if (series.replace(' ', '') in title.replace(' ', '') or
                             series.replace(' ', '') in editions.replace(' ', '')):
-                        if color and (color in title or color in editions):
+                        if color != 'без цвета' and (color in title or color in editions):
+
                             if region == 'ростест':
                                 if region in title.replace(' ', '') or \
                                         region in editions.replace(' ', ''):
@@ -347,7 +348,7 @@ class NewPriceModel(models.Model):
                                         'Title': line['Title'],
                                         'region': region})
                                     return line
-                        elif color == 'Без цвета':
+                        elif color == 'без цвета':
                             if region == 'ростест':
                                 if region in title.replace(' ', '') or \
                                         region in editions.replace(' ', ''):
@@ -423,7 +424,7 @@ class NewPriceModel(models.Model):
         global series_2
         wifi = None
         c = 0
-        
+        # clear_list = self.get_clear_list(product_list)
         while c != 50:
             clear_list = self.get_clear_list(product_list)
             for product in clear_list:
