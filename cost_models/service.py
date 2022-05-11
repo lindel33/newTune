@@ -398,7 +398,7 @@ class GetModelInfo:
                 if 'airpods' in series_tmp:
                     series_tmp = series_tmp.replace('airpods', '')
                 if not color_tmp:
-                    color_tmp = 'Без цвета'
+                    color_tmp = 'без цвета'
                 info = {'device': 'airpods',
                         'color': color_tmp,
                         'memory': '--',
@@ -475,6 +475,8 @@ class GetModelInfo:
         return series
 
 
+
+
 def generator(new_price):
     global region_tmp
     global head_line
@@ -502,6 +504,7 @@ def get_product_list(price):
     for line in generator(price):
         if line != '':
             models = GetModelInfo(line).get_info()
+            print(models)
             if models:
                 models['memory'] = clear_memory(models['memory'])
                 models['region'] = region_tmp
@@ -528,13 +531,11 @@ def get_ipad_series_new(line):
     series_number = '129'
     get_number = re.findall(series_number, line)
     if get_number:
-        print(get_number)
         ipad_number = get_number[-1]
     elif not get_number:
         series_number = '11'
         get_number = re.findall(series_number, line)
         if get_number:
-            print(get_number)
             ipad_number = get_number[-1]
     else:
         pass
@@ -547,6 +548,6 @@ def get_ipad_series_new(line):
 
     series = "".join(exit_list)
     result = 'ipad' + series
-#     print('---> ', line, ' ---> ', result)
+    # print('---> ', line, ' ---> ', result)
 
     return result
