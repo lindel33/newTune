@@ -39,13 +39,13 @@ class NewPriceModelAdmin(admin.ModelAdmin):
     actions = ['download_csv', 'drop_csv', 'full_csv', 'ready_csv', 'not_update_csv', 'reload']
 
     def download_csv(self, request, queryset):
-        from .models import NewPriceModel
+#         from .models import NewPriceModel
         from django.http import HttpResponse
-        import time 
-        x = NewPriceModel()
-        x.set()
+#         import time 
+#         x = NewPriceModel()
+#         x.set()
         
-        time.sleep(4)
+#         time.sleep(4)
         f = open('/home/apple/code/project1/tune/cost_models/store.csv', 'r')
         response = HttpResponse(f, content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=pricetilda.csv'
