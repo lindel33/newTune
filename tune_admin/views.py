@@ -144,16 +144,17 @@ current_product = get_current_product()
 max_products = [x for x in max_all_products()]
 
 def update_products():
-#     global current_category
-#     global all_products
-#     global current_product
-#     global max_products
+    global sale_tmp 
+    global current_category
+    global all_products
+    global current_product
+    global max_products
+    sale_tmp = get_sale()
 
     current_category = list(set([x[1] for x in get_current_product()]))
-#     all_products = [x for x in get_all_products()]
+    all_products = [x for x in get_all_products()]
     current_product = get_current_product()
     max_products = [x for x in max_all_products()]
-    all_products = [x for x in get_all_products()]
     
   
 @client.message_handler(func=lambda message: message.text == 'Запуск')
