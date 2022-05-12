@@ -77,7 +77,7 @@ def get_all_products():
     return list_all
 
 def max_all_products():
-    result = Product.objects.values('name')
+    result = Product.objects.values('name').filter(sell=False).filter(booking=False).filter(moderation=True)
     list_all = []
     for i in result:
         list_all.append(i['name'])
