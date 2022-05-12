@@ -40,7 +40,11 @@ series_iphone = '13promax,|' \
                 '13,|' \
                 '12promsx,|' \
                 '12pro,|' \
-                '12'
+                '12,|' \
+                '11promax,|' \
+                '11pro,' \
+                'iphonexr,|' \
+                'iphonese,'
 
 series_ipad = 'ipadair2021wi-fi+cellular,|' \
               'ipadair2021wi-fi,|' \
