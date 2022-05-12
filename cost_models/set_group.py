@@ -235,6 +235,3 @@ def set_group_cost():
     new_cvs_data(my_csv)
     import time
     time.sleep(3)
-
-
-set_group_cost()
