@@ -39,7 +39,7 @@ class NewPriceModelAdmin(admin.ModelAdmin):
     actions = ['download_csv', 'drop_csv', 'full_csv', 'ready_csv', 'not_update_csv', 'reload']
 
     def download_csv(self, request, queryset):
-        from set_group import set_group_cost
+        from .set_group import set_group_cost
         from django.http import HttpResponse
         set_group_cost()
         f = open('/home/apple/code/project1/tune/cost_models/store.csv', 'r')
