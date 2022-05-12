@@ -96,7 +96,7 @@ def get_current_product():
 
 
 def get_products(category_name):
-    id_category = SeriesCategory.objects.values('id').filter(category__icontains=f'{category_name}').filter(sell=False).filter(booking=False).filter(moderation=True)
+    id_category = SeriesCategory.objects.values('id').filter(category__icontains=f'{category_name}')
     result = Product.objects.values('name').filter(series_id=id_category[0]['id']).filter(booking=False).filter(sell=False).filter(moderation=True)
     list_product = []
     for i in result:
