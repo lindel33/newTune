@@ -84,7 +84,7 @@ def max_all_products():
     return list_all
 
 def get_current_product():
-    result = Product.objects.values('series_id').filter(sell=False).filter(booking=False).filter(moderation=True)
+    result = Product.objects.values('series_id')
     list_id = []
     exit = []
     for i in result:
