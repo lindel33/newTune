@@ -301,7 +301,9 @@ class Product(models.Model):
 
         from .views import update_products
         update_products()  # Обновляем товары в боте
-
+        import os
+        os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
+          
     def __str__(self):
         return self.name
 
@@ -327,8 +329,8 @@ class BookingProduct(models.Model):
             self.name_user = ' '
         
         super().save(*args, **kwargs)
-        from .views import update_products
-        update_products()  # Обновляем товары в боте
+        import os
+        os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
 
     def __str__(self):
         return str(self.product_pka)
