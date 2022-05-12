@@ -15,7 +15,7 @@ colors = 'Голубой|' \
 def get_csv():
     iphone_list = []
 
-    with open('/home/oem/projects/TuneApple/tune/cost_models/store.csv', 'r', encoding='utf-8') as f:
+    with open('/home/apple/code/project1/tune/cost_models/store.csv', 'r', encoding='utf-8') as f:
         data = csv.DictReader(f, delimiter=';')
         for row in data:
             parent_uid = row.get('Parent UID')
