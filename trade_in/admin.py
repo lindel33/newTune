@@ -29,7 +29,7 @@ class TradeInDevicesModelAdmin(admin.ModelAdmin):
 
 @admin.register(TradeInStepModel)
 class TradeInStepModelAdmin(admin.ModelAdmin):
-    list_display = ['step', 'name', 'series__name', ]
+    list_display = ['step', 'name', ]
 
 
 
