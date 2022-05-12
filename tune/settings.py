@@ -33,7 +33,9 @@ INSTALLED_APPS = [
     'price',
     'provider',
     'cost_models',
-    'faq'
+    'faq',
+    'trade_id',
+    'trade_in',
 #     'corsheaders',
 ]
 
