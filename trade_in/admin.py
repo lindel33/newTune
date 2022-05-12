@@ -29,9 +29,10 @@ class TradeInDevicesModelAdmin(admin.ModelAdmin):
 
 @admin.register(TradeInStepModel)
 class TradeInStepModelAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['step', 'name', 'series__name', ]
+
 
 
 @admin.register(VariableFoeStepModel)
 class VariableFoeStepModelAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'increase', 'decrease', 'step', ]
