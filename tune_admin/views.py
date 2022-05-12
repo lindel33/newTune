@@ -58,19 +58,19 @@ def get_series(name_series):
 
 
 def get_detail_product(name_product):
-    result = Product.objects.filter(name=f'{name_product}').filter(sell=False).filter(booking=False).filter(moderation=True)
+    result = Product.objects.filter(name=f'{name_product}')
     return result
 
 
 def get_not_category():
-    result = Product.objects.all().filter(category_id=6).filter(sell=False).filter(booking=False).filter(moderation=True)
+    result = Product.objects.all().filter(category_id=6)
     list_device = []
     for r in result:
         list_device.append(r.name)
     return list_device
 
 def get_all_products():
-    result = Product.objects.values('name').filter(sell=False).filter(booking=False).filter(moderation=True)
+    result = Product.objects.values('name')
     list_all = []
     for i in result:
         list_all.append(i['name'])
