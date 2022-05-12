@@ -58,7 +58,7 @@ def get_series(name_series):
 
 
 def get_detail_product(name_product):
-    result = Product.objects.filter(name=f'{name_product}')
+    result = Product.objects.filter(name=f'{name_product}').filter(sell=False).filter(booking=False).filter(moderation=True)
     return result
 
 
