@@ -70,7 +70,7 @@ def get_not_category():
     return list_device
 
 def get_all_products():
-    result = Product.objects.values('name')
+    result = Product.objects.values('name').filter(sell=False).filter(booking=False).filter(moderation=True)
     list_all = []
     for i in result:
         list_all.append(i['name'])
@@ -84,7 +84,7 @@ def max_all_products():
     return list_all
 
 def get_current_product():
-    result = Product.objects.values('series_id')
+    result = Product.objects.values('series_id').filter(sell=False).filter(booking=False).filter(moderation=True)
     list_id = []
     exit = []
     for i in result:
