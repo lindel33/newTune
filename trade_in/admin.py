@@ -7,14 +7,14 @@ from .models import TradeInStepModel, VariableFoeStepModel, \
     TelegramUserModel
 
 
-@admin.register(TelegramUserModel)
-class TelegramUserModelAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(TelegramUserModel)
+# class TelegramUserModelAdmin(admin.ModelAdmin):
+#     pass
 
 
-@admin.register(UserStepModel)
-class UserStepModelAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(UserStepModel)
+# class UserStepModelAdmin(admin.ModelAdmin):
+#     pass
 
 
 @admin.register(TradeInSeriesModel)
