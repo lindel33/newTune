@@ -9,9 +9,9 @@ class ButtonModelAdmin(admin.ModelAdmin):
 class ServiceModelsAdmin(admin.ModelAdmin):
     pass
 
-# @admin.register(UserChoiceModel)
-# class UserChoiceModelAdmin(admin.ModelAdmin):
-#     pass
+@admin.register(UserChoiceModel)
+class UserChoiceModelAdmin(admin.ModelAdmin):
+    pass
 
 @admin.register(UseService)
 class UseServiceAdmin(admin.ModelAdmin):
