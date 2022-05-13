@@ -15,7 +15,7 @@ SECRET_KEY = 'ljw@!#$uwio5u43u45u35u@#q4utiuopi34io5uodas231123@!#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['51.250.106.80','tuneapple.xyz', 'https://tuneapple.xyz/', '127.0.0.1', 'https://tuneapple.xyz/panel/homelogin/?next=/panel/home', 'https://tuneapple.xyz/']
+ALLOWED_HOSTS = ['tuneapple.space','51.250.106.80','tuneapple.xyz', 'https://tuneapple.xyz/', '127.0.0.1', 'https://tuneapple.xyz/panel/homelogin/?next=/panel/home', 'https://tuneapple.xyz/']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
@@ -146,7 +146,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://www.tuneapple.xyz/',
     'https://www.tuneapple.xyz/',
     'tuneapple.xyz/',
-    'tuneapple.xyz'
+    'tuneapple.xyz',
+    'tuneapple.space'
 ]
 
 CORS_ALLOWED_ORIGINS = ['https://tuneapple.xyz',
@@ -155,9 +156,11 @@ CORS_ALLOWED_ORIGINS = ['https://tuneapple.xyz',
                         'https://www.tuneapple.xyz/',
                         'tuneapple.xyz'
                         'https://tuneapple.xyz/',
+                        'tuneapple.space',
                        ]
 CORS_ALLOWED_ORIGIN_REGEXES  = [
-     r"^https://\w+\.tuneapple\.xyz$" , 
+     r"^https://\w+\.tuneapple\.xyz$" ,
+     r"^https://\w+\.tuneapple\.space$" ,
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -188,5 +191,6 @@ CORS_ALLOWED_ORIGINS  = [
     "https://www.tuneapple.xyz" ,
     'https://tuneapple.xyz/panel/homelogin/?next=/panel/home',
     'https://tuneapple.xyz/',
+    'https://tuneapple.space/',
 ] 
 
