@@ -30,8 +30,8 @@ iphone_full_names_clear = re.sub('^\s+|\n|\r|\s+$', '', iphone_full_names).split
 iphone_extra_models_clear = re.sub('^\s+|\n|\r|\s+$', '', iphone_extra_models).split(',')
 iphone_extra = [x[0] + ' ' + x[1] for x in itertools.product(iphone_extra_clear, iphone_memory_clear)]
 iphone_extra2 = [x[0] + ' ' + x[1] for x in itertools.product(iphone_extra_models_clear, iphone_memory_clear)]
-check_names_iphone = list_iphone_clear + iphone_extra + iphone_full_names.split(',') + iphone_extra2 + ['se2022', 'se2021', 'se2020', 'se2019', 'se2018']
-re_iphone = '|'.join(list_iphone_clear + iphone_extra_clear + iphone_extra_models_clear).replace(' ', '')+ 'se2022|se2021|se2020|se2019|se2018', 
+check_names_iphone = list_iphone_clear + iphone_extra + iphone_full_names.split(',') + iphone_extra2 + ['se2022']
+re_iphone = '|'.join(list_iphone_clear + iphone_extra_clear + iphone_extra_models_clear).replace(' ', '') + 'se2022'
 
 # ipad
 ipad_all_info = Ipad.objects.all()[0]
@@ -174,6 +174,8 @@ class GetModelInfo:
                     color_tmp = re.findall(colors, self.line)[0]
                     self.line = self.line.replace(color_tmp, '')
                 if re.findall(re_iphone, self.line):
+                    print(self.line)
+
                     self.line = re.sub('2018|2019|2020|2021|2022|2023|2024', '', self.line)
                     series_tmp = re.findall(re_iphone, self.line)[0]
                     self.line = self.line.replace(series_tmp, '')
@@ -505,7 +507,6 @@ def get_product_list(price):
     for line in generator(price):
         if line != '':
             models = GetModelInfo(line).get_info()
-            print(models)
             if models:
                 models['memory'] = clear_memory(models['memory'])
                 models['region'] = region_tmp
