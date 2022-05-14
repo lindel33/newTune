@@ -174,6 +174,7 @@ class GetModelInfo:
                     color_tmp = re.findall(colors, self.line)[0]
                     self.line = self.line.replace(color_tmp, '')
                 if re.findall(re_iphone, self.line):
+                    self.line = re.sub('2018|2019|2020|2021|2022|2023|2024', '', self.line)
                     series_tmp = re.findall(re_iphone, self.line)[0]
                     self.line = self.line.replace(series_tmp, '')
                 # print('Сработал iphone')
