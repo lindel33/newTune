@@ -4,12 +4,6 @@ from pprint import pprint
 
 from cost_models.startsvc import new_cvs_data
 
-colors = 'Голубой|' \
-         'Синий|' \
-         'Небесно-голубой|' \
-         'Альпийский зеленый|' \
-         'Зеленый|' \
-         'Золотой'
 
 
 def get_csv():
@@ -33,44 +27,52 @@ def get_csv():
     return iphone_list
 
 
-update = [i for i in get_csv() if i['Price'] != '0']
-
 series_iphone = '13promax,|' \
                 '13pro,|' \
+                '13mini,|' \
                 '13,|' \
-                '12promsx,|' \
+                '12promax,|' \
                 '12pro,|' \
+                '12mini,|' \
                 '12,|' \
                 '11promax,|' \
-                '11pro,' \
+                '11pro,|' \
+                '11,|' \
                 'iphonexr,|' \
                 'iphonese,'
 
-series_ipad = 'ipadair2021wi-fi+cellular,|' \
+series_ipad = 'ipadair2021wi-ficellular,|' \
               'ipadair2021wi-fi,|' \
-              'ipad2021wi-fi+cellular,|' \
+              'ipad2021wi-ficellular,|' \
               'ipad2021wi-fi,|' \
-              'ipadmini2021wi-fi+cellular,|' \
-              'ipadmini2021wi-fi,'
+              'ipadmini2021wi-ficellular,|' \
+              'ipadmini2021wi-fi,|' \
+              'ipadpro112021wi-ficellular,|' \
+              'ipadpro112021wi-fi,|' \
+              'ipadpro12.92021wi-fi,|' \
+              'ipadpro12.92021wi-ficellular,'
 
 series_watch = 'series3,|' \
                'seriesse,|' \
                'series6,|' \
                'series7gps,|' \
-               'series7,'
-size_watch = '35mm,|' \
-             '36mm,|' \
-             '37mm,|' \
-             '38mm,|' \
-             '39mm,|' \
-             '40mm,|' \
-             '41mm,|' \
-             '42mm,|' \
-             '43mm,|' \
-             '44mm,|' \
-             '45mm,|' \
-             '46mm,|' \
-             '47mm,'
+               'series7,|' \
+               'se,'
+size_watch = '35|' \
+             '36|' \
+             '37|' \
+             '38|' \
+             '39|' \
+             '40|' \
+             '41|' \
+             '42|' \
+             '43|' \
+             '44|' \
+             '45|' \
+             '46|' \
+             '47'
+
+
 def get_clear_list(products):
     series = []
     series_cost = []
@@ -82,8 +84,19 @@ def get_clear_list(products):
             product['region'] = 'ростест'
         if 'iphone' in product['Title'].lower():
             product_ = 'iphone'
-            product_ += re.findall(series_iphone, product['Title'].replace(' ', '').lower())[0]
-            memory = '64|128|256|512'
+            product_ser = re.findall(series_iphone, product['Title'].replace(' ', '').lower())
+            if '' in product_ser:
+                while '' in product_ser:
+                    product_ser.remove('')
+                product_ += product_ser[0]
+            else:
+                product_ += product_ser[0]
+
+            # print(product_)
+            memory = '64|128|256|512|1тб'
+            # print('----')
+            # print(re.findall(memory, (product['Title'] + product['Editions'])))
+            # print(product['Title'] + product['Editions'])
             memory = re.findall(memory, (product['Title'] + product['Editions']).replace(' ', '').lower())[0]
             product_ += memory
             product_ += product['region']
@@ -93,9 +106,25 @@ def get_clear_list(products):
         # --------------------------------------------------
         if 'ipad' in product['Title'].lower():
             product_ = 'ipad'
-            product_ += re.findall(series_ipad, product['Title'].replace(' ', '').lower().replace('(', '').replace(
+            # print('----')
+            # print(re.findall(series_ipad, product['Title'].replace(' ', '').lower().replace('(', '').replace(
+            #         ')', ''
+            #     )))
+            # print(product['Title'])
+            product_ser = re.findall(series_ipad, product['Title'].replace(' ', '').lower().replace('(', '').replace(
                     ')', ''
-                ))[0]
+                ).replace('+', ''))
+            # print(product_ser, product['Title'])
+            #
+            # print('---', re.findall('ipadpro112021wi-ficellular,|ss2q', product['Title'].replace(' ', '').lower().replace('(', '').replace(
+            #         ')', ''
+            #     ).replace('+', '')))
+            if '' in product_ser:
+                while '' in product_ser:
+                    product_ser.remove('')
+                product_ += product_ser[0]
+            else:
+                product_ += product_ser[0]
             memory = '64|128|256|512'
             memory = re.findall(memory, (product['Title'] + product['Editions']).replace(' ', '').lower())[0]
             product_ += memory
@@ -106,10 +135,20 @@ def get_clear_list(products):
         # --------------------------------------------------
         if 'watch' in product['Title'].lower():
             product_ = 'watch'
-            product_ += \
+
+
+            product_ser = \
             re.findall(series_watch, product['Title'].replace(' ', '').lower().replace('(', '').replace(
                 ')', ''
-            ))[0]
+            ))
+            if '' in product_ser:
+                while '' in product_ser:
+                    product_ser.remove('')
+                product_ += product_ser[0]
+            else:
+                product_ += product_ser[0]
+            # print(product['Title'] + product['Editions'])
+            # print(re.findall(size_watch, (product['Title'] + product['Editions']).replace(' ', '').lower()))
             memory = re.findall(size_watch, (product['Title'] + product['Editions']).replace(' ', '').lower())[0]
             product_ += memory
             product_ += product['region']
@@ -121,8 +160,15 @@ def get_clear_list(products):
         tmp_cost = '0'
         if 'iphone' in i.lower():
 
-            series_tmp = re.findall(series_iphone, i.replace(' ', '').lower())[0]
-            memory = '64|128|256|512'
+            # series_tmp = re.findall(series_iphone, i.replace(' ', '').lower())[0]
+            product_ser = re.findall(series_iphone, i.replace(' ', '').lower())
+            if '' in product_ser:
+                while '' in product_ser:
+                    product_ser.remove('')
+                series_tmp = product_ser[0]
+            else:
+                series_tmp = product_ser[0]
+            memory = '64|128|256|512|1тб'
             memory = re.findall(memory, i.replace(' ', '').lower())[0]
             for j in products:
                 z = (j['Title'] + j['Editions']).replace(' ', '').lower()
@@ -143,16 +189,22 @@ def get_clear_list(products):
         # ----------------------------------------
         if 'ipad' in i.lower():
 
-            series_tmp = re.findall(series_ipad, i.replace(' ', '').lower().replace('(', '').replace(
+            product_ser = re.findall(series_ipad, i.replace(' ', '').lower().replace('(', '').replace(
                     ')', ''
-                ))[0]
+                ))
+            if '' in product_ser:
+                while '' in product_ser:
+                    product_ser.remove('')
+                series_tmp = product_ser[0]
+            else:
+                series_tmp = product_ser[0]
             memory = '64|128|256|512'
             memory = re.findall(memory, i.replace(' ', '').lower())[0]
             for j in products:
 
                 z = (j['Title'] + j['Editions']).replace(' ', '').lower().replace('(', '').replace(
                     ')', ''
-                )
+                ).replace('+', '')
                 if memory in z and series_tmp in z:
                     if float(j['Price']) > float(tmp_cost):
                         tmp_cost = j['Price']
@@ -171,9 +223,15 @@ def get_clear_list(products):
         # ----------------------------------------
         if 'watch' in i.lower():
 
-            series_tmp = re.findall(series_watch, i.replace(' ', '').lower().replace('(', '').replace(
+            product_ser = re.findall(series_watch, i.replace(' ', '').lower().replace('(', '').replace(
                 ')', ''
-            ))[0]
+            ))
+            if '' in product_ser:
+                while '' in product_ser:
+                    product_ser.remove('')
+                series_tmp = product_ser[0]
+            else:
+                series_tmp = product_ser[0]
             memory = re.findall(size_watch, i.replace(' ', '').lower())[0]
             for j in products:
 
@@ -200,42 +258,50 @@ def get_clear_list(products):
 
 
 def set_group_cost():
-    costs = get_clear_list(update)
+    costs = get_clear_list([i for i in get_csv() if i['Price'] != '0'])
     my_csv = get_csv()
+    xxx = []
     for i in costs:
         if i['device'] == 'iphone':
+            if i['series'] != '':
+                for cs in my_csv:
+                    if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                        if i['series'] in cs['Title'].replace(' ', '').lower() and \
+                                i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
+                                i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
 
-            for cs in my_csv:
-                if i['series'] in cs['Title'].replace(' ', '').lower() and \
-                        i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
-                        i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
-
-                    if cs['Price'] == '0':
-                        cs['Price'] = i['cost']
+                            if cs['Price'] == '0':
+                                cs['Price'] = i['cost']
+                            if cs['Price'] != '0':
+                                xxx.append(cs)
         # --------------------------------------------
         if i['device'] == 'ipad':
-            for cs in my_csv:
+            if i['series'] != '':
+                for cs in my_csv:
+                    if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                        if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
+                                ')', '').replace('+', '') and \
+                                i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
+                                i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
 
-                if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
-                        ')', '') and \
-                        i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
-                        i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
-
-                    if cs['Price'] == '0':
-                        cs['Price'] = i['cost']
+                            if cs['Price'] == '0':
+                                cs['Price'] = i['cost']
 
         # --------------------------------------------
         if i['device'] == 'watch':
-            for cs in my_csv:
+            if i['series'] != '':
+                for cs in my_csv:
+                    if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                        if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
+                                ')', '') and \
+                                i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
+                                i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
 
-                if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
-                        ')', '') and \
-                        i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
-                        i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                            if cs['Price'] == '0':
+                                cs['Price'] = i['cost']
 
-                    if cs['Price'] == '0':
-                        cs['Price'] = i['cost']
+    new_cvs_data(xxx)
+    # import time
+    # time.sleep(3)
 
-    new_cvs_data(my_csv)
-    import time
-    time.sleep(3)
+
