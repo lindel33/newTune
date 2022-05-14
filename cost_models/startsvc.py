@@ -130,7 +130,7 @@ colors_dict = {'Альпийский зеленый': 'alpine green',
                'Желтый': 'Yellow',
                'Фиолетовый': 'Purple',
                'Графитовый': 'Graphite',
-               'Тёмно-синий': 'Midnight',  # Midnight
+               'Черный': 'Midnight',  # Midnight
                'Розовый песок': 'Pink',  # 'Pink Sand'
                'Коралловый': 'Coral',
                'Сияющая звезда': 'Starlight',  # Starlight
