@@ -30,8 +30,8 @@ iphone_full_names_clear = re.sub('^\s+|\n|\r|\s+$', '', iphone_full_names).split
 iphone_extra_models_clear = re.sub('^\s+|\n|\r|\s+$', '', iphone_extra_models).split(',')
 iphone_extra = [x[0] + ' ' + x[1] for x in itertools.product(iphone_extra_clear, iphone_memory_clear)]
 iphone_extra2 = [x[0] + ' ' + x[1] for x in itertools.product(iphone_extra_models_clear, iphone_memory_clear)]
-check_names_iphone = list_iphone_clear + iphone_extra + iphone_full_names.split(',') + iphone_extra2 + ['se2022']
-re_iphone = '|'.join(list_iphone_clear + iphone_extra_clear + iphone_extra_models_clear).replace(' ', '') + 'se2022'
+check_names_iphone = list_iphone_clear + iphone_extra + iphone_full_names.split(',') + iphone_extra2 + ['se2022', 'se2021', 'se2020', 'se2019', 'se2018']
+re_iphone = '|'.join(list_iphone_clear + iphone_extra_clear + iphone_extra_models_clear).replace(' ', '') + '|se2022|se2021|se2020|se2019|se2018'
 
 # ipad
 ipad_all_info = Ipad.objects.all()[0]
