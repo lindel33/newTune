@@ -348,25 +348,37 @@ def show_model(message, extra=None):
             products.remove(message.text)
 
         detail_product = get_detail_product(name_to_search)
-        print('___+++', name_to_search)
         if '⋅' in tmp:
             current_price = get_max_min_price(detail_product[0].price)
             products = get_price(current_price[0], current_price[1])
             if [tmp] in products:
                 products.remove([tmp])
-                products.append(['Забронировать|Узнать подробней' + '\n' + message.text + ' Арт. '+detail_product[0].article])
+                products.insert(0,
+                                ['Забронировать|Узнать подробней' + '\n' + message.text + ' Арт. ' + detail_product[
+                                    0].article])
             products.append(['⬅️Другой бюджет'])
-            
+
         elif '🔻' in tmp:
-          products = [['🔻 ' + x] for x in sale_tmp]
-          if [tmp] in products:
-              products.remove([tmp])
-              products.append(['Забронировать|Узнать подробней' + '\n' + tmp + ' Арт. ' + detail_product[0].article])
-          products.append(['⬅️Главное меню'])
-          
+            products = [['🔻 ' + x] for x in sale_tmp]
+            if [tmp] in products:
+                products.remove([tmp])
+                products.insert(0,
+                                ['Забронировать|Узнать подробней' + '\n' + tmp + ' Арт. ' + detail_product[0].article])
+            products.append(['⬅️Главное меню'])
+
+#         elif '🔁' in tmp:
+#             products = [['🔁 ' + x] for x in get_trade_products()]
+#             if [tmp] in products:
+#                 products.remove([tmp])
+#                 products.insert(0,
+#                                 ['Забронировать|Узнать подробней' + '\n' + tmp + ' Арт. ' + detail_product[0].article])
+#             products.append(['⬅️Главное меню'])
+
         else:
             products = [[x] for x in products]
-            products.append(['Забронировать|Узнать подробней' + '\n' + message.text + ' Арт. '+detail_product[0].article])
+            products.insert(0,
+                            ['Забронировать|Узнать подробней' + '\n' + message.text + ' Арт. ' + detail_product[
+                                0].article])
             if message.text in get_not_category():
                 products.append(['⬅️Назад к Б/У ' + ''])
             else:
