@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'faq',
     'trade_id',
     'trade_in',
+    'trade_trade'
 #     'corsheaders',
 ]
 
