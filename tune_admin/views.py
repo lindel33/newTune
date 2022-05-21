@@ -974,7 +974,7 @@ def bot(request):
 
         json_data = request.body.decode('utf-8')
         update = telebot.types.Update.de_json(json_data)
-        client.process_new_updates([update])
+        
         id_user = update.message.chat.id
         if id_user not in list_user_id:
             list_user_id.append(id_user)
@@ -988,6 +988,7 @@ def bot(request):
         tt = str(base_time) + str(update.message.chat.id)
         if tt not in list_user_today:
             list_user_today.append(str(tt))
+        client.process_new_updates([update])
         return HttpResponse({'200': 'ok'})
 
 
