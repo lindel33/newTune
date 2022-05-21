@@ -12,8 +12,8 @@ from trade_in.models import TelegramUserModel, UserStepModel,TradeInDevicesModel
     TradeInSeriesModel, VariableFoeStepModel, TradeInStepModel
 from trade_id.models import ButtonModel, ServiceModels, UserChoiceModel, UseService
 from trade_trade.models import Trade
-from tune_admin.models import StaticUserHourModel
-from .models import Product, Category, SeriesCategory
+
+from .models import Product, Category, SeriesCategory, StaticUserHourModel
 from cost_models.models import DetailModel
 
 
