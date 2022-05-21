@@ -964,7 +964,7 @@ def func():
                 import os
                 os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
                 
-        time.sleep(1)
+        time.sleep(60)
 
 th = Thread(target=func)
 th.start()
