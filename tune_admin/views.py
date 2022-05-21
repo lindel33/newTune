@@ -975,7 +975,7 @@ def bot(request):
         update = telebot.types.Update.de_json(json_data)
         
         id_user = update.message.chat.id
-        if id_user not in list_user_id:
+        if str(id_user) not in list_user_id and int(id_user) not in list_user_id:
             list_user_id.append(id_user)
             TelegramUserModel.objects.create(
                 user_id=id_user,
