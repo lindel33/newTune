@@ -960,11 +960,14 @@ def func():
                     hour_created=str(i[0] + i[1]),
                     full_id=str(i),
                 )
+                time.sleep(1.5)
+                import os
+                os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
                 
         time.sleep(1)
 
-# th = Thread(target=func)
-# th.start()
+th = Thread(target=func)
+th.start()
     
 @csrf_exempt
 def bot(request):
@@ -980,6 +983,9 @@ def bot(request):
                 username=update.message.chat.username,
                 first_name=update.message.chat.first_name,
             )
+            time.sleep(1.5)
+            import os
+            os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
         base_datetime = datetime.datetime.now()
         base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
         tt = str(base_time) + str(update.message.chat.id)
