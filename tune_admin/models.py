@@ -335,3 +335,20 @@ class BookingProduct(models.Model):
     def __str__(self):
         return str(self.product_pka)
 
+
+class StaticUserHourModel(models.Model):
+    user_id = models.CharField(verbose_name='ID пользователя ',
+                               max_length=50)
+    date_created = models.CharField(verbose_name='Дата сохдания',
+                                    max_length=50)
+    hour_created = models.SmallIntegerField(verbose_name='Час создания')
+    full_id = models.CharField(verbose_name='час + ID',
+                               max_length=50)
+
+    class Meta:
+        verbose_name = 'Юзер/час'
+        verbose_name_plural = 'Юзер/час'
+
+    def __str__(self):
+        return 'Пользователь'
+
