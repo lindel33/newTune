@@ -6,7 +6,7 @@ from .models import Product, Category, SeriesCategory, BookingProduct, GuarantyM
 
 @admin.register(StaticUserHourModel)
 class StaticUserHourModelAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['user_id', ]
 
 
 @admin.register(StateModel)
