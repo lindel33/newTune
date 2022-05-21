@@ -29,27 +29,7 @@ sup_callback = ['Назад к Б/У iPhone', 'Назад к Б/У iPad', 'На�
 path_to_media = '/home/apple/code/project1/tune/media/'
 
 
-@csrf_exempt
-def bot(request):
-    if request.META['CONTENT_TYPE'] == 'application/json':
-        try:
 
-            json_data = request.body.decode('utf-8')
-            update = telebot.types.Update.de_json(json_data)
-            client.process_new_updates([update])
-            print('-----------------------4')
-            return HttpResponse({'200': 'ok'})
-
-        except:
-            return HttpResponse({'200': 'ok'})
-    #             json_data = request.body.decode('utf-8')
-    #             update = telebot.types.Update.de_json(json_data)
-    #             client.process_new_updates([update])
-    #             print('+++++++++++++++++++++++4')
-    #             return HttpResponse({'200': 'ok'})
-
-    else:
-        return HttpResponse({'200': 'ok'})
 
 
 def get_category():
@@ -230,19 +210,7 @@ def start_message(message, text='Что хотите найти?'):
 #     markup.add(btn7)
     markup.add(btn8)
     client.send_message(message.chat.id, text=text, reply_markup=markup)
-    id_user = message.chat.id
-    if id_user not in list_user_id:
-        list_user_id.append(id_user)
-        TelegramUserModel.objects.create(
-            user_id=id_user,
-            username=message.chat.username,
-            first_name=message.chat.first_name,
-        )
-    base_datetime = datetime.datetime.now()
-    base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
-    tt = str(base_time) + str(message.chat.id)
-    # if tt not in list_user_today:
-    list_user_today.append(tt)
+    
 
 @client.message_handler(commands=['sm'])
 @client.message_handler(func=lambda message: message.text == 'Б/У Устройства')
@@ -928,3 +896,39 @@ def trade_again_step(message):
                         text=text_trade,
                         reply_markup=keyboard,
                         )
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+@csrf_exempt
+def bot(request):
+    if request.META['CONTENT_TYPE'] == 'application/json':
+
+        json_data = request.body.decode('utf-8')
+        update = telebot.types.Update.de_json(json_data)
+        client.process_new_updates([update])
+        id_user = update.message.chat.id
+        if id_user not in list_user_id:
+            list_user_id.append(id_user)
+            models_trade.TelegramUserModel.objects.create(
+                user_id=id_user,
+                username=update.message.chat.username,
+                first_name=update.message.chat.first_name,
+            )
+        base_datetime = datetime.datetime.now()
+        base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
+        tt = str(base_time) + str(update.message.chat.id)
+        if tt not in list_user_today:
+            list_user_today.append(tt)
+        return HttpResponse({'200': 'ok'})
+
+
+
