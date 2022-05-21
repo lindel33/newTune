@@ -181,7 +181,14 @@ def start_message(message, text='Что хотите найти?'):
 #     markup.add(btn7)
     markup.add(btn8)
     client.send_message(message.chat.id, text=text, reply_markup=markup)
-    
+    id_user = message.chat.id
+    if str(id_user) not in list_user_id:
+        list_user_id.append(str(id_user))
+        TelegramUserModel.objects.create(
+            user_id=str(id_user),
+            username=message.chat.username,
+            first_name=message.chat.first_name,
+        )
 
 @client.message_handler(commands=['sm'])
 @client.message_handler(func=lambda message: message.text == 'Б/У Устройства')
