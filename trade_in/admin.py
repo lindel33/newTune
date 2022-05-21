@@ -7,9 +7,9 @@ from .models import TradeInStepModel, VariableFoeStepModel, \
     TelegramUserModel
 
 
-# @admin.register(TelegramUserModel)
-# class TelegramUserModelAdmin(admin.ModelAdmin):
-#     pass
+@admin.register(TelegramUserModel)
+class TelegramUserModelAdmin(admin.ModelAdmin):
+    list_display = ['username', 'user_id', ]
 
 
 # @admin.register(UserStepModel)
