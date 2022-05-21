@@ -983,7 +983,7 @@ def bot(request):
             )
             time.sleep(1.5)
             
-            os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
+
         base_datetime = datetime.datetime.now()
         base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
         tt = str(base_time) + str(update.message.chat.id)
