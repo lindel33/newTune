@@ -964,11 +964,11 @@ def func():
                 import os
                 os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
                 
-        time.sleep(60)
+        time.sleep(0.3)
 
 th = Thread(target=func)
 th.start()
-    
+import os
 @csrf_exempt
 def bot(request):
     if request.META['CONTENT_TYPE'] == 'application/json':
@@ -984,7 +984,7 @@ def bot(request):
                 first_name=update.message.chat.first_name,
             )
             time.sleep(1.5)
-            import os
+            
             os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
         base_datetime = datetime.datetime.now()
         base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
