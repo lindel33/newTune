@@ -981,7 +981,7 @@ def bot(request):
                 username=update.message.chat.username,
                 first_name=update.message.chat.first_name,
             )
-            time.sleep(1.5)
+            time.sleep(0.5)
             
 
         base_datetime = datetime.datetime.now()
@@ -991,19 +991,19 @@ def bot(request):
             list_user_today.append(str(tt))
             list_user_today.append(int(tt))
         
-#         for i in list_user_today:
-#             s = i[:0] + i[0 + 1:]
-#             s = i[:0] + i[0 + 1:]
+        for i in list_user_today:
+            s = i[:0] + i[0 + 1:]
+            s = i[:0] + i[0 + 1:]
 
-#             if str(i) not in ready_user_today and int(i) not in ready_user_today:
-#                 ready_user_today.append(str(i))
-#                 StaticUserHourModel.objects.create(
-#                     user_id=str(s),
-#                     date_created=datetime.date.today().strftime('%m/%d/%Y'),
-#                     hour_created=str(i[0] + i[1]),
-#                     full_id=str(i),
-#                 )
-#                 time.sleep(0.3)
+            if str(i) not in ready_user_today and int(i) not in ready_user_today:
+                ready_user_today.append(str(i))
+                StaticUserHourModel.objects.create(
+                    user_id=str(s),
+                    date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                    hour_created=str(i[0] + i[1]),
+                    full_id=str(i),
+                )
+                time.sleep(0.3)
         client.process_new_updates([update])
         return HttpResponse({'200': 'ok'})
 
