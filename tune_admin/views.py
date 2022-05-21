@@ -180,7 +180,7 @@ def func():
                     full_id=str(i),
                 )
                 
-        time.sleep(10)
+        time.sleep(1)
 
 th = Thread(target=func)
 th.start()
