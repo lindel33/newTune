@@ -16,7 +16,6 @@ from trade_trade.models import Trade
 from .models import Product, Category, SeriesCategory, StaticUserHourModel
 from cost_models.models import DetailModel
 
-
 TOKEN = '5239855839:AAGMSUsbode-6PO_sOwVlqPmr6XsoAHfhY4'
 URL_BITRIX = 'https://im.bitrix.info/imwebhook/eh/6c529968ec581a32c38753edca1c926a1645891257/'
 client = telebot.TeleBot(TOKEN, threaded=False)
@@ -978,7 +977,7 @@ def bot(request):
         id_user = update.message.chat.id
         if id_user not in list_user_id:
             list_user_id.append(id_user)
-            models_trade.TelegramUserModel.objects.create(
+            TelegramUserModel.objects.create(
                 user_id=id_user,
                 username=update.message.chat.username,
                 first_name=update.message.chat.first_name,
