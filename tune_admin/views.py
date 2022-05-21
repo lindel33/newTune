@@ -155,35 +155,7 @@ def update_products():
 main_menu = TradeInDevicesModel.objects.all()
 main_menu = [[buttons.name] for buttons in main_menu]
 main_menu.append(['⬅️Главное меню'])
-list_user = TelegramUserModel.objects.all()
-list_user_id = [int(user_id.user_id) for user_id in list_user]
 
-from threading import Thread
-import time
-
-list_user_today = []
-red = StaticUserHourModel.objects.all()
-ready_user_today = [str(i.full_id) for i in red if
-                    str(i.date_created) == str(datetime.date.today().strftime('%m/%d/%Y'))]
-def func():
-    while True:
-        for i in list_user_today:
-            s = i[:0] + i[0 + 1:]
-            s = i[:0] + i[0 + 1:]
-
-            if str(i) not in ready_user_today and int(i) not in ready_user_today:
-                ready_user_today.append(str(i))
-                StaticUserHourModel.objects.create(
-                    user_id=str(s),
-                    date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                    hour_created=str(i[0] + i[1]),
-                    full_id=str(i),
-                )
-                
-        time.sleep(1)
-
-th = Thread(target=func)
-th.start()
 
 @client.message_handler(func=lambda message: message.text == 'Запуск')
 @client.message_handler(func=lambda message: message.text == 'Начало')
@@ -964,7 +936,35 @@ def photo(message):
     
     
     
-    
+list_user = TelegramUserModel.objects.all()
+list_user_id = [int(user_id.user_id) for user_id in list_user]
+
+from threading import Thread
+import time
+
+list_user_today = []
+red = StaticUserHourModel.objects.all()
+ready_user_today = [str(i.full_id) for i in red if
+                    str(i.date_created) == str(datetime.date.today().strftime('%m/%d/%Y'))]
+def func():
+    while True:
+        for i in list_user_today:
+            s = i[:0] + i[0 + 1:]
+            s = i[:0] + i[0 + 1:]
+
+            if str(i) not in ready_user_today and int(i) not in ready_user_today:
+                ready_user_today.append(str(i))
+                StaticUserHourModel.objects.create(
+                    user_id=str(s),
+                    date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                    hour_created=str(i[0] + i[1]),
+                    full_id=str(i),
+                )
+                
+        time.sleep(1)
+
+# th = Thread(target=func)
+# th.start()
     
 @csrf_exempt
 def bot(request):
