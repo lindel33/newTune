@@ -973,10 +973,10 @@ def bot(request):
 
         json_data = request.body.decode('utf-8')
         update = telebot.types.Update.de_json(json_data)
-        
         id_user = update.message.chat.id
         if str(id_user) not in list_user_id and int(id_user) not in list_user_id:
             list_user_id.append(str(id_user))
+            list_user_id.append(int(id_user))
             TelegramUserModel.objects.create(
                 user_id=id_user,
                 username=update.message.chat.username,
@@ -987,6 +987,7 @@ def bot(request):
         tt = str(base_time) + str(update.message.chat.id)
         if str(tt) not in list_user_today and int(tt) not in list_user_today:
             list_user_today.append(str(tt))
+            list_user_today.append(int(tt))
         client.process_new_updates([update])
         return HttpResponse({'200': 'ok'})
 
