@@ -603,25 +603,33 @@ def main_menu_faq(message, text='Выбирете раздел FAQ'):
                             text=info.text,
                             reply_markup=keyboard)
 
+@client.message_handler(commands=['ti'])
+@client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
+def tradein_model(message):
+    start_message(message, text='Программа trade-in доступна!\nС помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у (так же принятое по программе trade-in).\nЧтобы узнать размер скидки выберите пункт «Связаться с менеджером»\nИли позвоните по телефону: \n+7 (932) 222-54-45')
 
+    
+@client.message_handler(commands=['ti'])
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
 def trade_main(message, text='Выберите устройство'):
-    id_user = message.chat.id
-    if id_user not in list_user_id:
-        list_user_id.append(id_user)
-        print(list_user_id)
-        TelegramUserModel.objects.create(
-            user_id=id_user,
-            username=message.chat.username,
-            first_name=message.chat.first_name,
-        )
+    start_message(message, text='Программа trade-in доступна!\nС помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у (так же принятое по программе trade-in).\nЧтобы узнать размер скидки выберите пункт «Связаться с менеджером»\nИли позвоните по телефону: \n+7 (932) 222-54-45')
 
-    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard.keyboard = main_menu
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=keyboard)
+#     id_user = message.chat.id
+#     if id_user not in list_user_id:
+#         list_user_id.append(id_user)
+#         print(list_user_id)
+#         TelegramUserModel.objects.create(
+#             user_id=id_user,
+#             username=message.chat.username,
+#             first_name=message.chat.first_name,
+#         )
+
+#     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+#     keyboard.keyboard = main_menu
+#     client.send_message(chat_id=message.chat.id,
+#                         text=text,
+#                         reply_markup=keyboard)
 
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '♻️')
