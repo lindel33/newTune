@@ -169,13 +169,13 @@ ready_user_today = [str(i.full_id) for i in red if
 def func():
     while True:
 
-        for i in list_user_today:
+        for str(i) in list_user_today:
             s = i[:0] + i[0 + 1:]
             s = i[:0] + i[0 + 1:]
 
-            if i not in ready_user_today:
+            if str(i) not in ready_user_today:
                 StaticUserHourModel.objects.create(
-                    user_id=s,
+                    user_id=str(s),
                     date_created=datetime.date.today().strftime('%m/%d/%Y'),
                     hour_created=str(i[0] + i[1]),
                     full_id=str(i),
@@ -985,7 +985,7 @@ def bot(request):
         base_datetime = datetime.datetime.now()
         base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
         tt = str(base_time) + str(update.message.chat.id)
-        if tt not in list_user_today:
+        if str(tt) not in list_user_today:
             list_user_today.append(str(tt))
         return HttpResponse({'200': 'ok'})
 
