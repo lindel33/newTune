@@ -167,7 +167,6 @@ ready_user_today = [str(i.full_id) for i in red if
                     str(i.date_created) == str(datetime.date.today().strftime('%m/%d/%Y'))]
 def func():
     while True:
-
         for i in list_user_today:
             s = i[:0] + i[0 + 1:]
             s = i[:0] + i[0 + 1:]
@@ -181,7 +180,7 @@ def func():
                     full_id=str(i),
                 )
                 
-        time.sleep(1)
+        time.sleep(10)
 
 th = Thread(target=func)
 th.start()
@@ -978,7 +977,7 @@ def bot(request):
             list_user_id.append(str(id_user))
             list_user_id.append(int(id_user))
             TelegramUserModel.objects.create(
-                user_id=id_user,
+                user_id=str(id_user),
                 username=update.message.chat.username,
                 first_name=update.message.chat.first_name,
             )
