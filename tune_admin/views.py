@@ -171,7 +171,7 @@ def func():
 
         for i in list_user_today:
             s = i[:0] + i[0 + 1:]
-            s = s[:0] + s[0 + 1:]
+            s = i[:0] + i[0 + 1:]
 
             if i not in ready_user_today:
                 StaticUserHourModel.objects.create(
