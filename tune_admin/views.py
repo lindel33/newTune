@@ -157,6 +157,53 @@ main_menu = [[buttons.name] for buttons in main_menu]
 main_menu.append(['⬅️Главное меню'])
 
 
+import os
+@csrf_exempt
+def bot(request):
+    if request.META['CONTENT_TYPE'] == 'application/json':
+
+        json_data = request.body.decode('utf-8')
+        update = telebot.types.Update.de_json(json_data)
+        id_user = update.message.chat.id
+#         if str(id_user) not in list_user_id:
+#             list_user_id.append(str(id_user))
+#             TelegramUserModel.objects.create(
+#                 user_id=str(id_user),
+#                 username=update.message.chat.username,
+#                 first_name=update.message.chat.first_name,
+#             )
+#             time.sleep(0.5)
+            
+
+#         base_datetime = datetime.datetime.now()
+#         base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
+#         tt = str(base_time) + str(update.message.chat.id)
+#         if str(tt) not in list_user_today and int(tt) not in list_user_today:
+#             list_user_today.append(str(tt))
+#             list_user_today.append(int(tt))
+        
+#         for i in list_user_today:
+#             s = i[:0] + i[0 + 1:]
+#             s = i[:0] + i[0 + 1:]
+
+#             if str(i) not in ready_user_today and int(i) not in ready_user_today:
+#                 ready_user_today.append(str(i))
+#                 StaticUserHourModel.objects.create(
+#                     user_id=str(s),
+#                     date_created=datetime.date.today().strftime('%m/%d/%Y'),
+#                     hour_created=str(i[0] + i[1]),
+#                     full_id=str(i),
+#                 )
+#                 time.sleep(0.3)
+        client.process_new_updates([update])
+        return HttpResponse({'200': 'ok'})
+
+
+
+# th = Thread(target=func)
+# th.start()
+
+
 @client.message_handler(func=lambda message: message.text == 'Запуск')
 @client.message_handler(func=lambda message: message.text == 'Начало')
 @client.message_handler(func=lambda message: message.text == 'Запустить бота')
@@ -966,48 +1013,3 @@ def func():
         time.sleep(0.3)
 
 
-import os
-@csrf_exempt
-def bot(request):
-    if request.META['CONTENT_TYPE'] == 'application/json':
-
-        json_data = request.body.decode('utf-8')
-        update = telebot.types.Update.de_json(json_data)
-        id_user = update.message.chat.id
-        if str(id_user) not in list_user_id:
-            list_user_id.append(str(id_user))
-            TelegramUserModel.objects.create(
-                user_id=str(id_user),
-                username=update.message.chat.username,
-                first_name=update.message.chat.first_name,
-            )
-            time.sleep(0.5)
-            
-
-        base_datetime = datetime.datetime.now()
-        base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
-        tt = str(base_time) + str(update.message.chat.id)
-        if str(tt) not in list_user_today and int(tt) not in list_user_today:
-            list_user_today.append(str(tt))
-            list_user_today.append(int(tt))
-        
-#         for i in list_user_today:
-#             s = i[:0] + i[0 + 1:]
-#             s = i[:0] + i[0 + 1:]
-
-#             if str(i) not in ready_user_today and int(i) not in ready_user_today:
-#                 ready_user_today.append(str(i))
-#                 StaticUserHourModel.objects.create(
-#                     user_id=str(s),
-#                     date_created=datetime.date.today().strftime('%m/%d/%Y'),
-#                     hour_created=str(i[0] + i[1]),
-#                     full_id=str(i),
-#                 )
-#                 time.sleep(0.3)
-        client.process_new_updates([update])
-        return HttpResponse({'200': 'ok'})
-
-
-
-# th = Thread(target=func)
-# th.start()
