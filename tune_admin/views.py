@@ -181,7 +181,7 @@ def func():
                     full_id=str(i),
                 )
                 ready_user_today.append(str(i))
-        time.sleep(60)
+        time.sleep(3)
 
 th = Thread(target=func)
 th.start()
