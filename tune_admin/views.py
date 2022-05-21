@@ -173,7 +173,7 @@ def func():
             s = i[:0] + i[0 + 1:]
             s = i[:0] + i[0 + 1:]
 
-            if str(i) not in ready_user_today:
+            if str(i) not in ready_user_today and int(i) not in ready_user_today:
                 ready_user_today.append(str(i))
                 StaticUserHourModel.objects.create(
                     user_id=str(s),
