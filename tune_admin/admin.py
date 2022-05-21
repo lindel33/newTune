@@ -1,7 +1,12 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from provider.models import ProviderProduct
-from .models import Product, Category, SeriesCategory, BookingProduct, GuarantyModel, KitModel, StateModel
+from .models import Product, Category, SeriesCategory, BookingProduct, GuarantyModel, KitModel, StateModel, StaticUserHourModel
+
+
+@admin.register(StaticUserHourModel)
+class StaticUserHourModelAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(StateModel)
