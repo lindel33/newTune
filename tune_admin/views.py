@@ -174,13 +174,14 @@ def func():
             s = i[:0] + i[0 + 1:]
 
             if str(i) not in ready_user_today:
+                ready_user_today.append(str(i))
                 StaticUserHourModel.objects.create(
                     user_id=str(s),
                     date_created=datetime.date.today().strftime('%m/%d/%Y'),
                     hour_created=str(i[0] + i[1]),
                     full_id=str(i),
                 )
-                ready_user_today.append(str(i))
+                
         time.sleep(3)
 
 th = Thread(target=func)
