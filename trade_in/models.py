@@ -6,7 +6,8 @@ class TelegramUserModel(models.Model):
     username = models.CharField('Ник пользователя', max_length=255)
     first_name = models.CharField('Имя пользователя', max_length=255)
     date_registered = models.DateField('Дата регистрации', auto_now=True)
-
+    sup_user = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.username
 
