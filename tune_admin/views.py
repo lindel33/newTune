@@ -961,8 +961,7 @@ def func():
                     full_id=str(i),
                 )
                 time.sleep(1.5)
-#                 import os
-#                 os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
+
                 
         time.sleep(0.3)
 
