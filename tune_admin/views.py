@@ -976,7 +976,7 @@ def bot(request):
         
         id_user = update.message.chat.id
         if str(id_user) not in list_user_id and int(id_user) not in list_user_id:
-            list_user_id.append(id_user)
+            list_user_id.append(str(id_user))
             TelegramUserModel.objects.create(
                 user_id=id_user,
                 username=update.message.chat.username,
@@ -985,7 +985,7 @@ def bot(request):
         base_datetime = datetime.datetime.now()
         base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
         tt = str(base_time) + str(update.message.chat.id)
-        if tt not in list_user_today:
+        if str(tt) not in list_user_today and int(tt) not in list_user_today:
             list_user_today.append(str(tt))
         client.process_new_updates([update])
         return HttpResponse({'200': 'ok'})
