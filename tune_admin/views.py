@@ -160,13 +160,13 @@ main_menu.append(['⬅️Главное меню'])
 import os
 @csrf_exempt
 def bot(request):
-#     if request.META['CONTENT_TYPE'] == 'application/json':
+    if request.META['CONTENT_TYPE'] == 'application/json':
 
-#         json_data = request.body.decode('utf-8')
-#         update = telebot.types.Update.de_json(json_data)
-#         client.process_new_updates([update])
-    return HttpResponse({'200': 'ok'})
-
+        json_data = request.body.decode('utf-8')
+        update = telebot.types.Update.de_json(json_data)
+        client.process_new_updates([update])
+    return HttpResponse(200)
+    
 
 
 # th = Thread(target=func)
