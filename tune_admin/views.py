@@ -1004,5 +1004,5 @@ def bot(request):
                     hour_created=str(i[0] + i[1]),
                     full_id=str(i),
                 )
-                ready_user_today.append(str(i))
+                ready_user_today.append(str(tt))
         return HttpResponse(200)
