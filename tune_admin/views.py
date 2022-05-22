@@ -987,8 +987,35 @@ def func():
 
 @csrf_exempt
 def bot(request):
-    if request.META['CONTENT_TYPE'] == 'application/json':
+    try:
+        if request.META['CONTENT_TYPE'] == 'application/json':
 
+            json_data = request.body.decode('utf-8')
+            update = telebot.types.Update.de_json(json_data)
+            client.process_new_updates([update])
+            us_id = str(update.message.chat.id) + str(int(datetime.datetime.now().strftime('%H')) + 3)
+            list_uss = StaticUserHourModel.objects.all()
+            list_uss = [str(i.user_id) for i in list_uss]
+
+            if str(us_id) not in list_uss:
+                StaticUserHourModel.objects.create(
+                            user_id=str(us_id),
+                            date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                            hour_created=str(int(datetime.datetime.now().strftime('%H')) + 3),
+                            full_id=str(update.message.chat.username),
+                        )
+    #         list_user = TelegramUserModel.objects.all()
+    #         list_user_id = [str(user_id.user_id) for user_id in list_user]
+    #         message = update.message.chat.id
+    #         if str(message.chat.id) not in list_user_id:
+    #             TelegramUserModel.objects.create(
+    #                 user_id=str(message.chat.id),
+    #                 username=message.chat.username,
+    #                 first_name=message.chat.first_name,
+    #             )
+
+            return HttpResponse(200)
+    except:
         json_data = request.body.decode('utf-8')
         update = telebot.types.Update.de_json(json_data)
         client.process_new_updates([update])
@@ -1003,15 +1030,4 @@ def bot(request):
                         hour_created=str(int(datetime.datetime.now().strftime('%H')) + 3),
                         full_id=str(update.message.chat.username),
                     )
-#         list_user = TelegramUserModel.objects.all()
-#         list_user_id = [str(user_id.user_id) for user_id in list_user]
-#         message = update.message.chat.id
-#         if str(message.chat.id) not in list_user_id:
-#             TelegramUserModel.objects.create(
-#                 user_id=str(message.chat.id),
-#                 username=message.chat.username,
-#                 first_name=message.chat.first_name,
-#             )
-        
-        return HttpResponse(200)
     return HttpResponse(200)
