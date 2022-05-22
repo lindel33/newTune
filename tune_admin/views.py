@@ -158,13 +158,8 @@ main_menu.append(['⬅️Главное меню'])
 
 
 import os
-
-    
-
-
-# th = Thread(target=func)
-# th.start()
-
+list_user = TelegramUserModel.objects.all()
+list_user_id = [str(user_id.user_id) for user_id in list_user]
 
 @client.message_handler(func=lambda message: message.text == 'Запуск')
 @client.message_handler(func=lambda message: message.text == 'Начало')
@@ -191,8 +186,8 @@ def start_message(message, text='Что хотите найти?'):
     markup.add(btn8)
     client.send_message(message.chat.id, text=text, reply_markup=markup)
     id_user = message.chat.id
-    if id_user not in list_user_id:
-        list_user_id.append(id_user)
+    if str(id_user) not in list_user_id:
+        list_user_id.append(str(id_user))
         TelegramUserModel.objects.create(
             user_id=id_user,
             username=message.chat.username,
@@ -967,8 +962,7 @@ def photo(message):
     
     
     
-list_user = TelegramUserModel.objects.all()
-list_user_id = [str(user_id.user_id) for user_id in list_user]
+
 
 from threading import Thread
 import time
