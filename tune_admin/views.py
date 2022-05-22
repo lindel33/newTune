@@ -992,7 +992,7 @@ def bot(request):
         
         base_datetime = datetime.datetime.now().strftime('%H')
 
-        tt = str(int(base_datetime)) + str(update.message.chat.id)
+        tt = str(base_datetime) + str(update.message.chat.id)
         if tt not in ready_user_today:
             ready_user_today.append(tt)
             StaticUserHourModel.objects.create(
