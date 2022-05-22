@@ -985,7 +985,7 @@ def bot(request):
         if str(int(id_user)) not in list_user_id:
             list_user_id.append(str(int(id_user)))
             TelegramUserModel.objects.create(
-                user_id=id_user,
+                user_id=str(int(id_user)),
                 username=update.message.chat.username,
                 first_name=update.message.chat.first_name,
             )
