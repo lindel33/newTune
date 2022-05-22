@@ -162,10 +162,7 @@ list_user = TelegramUserModel.objects.all()
 list_user_id = [str(user_id.user_id) for user_id in list_user]
 
 
-list_user_today = []
-red = StaticUserHourModel.objects.all()
-ready_user_today = [str(i.full_id) for i in red if
-                    str(i.date_created) == str(datetime.date.today().strftime('%m/%d/%Y'))]
+
 
 
 @client.message_handler(func=lambda message: message.text == 'Запуск')
@@ -973,6 +970,11 @@ def func():
                 
         time.sleep(0.3)
 
+        
+#         list_user_today = []
+red = StaticUserHourModel.objects.all()
+ready_user_today = [str(i.full_id) for i in red if
+                    str(i.date_created) == str(datetime.date.today().strftime('%m/%d/%Y'))]
 
 @csrf_exempt
 def bot(request):
@@ -990,16 +992,16 @@ def bot(request):
                 first_name=update.message.chat.first_name,
             )
             
-        base_datetime = datetime.datetime.now().strftime('%H')
-        tt = str(base_datetime) + str(update.message.chat.id)
+#         base_datetime = datetime.datetime.now().strftime('%H')
+#         tt = str(base_datetime) + str(update.message.chat.id)
         
-        if tt not in ready_user_today:
-            ready_user_today.append(tt)
-            StaticUserHourModel.objects.create(
-                user_id=str(update.massage.chat.id),
-                date_created=str(datetime.date.today().strftime('%m/%d/%Y')),
-                hour_created=int(base_datetime),
-                full_id=str(tt),
-            )
+#         if tt not in ready_user_today:
+#             ready_user_today.append(tt)
+#             StaticUserHourModel.objects.create(
+#                 user_id=str(update.massage.chat.id),
+#                 date_created=str(datetime.date.today().strftime('%m/%d/%Y')),
+#                 hour_created=int(base_datetime),
+#                 full_id=str(tt),
+#             )
         client.process_new_updates([update])
         return HttpResponse(200)
