@@ -1016,18 +1016,6 @@ def bot(request):
 
             return HttpResponse(200)
     except:
-        json_data = request.body.decode('utf-8')
-        update = telebot.types.Update.de_json(json_data)
-        client.process_new_updates([update])
-        us_id = str(update.message.chat.id) + str(int(datetime.datetime.now().strftime('%H')) + 3)
-        list_uss = StaticUserHourModel.objects.all()
-        list_uss = [str(i.user_id) for i in list_uss]
-
-        if str(us_id) not in list_uss:
-            StaticUserHourModel.objects.create(
-                        user_id=str(us_id),
-                        date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                        hour_created=str(int(datetime.datetime.now().strftime('%H')) + 3),
-                        full_id=str(update.message.chat.username),
-                    )
+        return HttpResponse(200)
+                    
     return HttpResponse(200)
