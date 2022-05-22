@@ -982,30 +982,30 @@ def bot(request):
         json_data = request.body.decode('utf-8')
         update = telebot.types.Update.de_json(json_data)
         client.process_new_updates([update])
-        message = update
-        id_user = message.chat.id
-        if id_user not in list_user_id:
-            list_user_id.append(id_user)
-            models_trade.TelegramUserModel.objects.create(
-                user_id=id_user,
-                username=message.chat.username,
-                first_name=message.chat.first_name,
-            )
-        base_datetime = datetime.datetime.now()
-        base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
-        tt = str(base_time) + str(message.chat.id)
-        if tt not in list_user_today:
-            list_user_today.append(tt)
-        for i in list_user_today:
-                s = i[:0] + i[0 + 1:]
-                s = i[:0] + i[0 + 1:]
-                print(s)
-                if i not in ready_user_today:
-                    StaticUserHourModel.objects.create(
-                        user_id=s,
-                        date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                        hour_created=str(i[0] + i[1]),
-                        full_id=str(i),
-                    )
-                    ready_user_today.append(str(i))
+#         message = update
+#         id_user = message.chat.id
+#         if id_user not in list_user_id:
+#             list_user_id.append(id_user)
+#             models_trade.TelegramUserModel.objects.create(
+#                 user_id=id_user,
+#                 username=message.chat.username,
+#                 first_name=message.chat.first_name,
+#             )
+#         base_datetime = datetime.datetime.now()
+#         base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
+#         tt = str(base_time) + str(message.chat.id)
+#         if tt not in list_user_today:
+#             list_user_today.append(tt)
+#         for i in list_user_today:
+#                 s = i[:0] + i[0 + 1:]
+#                 s = i[:0] + i[0 + 1:]
+#                 print(s)
+#                 if i not in ready_user_today:
+#                     StaticUserHourModel.objects.create(
+#                         user_id=s,
+#                         date_created=datetime.date.today().strftime('%m/%d/%Y'),
+#                         hour_created=str(i[0] + i[1]),
+#                         full_id=str(i),
+#                     )
+#                     ready_user_today.append(str(i))
         return HttpResponse(200)
