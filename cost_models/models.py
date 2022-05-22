@@ -127,7 +127,7 @@ class NewPriceModel(models.Model):
 
                 if (series.replace(' ', '') + ',' in title.replace(' ', '') or
                     series.replace(' ', '') + ';' in editions.replace(' ', '')) \
-                        and device != 'macbook':
+                        and device not in ['macbook', 'airpods']:
 
                     if color in title or color in editions:
                         if memory in title.replace(' ', '') or memory in editions.replace(' ', ''):
