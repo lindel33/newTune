@@ -993,7 +993,7 @@ def bot(request):
             json_data = request.body.decode('utf-8')
             update = telebot.types.Update.de_json(json_data)
             client.process_new_updates([update])
-            us_id = str(update.message.chat.id) + str(int(datetime.datetime.now().strftime('%H')) + 3)
+            us_id = str(update.message.chat.id) + str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H'))
             list_uss = StaticUserHourModel.objects.all()
             list_uss = [str(i.user_id) for i in list_uss]
 
@@ -1001,7 +1001,7 @@ def bot(request):
                 StaticUserHourModel.objects.create(
                             user_id=str(us_id),
                             date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                            hour_created=str(int(datetime.datetime.now().strftime('%H')) + 3),
+                            hour_created=str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H')),
                             full_id=str(update.message.chat.username),
                         )
     #         list_user = TelegramUserModel.objects.all()
