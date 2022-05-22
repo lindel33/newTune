@@ -982,27 +982,27 @@ def bot(request):
         update = telebot.types.Update.de_json(json_data)
         client.process_new_updates([update])
         id_user = update.message.chat.id
-        if str(id_user) not in list_user_id:
-            list_user_id.append(str(id_user))
+        if str(int(id_user)) not in list_user_id:
+            list_user_id.append(str(int(id_user)))
             TelegramUserModel.objects.create(
                 user_id=id_user,
                 username=update.message.chat.username,
                 first_name=update.message.chat.first_name,
             )
         
-#         base_datetime = datetime.datetime.now()
-#         base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
-#         tt = str(base_time) + str(update.message.chat.id)
-#         if tt not in ready_user_today:
-#             i = tt
-#             s = i[:0] + i[0 + 1:]
-#             s = i[:0] + i[0 + 1:]
-#             if tt not in list_user_today:
-#                 StaticUserHourModel.objects.create(
-#                     user_id=s,
-#                     date_created=datetime.date.today().strftime('%m/%d/%Y'),
-#                     hour_created=str(i[0] + i[1]),
-#                     full_id=str(i),
-#                 )
-#                 ready_user_today.append(str(tt))
+        base_datetime = datetime.datetime.now()
+        base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
+        tt = str(int(base_time)) + str(update.message.chat.id)
+        if tt not in ready_user_today:
+            i = tt
+            s = i[:0] + i[0 + 1:]
+            s = i[:0] + i[0 + 1:]
+            if tt not in list_user_today:
+                StaticUserHourModel.objects.create(
+                    user_id=s,
+                    date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                    hour_created=str(i[0] + i[1]),
+                    full_id=str(i),
+                )
+                ready_user_today.append(str(tt))
         return HttpResponse(200)
