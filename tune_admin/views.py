@@ -1001,7 +1001,7 @@ def bot(request):
                 username=message.chat.username,
                 first_name=message.chat.first_name,
             )
-            time.sleep(0.3)
+            
         client.process_new_updates([update])
         return HttpResponse(200)
     return HttpResponse(200)
