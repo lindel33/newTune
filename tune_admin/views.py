@@ -985,8 +985,7 @@ def func():
         time.sleep(0.3)
 
 
-list_uss = StaticUserHourModel.objects.all()
-list_uss = [str(i.user_id) for i in list_uss]
+
 @csrf_exempt
 def bot(request):
     if request.META['CONTENT_TYPE'] == 'application/json':
@@ -995,6 +994,8 @@ def bot(request):
         update = telebot.types.Update.de_json(json_data)
         client.process_new_updates([update])
         us_id = update.message.chat.id
+        list_uss = StaticUserHourModel.objects.all()
+        list_uss = [str(i.user_id) for i in list_uss]
         if str(us_id) not in list_uss:
             StaticUserHourModel.objects.create(
                         user_id=str(us_id),
