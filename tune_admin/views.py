@@ -992,16 +992,16 @@ def bot(request):
         json_data = request.body.decode('utf-8')
         update = telebot.types.Update.de_json(json_data)
         
-#         message = update
-#         id_user = message.chat.id
-#         if id_user not in list_user_id:
-#             list_user_id.append(id_user)
-#             TelegramUserModel.objects.create(
-#                 user_id=id_user,
-#                 username=message.chat.username,
-#                 first_name=message.chat.first_name,
-#             )
-#             time.sleep(0.3)
+        message = update
+        id_user = message.chat.id
+        if id_user not in list_user_id:
+            list_user_id.append(id_user)
+            TelegramUserModel.objects.create(
+                user_id=id_user,
+                username=message.chat.username,
+                first_name=message.chat.first_name,
+            )
+            time.sleep(0.3)
         client.process_new_updates([update])
         return HttpResponse(200)
     return HttpResponse(200)
