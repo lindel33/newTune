@@ -985,9 +985,6 @@ def func():
         time.sleep(0.3)
 
         
-#         list_user_today = []
-
-
 @csrf_exempt
 def bot(request):
     if request.META['CONTENT_TYPE'] == 'application/json':
@@ -995,14 +992,14 @@ def bot(request):
         json_data = request.body.decode('utf-8')
         update = telebot.types.Update.de_json(json_data)
         
-        message = json_data
-        id_user = message['chat']['id']
+        message = update
+        id_user = message.chat.id
         if id_user not in list_user_id:
             list_user_id.append(id_user)
             TelegramUserModel.objects.create(
-                user_id=str(id_user),
-                username=message['chat']['username'],
-                first_name=message['chat']['first_name'],
+                user_id=id_user,
+                username=message.chat.username,
+                first_name=message.chat.first_name,
             )
             time.sleep(0.3)
         client.process_new_updates([update])
