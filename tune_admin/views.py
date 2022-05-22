@@ -1004,3 +1004,4 @@ def bot(request):
 #             time.sleep(0.3)
         client.process_new_updates([update])
         return HttpResponse(200)
+    return HttpResponse(200)
