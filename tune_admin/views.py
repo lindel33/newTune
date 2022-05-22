@@ -193,21 +193,7 @@ def start_message(message, text='Что хотите найти?'):
     markup.add(btn8)
     client.send_message(message.chat.id, text=text, reply_markup=markup)
     
-    base_datetime = datetime.datetime.now()
-    base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
-    tt = str(base_time) + str(message.chat.id)
-    if tt not in ready_user_today:
-        i = tt
-        s = i[:0] + i[0 + 1:]
-        s = i[:0] + i[0 + 1:]
-        if tt not in list_user_today:
-            StaticUserHourModel.objects.create(
-                user_id=s,
-                date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                hour_created=str(i[0] + i[1]),
-                full_id=str(i),
-            )
-            ready_user_today.append(str(i))
+    
 
 @client.message_handler(commands=['sm'])
 @client.message_handler(func=lambda message: message.text == 'Б/У Устройства')
@@ -1003,4 +989,20 @@ def bot(request):
                 username=update.message.chat.username,
                 first_name=update.message.chat.first_name,
             )
+        
+        base_datetime = datetime.datetime.now()
+        base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
+        tt = str(base_time) + str(update.message.chat.id)
+        if tt not in ready_user_today:
+            i = tt
+            s = i[:0] + i[0 + 1:]
+            s = i[:0] + i[0 + 1:]
+            if tt not in list_user_today:
+                StaticUserHourModel.objects.create(
+                    user_id=s,
+                    date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                    hour_created=str(i[0] + i[1]),
+                    full_id=str(i),
+                )
+                ready_user_today.append(str(i))
         return HttpResponse(200)
