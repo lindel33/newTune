@@ -997,9 +997,9 @@ def bot(request):
             ready_user_today.append(tt)
             StaticUserHourModel.objects.create(
                 user_id=str(update.massage.chat.id),
-                date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                date_created=str(datetime.date.today().strftime('%m/%d/%Y')),
                 hour_created=int(base_datetime),
-                full_id=tt,
+                full_id=str(tt),
             )
         client.process_new_updates([update])
         return HttpResponse(200)
