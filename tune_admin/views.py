@@ -1001,7 +1001,7 @@ def bot(request):
                         user_id=str(us_id),
                         date_created=datetime.date.today().strftime('%m/%d/%Y'),
                         hour_created=str(int(datetime.datetime.now().strftime('%H')) + 3),
-                        full_id=str(update.message.chat.id),
+                        full_id=str(update.message.chat.username),
                     )
 #         list_user = TelegramUserModel.objects.all()
 #         list_user_id = [str(user_id.user_id) for user_id in list_user]
