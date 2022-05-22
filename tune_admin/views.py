@@ -993,6 +993,12 @@ def bot(request):
         update = telebot.types.Update.de_json(json_data)
         client.process_new_updates([update])
         us_id = update.message.chat.id
+        StaticUserHourModel.objects.create(
+                    user_id=str(us_id),
+                    date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                    hour_created=str(22),
+                    full_id=str(us_id),
+                )
         
         return HttpResponse(200)
     return HttpResponse(200)
