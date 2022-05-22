@@ -994,13 +994,13 @@ def bot(request):
         base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
         tt = str(int(base_time)) + str(update.message.chat.id)
 
-        if tt not in ready_user_today:
-            ready_user_today.append(tt)
-            StaticUserHourModel.objects.create(
-                user_id=str(update.massage.chat.id),
-                date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                hour_created=str(base_time),
-                full_id=tt,
-            )
+#         if tt not in ready_user_today:
+#             ready_user_today.append(tt)
+#             StaticUserHourModel.objects.create(
+#                 user_id=str(update.massage.chat.id),
+#                 date_created=datetime.date.today().strftime('%m/%d/%Y'),
+#                 hour_created=str(base_time),
+#                 full_id=tt,
+#             )
             
         return HttpResponse(200)
