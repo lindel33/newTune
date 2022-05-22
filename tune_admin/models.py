@@ -337,7 +337,7 @@ class BookingProduct(models.Model):
 
 
 class StaticUserHourModel(models.Model):
-    user_id = models.CharField(verbose_name='ID пользователя ',
+    user_id = models.CharField(verbose_name='ID пользователя + час',
                                max_length=50)
     date_created = models.CharField(verbose_name='Дата создания',
                                     max_length=50)
