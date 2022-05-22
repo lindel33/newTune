@@ -207,7 +207,7 @@ def start_message(message, text='Что хотите найти?'):
         i = tt
         s = i[:0] + i[0 + 1:]
         s = i[:0] + i[0 + 1:]
-        if i not in list_user_today:
+        if tt not in list_user_today:
             StaticUserHourModel.objects.create(
                 user_id=s,
                 date_created=datetime.date.today().strftime('%m/%d/%Y'),
