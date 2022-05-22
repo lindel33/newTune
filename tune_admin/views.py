@@ -192,14 +192,7 @@ def start_message(message, text='Что хотите найти?'):
 #     markup.add(btn7)
     markup.add(btn8)
     client.send_message(message.chat.id, text=text, reply_markup=markup)
-    id_user = message.chat.id
-    if str(id_user) not in list_user_id:
-        list_user_id.append(str(id_user))
-        TelegramUserModel.objects.create(
-            user_id=id_user,
-            username=message.chat.username,
-            first_name=message.chat.first_name,
-        )
+    
     base_datetime = datetime.datetime.now()
     base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
     tt = str(base_time) + str(message.chat.id)
@@ -1002,5 +995,12 @@ def bot(request):
         json_data = request.body.decode('utf-8')
         update = telebot.types.Update.de_json(json_data)
         client.process_new_updates([update])
-
+        id_user = update.message.chat.id
+        if str(id_user) not in list_user_id:
+            list_user_id.append(str(id_user))
+            TelegramUserModel.objects.create(
+                user_id=id_user,
+                username=update.message.chat.username,
+                first_name=update.message.chat.first_name,
+            )
         return HttpResponse(200)
