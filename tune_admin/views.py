@@ -161,6 +161,13 @@ import os
 list_user = TelegramUserModel.objects.all()
 list_user_id = [str(user_id.user_id) for user_id in list_user]
 
+
+list_user_today = []
+red = StaticUserHourModel.objects.all()
+ready_user_today = [str(i.full_id) for i in red if
+                    str(i.date_created) == str(datetime.date.today().strftime('%m/%d/%Y'))]
+
+
 @client.message_handler(func=lambda message: message.text == 'Запуск')
 @client.message_handler(func=lambda message: message.text == 'Начало')
 @client.message_handler(func=lambda message: message.text == 'Запустить бота')
@@ -193,21 +200,21 @@ def start_message(message, text='Что хотите найти?'):
             username=message.chat.username,
             first_name=message.chat.first_name,
         )
-#     base_datetime = datetime.datetime.now()
-#     base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
-#     tt = str(base_time) + str(message.chat.id)
-#     if tt not in list_user_today:
-#         i = tt
-#         s = i[:0] + i[0 + 1:]
-#         s = i[:0] + i[0 + 1:]
-#         if i not in ready_user_today:
-#             StaticUserHourModel.objects.create(
-#                 user_id=s,
-#                 date_created=datetime.date.today().strftime('%m/%d/%Y'),
-#                 hour_created=str(i[0] + i[1]),
-#                 full_id=str(i),
-#             )
-#             ready_user_today.append(str(i))
+    base_datetime = datetime.datetime.now()
+    base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
+    tt = str(base_time) + str(message.chat.id)
+    if tt not in ready_user_today:
+        i = tt
+        s = i[:0] + i[0 + 1:]
+        s = i[:0] + i[0 + 1:]
+        if i not in list_user_today:
+            StaticUserHourModel.objects.create(
+                user_id=s,
+                date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                hour_created=str(i[0] + i[1]),
+                full_id=str(i),
+            )
+            ready_user_today.append(str(i))
 
 @client.message_handler(commands=['sm'])
 @client.message_handler(func=lambda message: message.text == 'Б/У Устройства')
@@ -967,10 +974,7 @@ def photo(message):
 from threading import Thread
 import time
 
-list_user_today = []
-red = StaticUserHourModel.objects.all()
-ready_user_today = [str(i.full_id) for i in red if
-                    str(i.date_created) == str(datetime.date.today().strftime('%m/%d/%Y'))]
+
 def func():
     while True:
         for i in list_user_today:
