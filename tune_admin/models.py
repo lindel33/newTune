@@ -342,7 +342,7 @@ class StaticUserHourModel(models.Model):
     date_created = models.CharField(verbose_name='Дата создания',
                                     max_length=50)
     hour_created = models.SmallIntegerField(verbose_name='Час создания')
-    full_id = models.CharField(verbose_name='час + ID',
+    full_id = models.CharField(verbose_name='Ник',
                                max_length=50)
 
     class Meta:
