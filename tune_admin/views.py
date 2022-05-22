@@ -193,26 +193,26 @@ def start_message(message, text='Что хотите найти?'):
     id_user = message.chat.id
     if id_user not in list_user_id:
         list_user_id.append(id_user)
-        models_trade.TelegramUserModel.objects.create(
+        TelegramUserModel.objects.create(
             user_id=id_user,
             username=message.chat.username,
             first_name=message.chat.first_name,
         )
-    base_datetime = datetime.datetime.now()
-    base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
-    tt = str(base_time) + str(message.chat.id)
-    if tt not in list_user_today:
-        i = tt
-        s = i[:0] + i[0 + 1:]
-        s = i[:0] + i[0 + 1:]
-        if i not in ready_user_today:
-            StaticUserHourModel.objects.create(
-                user_id=s,
-                date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                hour_created=str(i[0] + i[1]),
-                full_id=str(i),
-            )
-            ready_user_today.append(str(i))
+#     base_datetime = datetime.datetime.now()
+#     base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
+#     tt = str(base_time) + str(message.chat.id)
+#     if tt not in list_user_today:
+#         i = tt
+#         s = i[:0] + i[0 + 1:]
+#         s = i[:0] + i[0 + 1:]
+#         if i not in ready_user_today:
+#             StaticUserHourModel.objects.create(
+#                 user_id=s,
+#                 date_created=datetime.date.today().strftime('%m/%d/%Y'),
+#                 hour_created=str(i[0] + i[1]),
+#                 full_id=str(i),
+#             )
+#             ready_user_today.append(str(i))
 
 @client.message_handler(commands=['sm'])
 @client.message_handler(func=lambda message: message.text == 'Б/У Устройства')
