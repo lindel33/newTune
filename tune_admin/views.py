@@ -1004,13 +1004,13 @@ def bot(request):
                         hour_created=str(datetime.datetime.now().strftime('%H')),
                         full_id=str(update.message.chat.id),
                     )
-        message = update.message.chat.id
-        if str(message.chat.id) not in list_user_id:
-            TelegramUserModel.objects.create(
-                user_id=str(message.chat.id),
-                username=message.chat.username,
-                first_name=message.chat.first_name,
-            )
+#         message = update.message.chat.id
+#         if str(message.chat.id) not in list_user_id:
+#             TelegramUserModel.objects.create(
+#                 user_id=str(message.chat.id),
+#                 username=message.chat.username,
+#                 first_name=message.chat.first_name,
+#             )
         
         return HttpResponse(200)
     return HttpResponse(200)
