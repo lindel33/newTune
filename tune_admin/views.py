@@ -189,7 +189,26 @@ def start_message(message, text='Что хотите найти?'):
 #     markup.add(btn7)
     markup.add(btn8)
     client.send_message(message.chat.id, text=text, reply_markup=markup)
-    
+    id_user = message.chat.id
+    if str(id_user) not in list_user_id:
+        list_user_id.append(str(id_user))
+        TelegramUserModel.objects.create(
+            user_id=str(id_user),
+            username=message.chat.username,
+            first_name=message.chat.first_name,
+        )
+
+    base_datetime = datetime.datetime.now().strftime('%H')
+    tt = str(base_datetime) + str(message.chat.id)
+
+    if tt not in ready_user_today:
+        ready_user_today.append(tt)
+        StaticUserHourModel.objects.create(
+            user_id=str(massage.chat.id),
+            date_created=str(datetime.date.today().strftime('%m/%d/%Y')),
+            hour_created=int(base_datetime),
+            full_id=str(tt),
+        )
     
 
 @client.message_handler(commands=['sm'])
@@ -982,26 +1001,5 @@ def bot(request):
 
         json_data = request.body.decode('utf-8')
         update = telebot.types.Update.de_json(json_data)
-        
-        id_user = update.message.chat.id
-        if str(id_user) not in list_user_id:
-            list_user_id.append(str(id_user))
-            TelegramUserModel.objects.create(
-                user_id=str(id_user),
-                username=update.message.chat.username,
-                first_name=update.message.chat.first_name,
-            )
-            
-#         base_datetime = datetime.datetime.now().strftime('%H')
-#         tt = str(base_datetime) + str(update.message.chat.id)
-        
-#         if tt not in ready_user_today:
-#             ready_user_today.append(tt)
-#             StaticUserHourModel.objects.create(
-#                 user_id=str(update.massage.chat.id),
-#                 date_created=str(datetime.date.today().strftime('%m/%d/%Y')),
-#                 hour_created=int(base_datetime),
-#                 full_id=str(tt),
-#             )
         client.process_new_updates([update])
         return HttpResponse(200)
