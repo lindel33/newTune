@@ -990,16 +990,16 @@ def bot(request):
                 first_name=update.message.chat.first_name,
             )
         
-#         base_datetime = datetime.datetime.now()
-#         base_time = (base_datetime + datetime.timedelta(hours=3)).strftime('%H')
-#         tt = str(int(base_time)) + str(update.message.chat.id)
-#         if tt not in ready_user_today:
-#             ready_user_today.append(tt)
-#             StaticUserHourModel.objects.create(
-#                 user_id=str(update.massage.chat.id),
-#                 date_created=datetime.date.today().strftime('%m/%d/%Y'),
-#                 hour_created=str(base_time),
-#                 full_id=tt,
-#             )
+        base_datetime = datetime.datetime.now().strftime('%H')
+
+        tt = str(int(base_datetime)) + str(update.message.chat.id)
+        if tt not in ready_user_today:
+            ready_user_today.append(tt)
+            StaticUserHourModel.objects.create(
+                user_id=str(update.massage.chat.id),
+                date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                hour_created=str(base_datetime),
+                full_id=tt,
+            )
         client.process_new_updates([update])
         return HttpResponse(200)
