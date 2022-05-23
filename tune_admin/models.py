@@ -370,10 +370,13 @@ class UserModel(models.Model):
     date_created = models.CharField(verbose_name='Дата создания',
                                     max_length=50)
     name = models.CharField(verbose_name='Ник',
+                            null=True,
                                   max_length=90)
     first_name = models.CharField(verbose_name='Имя',
+                                  null=True,
                                   max_length=90)
     last_name = models.CharField(verbose_name='Фамилия',
+                                 null=True,
                                  max_length=90)
     super_user = models.BooleanField(verbose_name='SuperUser',
                                      default=False)
@@ -387,4 +390,3 @@ class UserModel(models.Model):
 
     def __str__(self):
         return 'Пользователь'
-
