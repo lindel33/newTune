@@ -352,3 +352,35 @@ class StaticUserHourModel(models.Model):
     def __str__(self):
         return 'Пользователь'
 
+class RegionUserModel(models.Model):
+    name = models.CharField(verbose_name='Регион',
+                               max_length=50)
+    class Meta:
+        verbose_name = 'Регионы'
+        verbose_name_plural = 'Регионы'
+
+    def __str__(self):
+        return self.name
+
+class UserModel(models.Model):
+    user_id = models.CharField(verbose_name='ID пользователя',
+                               max_length=50)
+    date_created = models.CharField(verbose_name='Дата создания',
+                                    max_length=50)
+    first_name = models.CharField(verbose_name='Ник',
+                                  max_length=90)
+    last_name = models.CharField(verbose_name='Ник',
+                                 max_length=90)
+    super_user = models.BooleanField(verbose_name='SuperUser',
+                                     default=False)
+    region_user = models.ForeignKey(RegionUserModel,
+                                    on_delete=models.CASCADE,
+                                    null=True,
+                                    verbose_name='Регион',)
+    class Meta:
+        verbose_name = 'Регистрация пользователей'
+        verbose_name_plural = 'Регистрация пользователей'
+
+    def __str__(self):
+        return 'Пользователь'
+
