@@ -897,7 +897,8 @@ def admin_main_menu(message):
 
         text = 'Стат за сегодня: /static_today' \
                '\nСтат по регистрации: /stat_all_user' \
-                '\n Стат по разделам: ...'
+               '\nСтат по разделам: ...' \
+               '\nСтат по продажам: ...'
         client.send_message(chat_id=message.chat.id,
                             text=text,
                             )
