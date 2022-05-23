@@ -955,7 +955,7 @@ def admin_hours_users(message):
 #         import os
 #         res = os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
         import subprocess
-        res = subprocess.run('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP', shell=True)
+        res = subprocess.run('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP', shell=True).returncode
         client.send_message(chat_id=message.chat.id,
                             text=f'Статус перезагрузки: {res}' + '\n\n\n Показать сервисное меню /GetService',
                             )
