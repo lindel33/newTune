@@ -895,7 +895,7 @@ def trade_again_step(message):
 def admin_main_menu(message):
     if UserModel.objects.filter(user_id=str(message.chat.id)).exists():
 
-        text = r'Статистика за сегодня /static_today'
+        text = r'Статистика за сегодня: /static_today'
         client.send_message(chat_id=message.chat.id,
                             text=text,
                             )
@@ -927,36 +927,11 @@ def admin_hours_users(message):
 def bitrix_client(message):
     if message.text not in max_products:
         if message.text.split()[0] != 'Бюджет':
-            try:
-                print('---', message.text)
-                jsn = message.__dict__.get('json')
-
-                ts = {'update_id': 287246100,
-                      'message': {'message_id': jsn['message_id'],
-                                  'from': {'id': jsn['from']['id'],
-                                          'is_bot': False,
-                                          'first_name': jsn['from']['first_name'],
-                                          'language_code': jsn['from']['language_code']},
-                                  'chat': {'id': jsn['chat']['id'],
-                                          'first_name': jsn['chat']['first_name'],
-                                          'type': jsn['chat']['type']},
-                                  'date': jsn['date'],
-                                  'text': jsn['text']}}
-
-                requests.post(URL_BITRIX, json=ts)
-
-                if message.text.lower().split()[0] == 'забронировать|узнать' or \
-                        message.text.lower() == 'купить новое устройство':
-                    start_message(message, text='Пожалуйста дождитесь ответа менеджера,'
-                    ' он поможет Вам забронировать устройство или расскажет о нем более подробно 👩🏻‍💻')
-#                     start_message(message, text='Сейчас наблюдаются сбои в работе телеграмма, если менеджер не отвечает, пожалуйста, свяжитесь с нами по телефону\n +7 (932) 222-54-45')
-                if message.text.lower() == 'связаться с менеджером':
-                    start_message(message, text='Через несколько минут с Вами свяжется менеджер\n'
-                                    'Пожалуйста, ожидайте')
-#                     start_message(message, text='Сейчас наблюдаются сбои в работе телеграмма, если менеджер не отвечает, пожалуйста, свяжитесь с нами по телефону\n +7 (932) 222-54-45')
-            except Exception as _:
+            if message.chat.id != 572982939:
                 try:
+                    print('---', message.text)
                     jsn = message.__dict__.get('json')
+
                     ts = {'update_id': 287246100,
                           'message': {'message_id': jsn['message_id'],
                                       'from': {'id': jsn['from']['id'],
@@ -970,12 +945,38 @@ def bitrix_client(message):
                                       'text': jsn['text']}}
 
                     requests.post(URL_BITRIX, json=ts)
-                    start_message(message, text='Я вас не понимаю 🙄\n'
-                                                'Напишите еще раз')
-                except:
-                    start_message(message, text='Произошла ошибка телеграмма 🙄\n'
-                                                'Попробуйте написать через 5 минут'
-                                                'Или напишите нашему менеджеру — Виктории @VasViktory')
+
+                    if message.text.lower().split()[0] == 'забронировать|узнать' or \
+                            message.text.lower() == 'купить новое устройство':
+                        start_message(message, text='Пожалуйста дождитесь ответа менеджера,'
+                        ' он поможет Вам забронировать устройство или расскажет о нем более подробно 👩🏻‍💻')
+    #                     start_message(message, text='Сейчас наблюдаются сбои в работе телеграмма, если менеджер не отвечает, пожалуйста, свяжитесь с нами по телефону\n +7 (932) 222-54-45')
+                    if message.text.lower() == 'связаться с менеджером':
+                        start_message(message, text='Через несколько минут с Вами свяжется менеджер\n'
+                                        'Пожалуйста, ожидайте')
+    #                     start_message(message, text='Сейчас наблюдаются сбои в работе телеграмма, если менеджер не отвечает, пожалуйста, свяжитесь с нами по телефону\n +7 (932) 222-54-45')
+                except Exception as _:
+                    try:
+                        jsn = message.__dict__.get('json')
+                        ts = {'update_id': 287246100,
+                              'message': {'message_id': jsn['message_id'],
+                                          'from': {'id': jsn['from']['id'],
+                                                  'is_bot': False,
+                                                  'first_name': jsn['from']['first_name'],
+                                                  'language_code': jsn['from']['language_code']},
+                                          'chat': {'id': jsn['chat']['id'],
+                                                  'first_name': jsn['chat']['first_name'],
+                                                  'type': jsn['chat']['type']},
+                                          'date': jsn['date'],
+                                          'text': jsn['text']}}
+
+                        requests.post(URL_BITRIX, json=ts)
+                        start_message(message, text='Я вас не понимаю 🙄\n'
+                                                    'Напишите еще раз')
+                    except:
+                        start_message(message, text='Произошла ошибка телеграмма 🙄\n'
+                                                    'Попробуйте написать через 5 минут'
+                                                    'Или напишите нашему менеджеру — Виктории @VasViktory')
 
 @client.message_handler(content_types=['photo'])
 def photo(message):
