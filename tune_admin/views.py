@@ -962,6 +962,14 @@ def admin_hours_users(message):
                             )
     else:
         start_message(message)
+
+        
+@client.message_handler(content_types=['photo'])
+def photo(message):
+    jsn = message.__dict__.get('json')
+    exit_dict = {"update_id": 287246100, "message":jsn}
+    requests.post(URL_BITRIX, json=exit_dict)
+    
     
 @client.message_handler(content_types=['text'])
 def bitrix_client(message):
@@ -1018,11 +1026,7 @@ def bitrix_client(message):
                                                     'Попробуйте написать через 5 минут'
                                                     'Или напишите нашему менеджеру — Виктории @VasViktory')
 
-@client.message_handler(content_types=['photo'])
-def photo(message):
-    jsn = message.__dict__.get('json')
-    exit_dict = {"update_id": 287246100} | {"message":jsn}
-    requests.post(URL_BITRIX, json=exit_dict)
+
 
     
     
