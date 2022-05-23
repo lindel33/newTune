@@ -913,7 +913,7 @@ def admin_hours_users(message):
         i = 0
         while i != _time:
             s = stat.filter(hour_created=i).count()
-            st = f'{i}:00  <{s}> чел.\n'
+            st = f'{i}:00  -- {s} чел.\n'
             text += st
             i += 1
         client.send_message(chat_id=message.chat.id,
