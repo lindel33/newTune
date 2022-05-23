@@ -1,7 +1,10 @@
 import datetime
 from django.db import models
 
-from tune_admin.models import Category, SeriesCategory, get_deadline, Product, states, choices_kit, choices_guaranty, choices_smile, GuarantyModel, KitModel, StateModel
+from tune_admin.models import Category, SeriesCategory, get_deadline, \
+        Product, states, choices_kit, choices_guaranty, \
+        choices_smile, GuarantyModel, KitModel, StateModel, \
+        RegionUserModel
 from tune_admin.text_default import text_default
 
 today = datetime.date.today()
@@ -54,7 +57,7 @@ class ProviderProduct(models.Model):
     base_text = models.TextField('Нижняя подпись к посту', null=False, default=default_text)
     day_created = models.DateTimeField('Дата создания', auto_now_add=True)
     day_next_publish = models.DateTimeField('Дата следующего поста', default=get_deadline)
-
+    regin = models.ForeignKey(RegionUserModel, on_delete=models.CASCADE, null=True, verbose_name='Регион',default=1)
     category = models.ForeignKey(Category, on_delete=models.CASCADE,
                                  verbose_name='Модель', null=True, blank=True)
     series = models.ForeignKey(SeriesCategory, on_delete=models.CASCADE,
@@ -152,7 +155,7 @@ class ProviderProduct(models.Model):
                 author=self.author,
                 count=1,
                 up_price=self.up_price,
-
+                regin=self.regin,
                 provider_device=self.provider_device,
                 device_provider=self.device_provider,
 
