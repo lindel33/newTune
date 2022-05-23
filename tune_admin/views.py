@@ -893,10 +893,33 @@ def trade_again_step(message):
     
 @client.message_handler(commands=['getservice'])
 def admin_main_menu(message):
-    text = r'Статистика за сегодня /static_today'
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        )
+    if UserModel.objects.filter(user_id=str(message.chat.id)).exists():
+
+        text = r'Статистика за сегодня /static_today'
+        client.send_message(chat_id=message.chat.id,
+                            text=text,
+                            )
+    else:
+        start_message(message)
+
+
+@client.message_handler(commands=['static_today'])
+def admin_hours_users(message):
+    if UserModel.objects.filter(user_id=str(message.chat.id)).exists():
+
+        text = 'Текущие данные по часам\n\n'
+        stat = StaticUserHourModel.objects.all()
+        i = 0
+        while i != 24:
+            s = stat.filter(hour_created=i).count()
+            st = f'Час {i} - {s} пользователей\n'
+            text += st
+            i += 1
+        client.send_message(chat_id=message.chat.id,
+                            text=text,
+                            )
+    else:
+        start_message(message)
     
     
     
