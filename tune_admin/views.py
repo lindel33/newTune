@@ -892,9 +892,10 @@ def trade_again_step(message):
     
     
 @client.message_handler(commands=['getservice'])
-def admin_main_menu(message, text='Сервисные команды'):
+def admin_main_menu(message):
+    text = r'Статистика за сегодня /static_today'
     client.send_message(chat_id=message.chat.id,
-                        text=r'/static',
+                        text=text,
                         )
     
     
