@@ -993,27 +993,25 @@ def photo(message):
 
 
 from threading import Thread
-import time
+from time import sleep
 
 
 def func():
     while True:
-        for i in list_user_today:
-            s = i[:0] + i[0 + 1:]
-            s = i[:0] + i[0 + 1:]
+        x = str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H%M%S'))
+        if int(x) > 0 < 40:
+            print('-------')
+            sleep(2000)
+        else:
+            print(x)
+        if int(x) > 100 < 235800:
+            sleep(82800)
+        else:
+            sleep(5)
 
-            if str(i) not in ready_user_today and int(i) not in ready_user_today:
-                ready_user_today.append(str(i))
-                StaticUserHourModel.objects.create(
-                    user_id=str(s),
-                    date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                    hour_created=str(i[0] + i[1]),
-                    full_id=str(i),
-                )
-                time.sleep(1.5)
+th = Thread(target=func())
+th.start()
 
-                
-        time.sleep(0.3)
 
 
 
