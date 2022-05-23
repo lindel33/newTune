@@ -898,7 +898,8 @@ def admin_main_menu(message):
         text = 'Стат за сегодня: /static_today' \
                '\nСтат по регистрации: /stat_all_user' \
                '\nСтат по разделам: ...' \
-               '\nСтат по продажам: ...'
+               '\nСтат по продажам: ...' \
+               '\Рестарт сервера: /server_restart'
         client.send_message(chat_id=message.chat.id,
                             text=text,
                             )
