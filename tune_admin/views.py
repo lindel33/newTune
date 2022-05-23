@@ -945,6 +945,19 @@ def admin_hours_users(message):
                             )
     else:
         start_message(message)
+
+        
+@client.message_handler(commands=['server_restart'])
+def admin_hours_users(message):
+    if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
+
+        import os
+        res = os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
+        client.send_message(chat_id=message.chat.id,
+                            text=f'Статус перезагрузки: {res}' + '\n\n\n Показать сервисное меню /GetService',
+                            )
+    else:
+        start_message(message)
     
 @client.message_handler(content_types=['text'])
 def bitrix_client(message):
