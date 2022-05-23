@@ -908,8 +908,10 @@ def admin_main_menu(message):
 def admin_hours_users(message):
     if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
 
-        text = 'Текущие данные по часам\n\n'
+        text = 'Текущие данные по часам\n'
         stat = StaticUserHourModel.objects.all()
+        stat_count = stat.count()
+        text += 'Всего: ' + str(stat_count)+ ' человек' + '\n\n'
         _time = int((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H')) + 1
         i = 0
         while i != _time:
