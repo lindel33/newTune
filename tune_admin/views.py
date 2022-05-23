@@ -1005,7 +1005,8 @@ def bot(request):
                             full_id=str(update.message.chat.username),
                         )
                 start_message(message=update.message, text='У нас обновились товары!\nВы автоматически возвращены в главное меню')
-            client.process_new_updates([update])
+            else:
+                client.process_new_updates([update])
             list_user = UserModel.objects.all()
             list_user_id = [str(user_id.user_id) for user_id in list_user]
             
