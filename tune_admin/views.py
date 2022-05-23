@@ -13,7 +13,7 @@ from trade_in.models import TelegramUserModel, UserStepModel,TradeInDevicesModel
 from trade_id.models import ButtonModel, ServiceModels, UserChoiceModel, UseService
 from trade_trade.models import Trade
 
-from .models import Product, Category, SeriesCategory, StaticUserHourModel
+from .models import Product, Category, SeriesCategory, StaticUserHourModel,UserModel
 from cost_models.models import DetailModel
 
 TOKEN = '5239855839:AAGMSUsbode-6PO_sOwVlqPmr6XsoAHfhY4'
@@ -1004,15 +1004,17 @@ def bot(request):
                             hour_created=str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H')),
                             full_id=str(update.message.chat.username),
                         )
-    #         list_user = TelegramUserModel.objects.all()
-    #         list_user_id = [str(user_id.user_id) for user_id in list_user]
-    #         message = update.message.chat.id
-    #         if str(message.chat.id) not in list_user_id:
-    #             TelegramUserModel.objects.create(
-    #                 user_id=str(message.chat.id),
-    #                 username=message.chat.username,
-    #                 first_name=message.chat.first_name,
-    #             )
+            list_user = UserModel.objects.all()
+            list_user_id = [str(user_id.user_id) for user_id in list_user]
+            message = update.message.chat.id
+            if str(message.chat.id) not in list_user_id:
+                UserModel.objects.create(
+                    user_id=str(message.chat.id),
+                    date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                    name= message.chat.username,
+                    first_name=message.chat.first_name,
+                    last_name=message.chat.last_name
+                )
 
             return HttpResponse(200)
     except:
