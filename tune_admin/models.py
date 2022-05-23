@@ -325,7 +325,7 @@ class BookingProduct(models.Model):
     sell_telergram = models.BooleanField('Продано в телеграмм?', default=False)
     phone = models.CharField('Телефон', max_length=13, null=True, blank=True)
     name_user = models.CharField('Имя клиента', max_length=25, null=True, blank=True)
-    
+    date_sell = models.CharField('Дата продажи', max_length=15, null=True)
 
 
     class Meta:
@@ -342,7 +342,8 @@ class BookingProduct(models.Model):
         if not self.booking_flag and not self.sell_flag:
             self.phone = ' '
             self.name_user = ' '
-        
+        if self.sell_flag:
+            date_sell = str(datetime.date.today().strftime('%m/%d/%Y'))
         super().save(*args, **kwargs)
         import os
         os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
