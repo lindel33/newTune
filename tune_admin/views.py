@@ -1,4 +1,5 @@
 import time
+import os
 from pprint import pprint
 import datetime
 import MySQLdb
@@ -17,7 +18,7 @@ from .models import Product, Category, SeriesCategory, StaticUserHourModel,UserM
 from cost_models.models import DetailModel
 
 TOKEN = '5239855839:AAGMSUsbode-6PO_sOwVlqPmr6XsoAHfhY4'
-URL_BITRIX = 'https://im.bitrix.info/imwebhook/eh/6c529968ec581a32c38753edca1c926a1645891257/'
+URL_BITRIX = 'https://webhooks.umnico.com/bots/telegram/telebot/5239855839:AAGMSUsbode-6PO_sOwVlqPmr6XsoAHfhY4/'
 client = telebot.TeleBot(TOKEN, threaded=False)
 menu_support = ['📱 iPhone', '📲 iPad', '💻 MacBook',
                 '🎧 AirPods', '⌚ Watch',
@@ -157,7 +158,7 @@ main_menu = [[buttons.name] for buttons in main_menu]
 main_menu.append(['⬅️Главное меню'])
 
 
-import os
+
 
 
 
