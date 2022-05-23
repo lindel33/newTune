@@ -1004,7 +1004,7 @@ def bot(request):
                             hour_created=str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H')),
                             full_id=str(update.message.chat.username),
                         )
-                start_message(message=update, text='У нас обновились товары!\nВы автоматически возвращены в главное меню') 
+                start_message(message=update.message, text='У нас обновились товары!\nВы автоматически возвращены в главное меню') 
             list_user = UserModel.objects.all()
             list_user_id = [str(user_id.user_id) for user_id in list_user]
             message = update.message
