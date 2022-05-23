@@ -909,8 +909,9 @@ def admin_hours_users(message):
 
         text = 'Текущие данные по часам\n\n'
         stat = StaticUserHourModel.objects.all()
+        _time = int((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H')) + 1
         i = 0
-        while i != 24:
+        while i != _time:
             s = stat.filter(hour_created=i).count()
             st = f'{i}:00  <{s}> чел.\n'
             text += st
