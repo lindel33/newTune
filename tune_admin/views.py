@@ -899,7 +899,7 @@ def admin_main_menu(message):
                '\nСтат по регистрации: /stat_all_user' \
                '\nСтат по разделам: ...' \
                '\nСтат по продажам: ...' \
-               '\Рестарт сервера: /server_restart'
+               '\n\nРестарт сервера: /server_restart'
         client.send_message(chat_id=message.chat.id,
                             text=text,
                             )
@@ -952,8 +952,10 @@ def admin_hours_users(message):
 def admin_hours_users(message):
     if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
 
-        import os
-        res = os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
+#         import os
+#         res = os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
+        import subprocess
+        res = subprocess.Popen('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP', shell=True)
         client.send_message(chat_id=message.chat.id,
                             text=f'Статус перезагрузки: {res}' + '\n\n\n Показать сервисное меню /GetService',
                             )
