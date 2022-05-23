@@ -992,7 +992,7 @@ def bot(request):
 
             json_data = request.body.decode('utf-8')
             update = telebot.types.Update.de_json(json_data)
-            client.process_new_updates([update])
+#             client.process_new_updates([update])
             us_id = str(update.message.chat.id) + str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H'))
             list_uss = StaticUserHourModel.objects.all()
             list_uss = [str(i.user_id) for i in list_uss]
@@ -1004,9 +1004,11 @@ def bot(request):
                             hour_created=str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H')),
                             full_id=str(update.message.chat.username),
                         )
-                start_message(message=update.message, text='У нас обновились товары!\nВы автоматически возвращены в главное меню') 
+                start_message(message=update.message, text='У нас обновились товары!\nВы автоматически возвращены в главное меню')
+            client.process_new_updates([update])
             list_user = UserModel.objects.all()
             list_user_id = [str(user_id.user_id) for user_id in list_user]
+            
             message = update.message
             if str(message.chat.id) not in list_user_id:
                 UserModel.objects.create(
