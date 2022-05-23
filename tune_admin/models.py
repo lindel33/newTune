@@ -131,7 +131,15 @@ class SeriesCategory(models.Model):
     def __str__(self):
         return str(self.category)
 
+class RegionUserModel(models.Model):
+    name = models.CharField(verbose_name='Регион',
+                               max_length=50)
+    class Meta:
+        verbose_name = 'Регионы'
+        verbose_name_plural = 'Регионы'
 
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
     """
@@ -182,8 +190,10 @@ class Product(models.Model):
                                  verbose_name='Модель', null=True, blank=True)
     series = models.ForeignKey(SeriesCategory, on_delete=models.CASCADE,
                                verbose_name='Серия', null=True, blank=True)
-
+          
+    regin = models.ForeignKey(RegionUserModel, on_delete=models.CASCADE, null=True, verbose_name='Регион',default=1)
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True, verbose_name='Автор',)
+          
     count = models.SmallIntegerField('Счетчик сохранений', default=0)
     up_price = models.BooleanField('Цена поднята?', default=False)
 
@@ -352,15 +362,7 @@ class StaticUserHourModel(models.Model):
     def __str__(self):
         return 'Пользователь'
 
-class RegionUserModel(models.Model):
-    name = models.CharField(verbose_name='Регион',
-                               max_length=50)
-    class Meta:
-        verbose_name = 'Регионы'
-        verbose_name_plural = 'Регионы'
 
-    def __str__(self):
-        return self.name
 
 class UserModel(models.Model):
     user_id = models.CharField(verbose_name='ID пользователя',
