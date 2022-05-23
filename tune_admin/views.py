@@ -941,7 +941,7 @@ def admin_hours_users(message):
         text += '\nСегодня: ' + str(today_reg)
 
         client.send_message(chat_id=message.chat.id,
-                            text=text + '\n\n\n Вернуться в сервисное меню /GetServic',
+                            text=text + '\n\n\n Вернуться в сервисное меню /GetService',
                             )
     else:
         start_message(message)
