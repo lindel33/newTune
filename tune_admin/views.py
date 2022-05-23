@@ -895,8 +895,8 @@ def trade_again_step(message):
 def admin_main_menu(message):
     if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
 
-        text = r'Статистика за сегодня: /static_today \n' \
-               r'Статистика по разделам: ...\n'
+        text = 'Статистика за сегодня: /static_today' \
+               '\nСтатистика по разделам: ...'
         client.send_message(chat_id=message.chat.id,
                             text=text,
                             )
