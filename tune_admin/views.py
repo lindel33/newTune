@@ -895,8 +895,9 @@ def trade_again_step(message):
 def admin_main_menu(message):
     if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
 
-        text = 'Статистика за сегодня: /static_today' \
-               '\nСтатистика по разделам: ...'
+        text = 'Стат за сегодня: /static_today' \
+               '\nСтат по регистрации: /stat_all_user' \
+                '\n Стат по разделам: ...'
         client.send_message(chat_id=message.chat.id,
                             text=text,
                             )
@@ -924,8 +925,22 @@ def admin_hours_users(message):
                             )
     else:
         start_message(message)
-    
-    
+ 
+
+@client.message_handler(commands=['stat_all_user'])
+def admin_hours_users(message):
+    if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
+
+        text = 'Кол-во зарегистрированных пользователей\n\n'
+        stat = UserModel.objects.all()
+        stat_count = stat.count()
+        text += 'Всего: ' + str(stat_count)
+        
+        client.send_message(chat_id=message.chat.id,
+                            text=text,
+                            )
+    else:
+        start_message(message)
     
 @client.message_handler(content_types=['text'])
 def bitrix_client(message):
