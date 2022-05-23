@@ -1006,12 +1006,12 @@ def bot(request):
                         )
             list_user = UserModel.objects.all()
             list_user_id = [str(user_id.user_id) for user_id in list_user]
-            message = update.message.chat.id
+            message = update.message
             if str(message.chat.id) not in list_user_id:
                 UserModel.objects.create(
                     user_id=str(message.chat.id),
                     date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                    name= message.chat.username,
+                    name=message.chat.username,
                     first_name=message.chat.first_name,
                     last_name=message.chat.last_name
                 )
