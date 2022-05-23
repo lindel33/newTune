@@ -6,7 +6,7 @@ from .models import Product, Category, SeriesCategory, BookingProduct, GuarantyM
 
 @admin.register(UserModel)
 class UserModelAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'user_id', 'first_name', 'last_name', 'region_user', ]
 
 
 @admin.register(RegionUserModel)
