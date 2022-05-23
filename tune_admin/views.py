@@ -17,7 +17,7 @@ from trade_trade.models import Trade
 from .models import Product, Category, SeriesCategory, StaticUserHourModel,UserModel
 from cost_models.models import DetailModel
 
-TOKEN = '5239855839:AAGMSUsbode-6PO_sOwVlqPmr6XsoAHfhY4'
+TOKEN = '5239855839:AAHgRfOWfgAx2c5sU4zBhnAz105V8E80J-k'
 URL_BITRIX = 'https://webhooks.umnico.com/bots/telegram/telebot/5239855839:AAGMSUsbode-6PO_sOwVlqPmr6XsoAHfhY4/'
 client = telebot.TeleBot(TOKEN, threaded=False)
 menu_support = ['📱 iPhone', '📲 iPad', '💻 MacBook',
