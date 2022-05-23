@@ -899,7 +899,7 @@ def admin_main_menu(message):
                '\nСтат по регистрации: /stat_all_user' \
                '\nСтат по разделам: ...' \
                '\nСтат по продажам: ...' \
-               '\n\nРестарт сервера: /server_restart'
+#                '\n\nРестарт сервера: /server_restart'
         client.send_message(chat_id=message.chat.id,
                             text=text,
                             )
