@@ -367,9 +367,11 @@ class UserModel(models.Model):
                                max_length=50)
     date_created = models.CharField(verbose_name='Дата создания',
                                     max_length=50)
-    first_name = models.CharField(verbose_name='Ник',
+    name = models.CharField(verbose_name='Ник',
                                   max_length=90)
-    last_name = models.CharField(verbose_name='Ник',
+    first_name = models.CharField(verbose_name='Имя',
+                                  max_length=90)
+    last_name = models.CharField(verbose_name='Фамилия',
                                  max_length=90)
     super_user = models.BooleanField(verbose_name='SuperUser',
                                      default=False)
