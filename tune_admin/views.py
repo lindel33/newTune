@@ -992,25 +992,25 @@ def photo(message):
     
 
 
-from threading import Thread
-from time import sleep
+# from threading import Thread
+# from time import sleep
 
 
-def func():
-    while True:
-        x = str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H%M%S'))
-        if int(x) > 0 < 40:
-            print('-------')
-            sleep(2000)
-        else:
-            print(x)
-        if int(x) > 100 < 235800:
-            sleep(82800)
-        else:
-            sleep(5)
+# def func():
+#     while True:
+#         x = str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H%M%S'))
+#         if int(x) > 0 < 40:
+#             print('-------')
+#             sleep(2000)
+#         else:
+#             print(x)
+#         if int(x) > 100 < 235800:
+#             sleep(82800)
+#         else:
+#             sleep(5)
 
-th = Thread(target=func())
-th.start()
+# th = Thread(target=func())
+# th.start()
 
 
 
