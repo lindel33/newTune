@@ -967,7 +967,7 @@ def admin_hours_users(message):
 def bitrix_client(message):
     if message.text not in max_products:
         if message.text.split()[0] != 'Бюджет':
-            if message.chat.id != 572982939:
+            if message.chat.id != 572982939001:
                 try:
                     print('---', message.text)
                     jsn = message.__dict__.get('json')
