@@ -936,7 +936,9 @@ def admin_hours_users(message):
         stat = UserModel.objects.all()
         stat_count = stat.count()
         text += 'Всего: ' + str(stat_count)
-        
+        today_reg = datetime.date.today().strftime('%m/%d/%Y')
+        today_reg = stat.filter(date_created=today_reg).count()
+        text += '\nСегодня: ' + str(today_reg)
         client.send_message(chat_id=message.chat.id,
                             text=text,
                             )
