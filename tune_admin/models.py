@@ -322,8 +322,10 @@ class BookingProduct(models.Model):
     product_pka = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
     booking_flag = models.BooleanField('Бронь', default=False)
     sell_flag = models.BooleanField('Продажа', default=False)
+    sell_telergram = models.BooleanField('Продано в телеграмм?', default=False)
     phone = models.CharField('Телефон', max_length=13, null=True, blank=True)
     name_user = models.CharField('Имя клиента', max_length=25, null=True, blank=True)
+    
 
 
     class Meta:
@@ -334,6 +336,9 @@ class BookingProduct(models.Model):
     def save(self, *args, **kwargs):
         Product.objects.filter(id=self.product_pka.id).update(booking=self.booking_flag)
         Product.objects.filter(id=self.product_pka.id).update(sell=self.sell_flag)
+        if self.sell_telergram:
+          Product.objects.filter(id=self.product_pka.id).update(sell=True)
+          self.sell_flag = True
         if not self.booking_flag and not self.sell_flag:
             self.phone = ' '
             self.name_user = ' '
