@@ -343,7 +343,7 @@ class BookingProduct(models.Model):
             self.phone = ' '
             self.name_user = ' '
         if self.sell_flag:
-            date_sell = str(datetime.date.today().strftime('%m/%d/%Y'))
+            self.date_sell = str(datetime.date.today().strftime('%m/%d/%Y'))
         super().save(*args, **kwargs)
         import os
         os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
