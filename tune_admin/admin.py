@@ -168,6 +168,6 @@ class SeriesCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(BookingProduct)
 class BookingProductAdmin(admin.ModelAdmin):
-    list_display = ['product_pka', 'booking_flag', 'sell_flag', 'name_user', 'phone']
-    exclude = ('product_pka',)
-    search_fields = ['product_pka__name', 'product_pka__article']
+    list_display = ['product_pka', 'booking_flag', 'sell_flag', 'name_user', 'phone', ]
+    exclude = ('product_pka', 'date_sell', )
+    search_fields = ['product_pka__name', 'product_pka__article', ]
