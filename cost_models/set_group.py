@@ -50,7 +50,16 @@ series_ipad = 'ipadair2021wi-ficellular,|' \
               'ipadpro112021wi-ficellular,|' \
               'ipadpro112021wi-fi,|' \
               'ipadpro12.92021wi-fi,|' \
-              'ipadpro12.92021wi-ficellular,'
+              'ipadpro12.92021wi-ficellular,|' \
+              'ipadair2022wi-ficellular,|' \
+              'ipadair2022wi-fi,|' \
+              'ipad2022wi-ficellular,|' \
+              'ipad2022wi-fi,|' \
+              'ipadmini2022wi-ficellular,|' \
+              'ipadmini2022wi-fi,|' \
+              'ipadpro112022wi-ficellular,|' \
+              'ipadpro112022wi-fi,|' \
+              'ipadpro12.92022wi-fi,' 
 
 series_watch = 'series3,|' \
                'seriesse,|' \
