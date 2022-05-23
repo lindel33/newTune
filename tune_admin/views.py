@@ -891,7 +891,7 @@ def trade_again_step(message):
                         )
     
     
-@client.message_handler(commands=['getservice'])
+@client.message_handler(commands=['GetService'])
 def admin_main_menu(message):
     if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
 
