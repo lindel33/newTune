@@ -17,8 +17,8 @@ from trade_trade.models import Trade
 from .models import Product, Category, SeriesCategory, StaticUserHourModel,UserModel
 from cost_models.models import DetailModel
 
-TOKEN = '5239855839:AAHgRfOWfgAx2c5sU4zBhnAz105V8E80J-k'
-URL_BITRIX = 'https://webhooks.umnico.com/bots/telegram/telebot/5239855839:AAHgRfOWfgAx2c5sU4zBhnAz105V8E80J-k/'
+TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'
+URL_BITRIX = 'https://im.bitrix.info/imwebhook/eh/e5750b73ce4b6f9cbedb96d9d7faf0881653435781/'
 client = telebot.TeleBot(TOKEN, threaded=False)
 # client.delete_webhook()
 # client.set_webhook(url='https://tuneapple.space/api/v1')
@@ -967,69 +967,35 @@ def admin_hours_users(message):
         start_message(message)
 
         
+@client.message_handler(content_types=['text'])
+def bitrix_client(message):
+    jsn = message.__dict__.get('json')
+    ts = {'update_id': 287246100,
+          'message': jsn}
+
+    requests.post(URL_BITRIX, json=ts)
+
+
+
+@client.message_handler(content_types=['voice'])
+def voice(message):
+    jsn = message.__dict__.get('json')
+    exit_dict = {"update_id": 287246100, "message": jsn}
+    requests.post(URL_BITRIX, json=exit_dict)
+
+
+@client.message_handler(content_types=['video'])
+def video(message):
+    jsn = message.__dict__.get('json')
+    exit_dict = {"update_id": 287246100, "message": jsn}
+    requests.post(URL_BITRIX, json=exit_dict)
+
+
 @client.message_handler(content_types=['photo'])
 def photo(message):
     jsn = message.__dict__.get('json')
-    exit_dict = {"update_id": 287246100, "message":jsn}
-    requests.post(URL_BITRIX, json=exit_dict)
-    
-    
-@client.message_handler(content_types=['text'])
-def bitrix_client(message):
-    if message.text not in max_products:
-        if message.text.split()[0] != 'Бюджет':
-            if message.chat.id != 572982939001:
-                try:
-                    print('---', message.text)
-                    jsn = message.__dict__.get('json')
-
-                    ts = {'update_id': 287246100,
-                          'message': {'message_id': jsn['message_id'],
-                                      'from': {'id': jsn['from']['id'],
-                                              'is_bot': False,
-                                              'first_name': jsn['from']['first_name'],
-                                              'language_code': jsn['from']['language_code']},
-                                      'chat': {'id': jsn['chat']['id'],
-                                              'first_name': jsn['chat']['first_name'],
-                                              'type': jsn['chat']['type']},
-                                      'date': jsn['date'],
-                                      'text': jsn['text']}}
-
-                    requests.post(URL_BITRIX, json=ts)
-
-                    if message.text.lower().split()[0] == 'забронировать|узнать' or \
-                            message.text.lower() == 'купить новое устройство':
-                        start_message(message, text='Пожалуйста дождитесь ответа менеджера,'
-                        ' он поможет Вам забронировать устройство или расскажет о нем более подробно 👩🏻‍💻')
-    #                     start_message(message, text='Сейчас наблюдаются сбои в работе телеграмма, если менеджер не отвечает, пожалуйста, свяжитесь с нами по телефону\n +7 (932) 222-54-45')
-                    if message.text.lower() == 'связаться с менеджером':
-                        start_message(message, text='Через несколько минут с Вами свяжется менеджер\n'
-                                        'Пожалуйста, ожидайте')
-    #                     start_message(message, text='Сейчас наблюдаются сбои в работе телеграмма, если менеджер не отвечает, пожалуйста, свяжитесь с нами по телефону\n +7 (932) 222-54-45')
-                except Exception as _:
-                    try:
-                        jsn = message.__dict__.get('json')
-                        ts = {'update_id': 287246100,
-                              'message': {'message_id': jsn['message_id'],
-                                          'from': {'id': jsn['from']['id'],
-                                                  'is_bot': False,
-                                                  'first_name': jsn['from']['first_name'],
-                                                  'language_code': jsn['from']['language_code']},
-                                          'chat': {'id': jsn['chat']['id'],
-                                                  'first_name': jsn['chat']['first_name'],
-                                                  'type': jsn['chat']['type']},
-                                          'date': jsn['date'],
-                                          'text': jsn['text']}}
-
-                        requests.post(URL_BITRIX, json=ts)
-                        start_message(message, text='Я вас не понимаю 🙄\n'
-                                                    'Напишите еще раз')
-                    except:
-                        start_message(message, text='Произошла ошибка телеграмма 🙄\n'
-                                                    'Попробуйте написать через 5 минут'
-                                                    'Или напишите нашему менеджеру — Виктории @VasViktory')
-
-
+    exit_dict = {"update_id": 287246100, "message": jsn}
+    xx = requests.post(URL_BITRIX, json=exit_dict)
 
     
     
