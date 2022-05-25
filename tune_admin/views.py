@@ -54,7 +54,8 @@ def get_detail_product(name_product):
 
 
 def get_not_category():
-    result = Product.objects.all().filter(category_id=6)
+    result = Product.objects.all().filter(category_id=6).filter(sell=False).filter(booking=False).filter(
+        moderation=True)
     list_device = []
     for r in result:
         list_device.append(r.name)
