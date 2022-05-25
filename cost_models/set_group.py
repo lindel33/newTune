@@ -59,7 +59,7 @@ series_ipad = 'ipadair2021wi-ficellular,|' \
               'ipadmini2022wi-fi,|' \
               'ipadpro112022wi-ficellular,|' \
               'ipadpro112022wi-fi,|' \
-              'ipadpro12.92022wi-fi,' 
+              'ipadpro12.92022wi-fi,'
 
 series_watch = 'series3,|' \
                'seriesse,|' \
@@ -91,7 +91,9 @@ def get_clear_list(products):
             product['region'] = 'америка'
         else:
             product['region'] = 'ростест'
+            # continue
         if 'iphone' in product['Title'].lower():
+
             product_ = 'iphone'
             product_ser = re.findall(series_iphone, product['Title'].replace(' ', '').lower())
             if '' in product_ser:
@@ -100,12 +102,7 @@ def get_clear_list(products):
                 product_ += product_ser[0]
             else:
                 product_ += product_ser[0]
-
-            # print(product_)
             memory = '64|128|256|512|1тб'
-            # print('----')
-            # print(re.findall(memory, (product['Title'] + product['Editions'])))
-            # print(product['Title'] + product['Editions'])
             memory = re.findall(memory, (product['Title'] + product['Editions']).replace(' ', '').lower())[0]
             product_ += memory
             product_ += product['region']
@@ -113,21 +110,13 @@ def get_clear_list(products):
                 series.append(product_)
 
         # --------------------------------------------------
+
         if 'ipad' in product['Title'].lower():
             product_ = 'ipad'
-            # print('----')
-            # print(re.findall(series_ipad, product['Title'].replace(' ', '').lower().replace('(', '').replace(
-            #         ')', ''
-            #     )))
-            # print(product['Title'])
             product_ser = re.findall(series_ipad, product['Title'].replace(' ', '').lower().replace('(', '').replace(
                     ')', ''
                 ).replace('+', ''))
-            # print(product_ser, product['Title'])
-            #
-            # print('---', re.findall('ipadpro112021wi-ficellular,|ss2q', product['Title'].replace(' ', '').lower().replace('(', '').replace(
-            #         ')', ''
-            #     ).replace('+', '')))
+
             if '' in product_ser:
                 while '' in product_ser:
                     product_ser.remove('')
@@ -145,7 +134,6 @@ def get_clear_list(products):
         if 'watch' in product['Title'].lower():
             product_ = 'watch'
 
-
             product_ser = \
             re.findall(series_watch, product['Title'].replace(' ', '').lower().replace('(', '').replace(
                 ')', ''
@@ -156,8 +144,6 @@ def get_clear_list(products):
                 product_ += product_ser[0]
             else:
                 product_ += product_ser[0]
-            # print(product['Title'] + product['Editions'])
-            # print(re.findall(size_watch, (product['Title'] + product['Editions']).replace(' ', '').lower()))
             memory = re.findall(size_watch, (product['Title'] + product['Editions']).replace(' ', '').lower())[0]
             product_ += memory
             product_ += product['region']
@@ -169,7 +155,6 @@ def get_clear_list(products):
         tmp_cost = '0'
         if 'iphone' in i.lower():
 
-            # series_tmp = re.findall(series_iphone, i.replace(' ', '').lower())[0]
             product_ser = re.findall(series_iphone, i.replace(' ', '').lower())
             if '' in product_ser:
                 while '' in product_ser:
@@ -230,6 +215,7 @@ def get_clear_list(products):
             })
 
         # ----------------------------------------
+
         if 'watch' in i.lower():
 
             product_ser = re.findall(series_watch, i.replace(' ', '').lower().replace('(', '').replace(
@@ -270,47 +256,71 @@ def set_group_cost():
     costs = get_clear_list([i for i in get_csv() if i['Price'] != '0'])
     my_csv = get_csv()
     xxx = []
+    from tune_admin.models import SetTelegramModel
+    ru_test_flag = False
+    if SetTelegramModel.objects.all()[0].flag_test == True:
+        ru_test_flag = True
     for i in costs:
         if i['device'] == 'iphone':
-            if i['series'] != '':
-                for cs in my_csv:
-                    if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
-                        if i['series'] in cs['Title'].replace(' ', '').lower() and \
-                                i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
-                                i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
-
-                            if cs['Price'] == '0':
-                                cs['Price'] = i['cost']
-                            if cs['Price'] != '0':
-                                xxx.append(cs)
+            if i['region'] != 'ростест':
+                if i['series'] != '':
+                    for cs in my_csv:
+                        if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                            if i['series'] in cs['Title'].replace(' ', '').lower() and \
+                                    i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
+                                    i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                                if i['region'] == 'ростест' and ru_test_flag:
+                                    if cs['Price'] == '0':
+                                        cs['Price'] = i['cost']
+                                    if cs['Price'] != '0':
+                                        xxx.append(cs)
+                                elif i['region'] == 'америка':
+                                    if cs['Price'] == '0':
+                                        cs['Price'] = i['cost']
+                                    if cs['Price'] != '0':
+                                        xxx.append(cs)
         # --------------------------------------------
         if i['device'] == 'ipad':
-            if i['series'] != '':
-                for cs in my_csv:
-                    if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
-                        if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
-                                ')', '').replace('+', '') and \
-                                i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
-                                i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                if i['region'] == 'ростест':
+                    for cs in my_csv:
+                        if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                            if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
+                                    ')', '').replace('+', '') and \
+                                    i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
+                                    i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
 
-                            if cs['Price'] == '0':
-                                cs['Price'] = i['cost']
+                                if i['region'] == 'ростест' and ru_test_flag:
+                                    if cs['Price'] == '0':
+                                        cs['Price'] = i['cost']
+                                    if cs['Price'] != '0':
+                                        xxx.append(cs)
+                                elif i['region'] == 'америка':
+                                    if cs['Price'] == '0':
+                                        cs['Price'] = i['cost']
+                                    if cs['Price'] != '0':
+                                        xxx.append(cs)
 
         # --------------------------------------------
         if i['device'] == 'watch':
-            if i['series'] != '':
-                for cs in my_csv:
-                    if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
-                        if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
-                                ')', '') and \
-                                i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
-                                i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                if i['region'] == 'ростест':
+                    for cs in my_csv:
+                        if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                            if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
+                                    ')', '') and \
+                                    i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
+                                    i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
 
-                            if cs['Price'] == '0':
-                                cs['Price'] = i['cost']
+                                if i['region'] == 'ростест' and ru_test_flag:
+                                    if cs['Price'] == '0':
+                                        cs['Price'] = i['cost']
+                                    if cs['Price'] != '0':
+                                        xxx.append(cs)
+                                elif i['region'] == 'америка':
+                                    if cs['Price'] == '0':
+                                        cs['Price'] = i['cost']
+                                    if cs['Price'] != '0':
+                                        xxx.append(cs)
+
+
 
     new_cvs_data(xxx)
-    # import time
-    # time.sleep(3)
-
-
