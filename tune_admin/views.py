@@ -967,24 +967,24 @@ def admin_hours_users(message):
         start_message(message)
 
         
-# @client.message_handler(content_types=['text'])
-# def bitrix_client(message):
-#     if message.text.lower().split()[0] == 'забронировать|узнать' or \
-#             message.text.lower() == 'купить новое устройство':
-#         start_message(message, text='По техническим причинам мы не можем Вам ответить.\n'
-#                                         'Приносим свои изинения за доставленные неудобства.'
-#                                         '\n Чтобы забронировать или узнать подробнее об '
-#                                         'устройстве, свяжитесь с нами по телефону\n +7 (932) 222-54-45')
-#     if message.text.lower() == 'связаться с менеджером':
-#         start_message(message, text='По техническим причинам мы не можем Вам ответить.\n'
-#                                     'Приносим свои изинения за доставленные неудобства.\n '
-#                                     'Чтобы забронировать или узнать подробнее об устройстве, '
-#                                     'свяжитесь с нами по телефону\n +7 (932) 222-54-45')
-#     jsn = message.__dict__.get('json')
-#     ts = {'update_id': 287246100,
-#           'message': jsn}
+@client.message_handler(content_types=['text'])
+def bitrix_client(message):
+    if message.text.lower().split()[0] == 'забронировать|узнать' or \
+            message.text.lower() == 'купить новое устройство':
+        start_message(message, text='По техническим причинам мы не можем Вам ответить.\n'
+                                        'Приносим свои изинения за доставленные неудобства.'
+                                        '\n Чтобы забронировать или узнать подробнее об '
+                                        'устройстве, свяжитесь с нами по телефону\n +7 (932) 222-54-45')
+    if message.text.lower() == 'связаться с менеджером':
+        start_message(message, text='По техническим причинам мы не можем Вам ответить.\n'
+                                    'Приносим свои изинения за доставленные неудобства.\n '
+                                    'Чтобы забронировать или узнать подробнее об устройстве, '
+                                    'свяжитесь с нами по телефону\n +7 (932) 222-54-45')
+    jsn = message.__dict__.get('json')
+    ts = {'update_id': 287246100,
+          'message': jsn}
 
-#     requests.post(URL_BITRIX, json=ts)
+    requests.post(URL_BITRIX, json=ts)
 
 
 @client.message_handler(content_types=['voice'])
