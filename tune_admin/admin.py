@@ -16,9 +16,9 @@ class RegionUserModelAdmin(admin.ModelAdmin):
     pass
 
 
-# @admin.register(SetTelegramModel)
-# class SetTelegramModelAdmin(admin.ModelAdmin):
-#     pass
+@admin.register(SetTelegramModel)
+class SetTelegramModelAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(StaticUserHourModel)
