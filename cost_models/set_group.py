@@ -257,9 +257,9 @@ def set_group_cost():
     my_csv = get_csv()
     xxx = []
     from tune_admin.models import SetTelegramModel
-    ru_test_flag = False
-    if SetTelegramModel.objects.all()[0].flag_test == True:
-        ru_test_flag = True
+    ru_test_flag = SetTelegramModel.objects.all()[0].flag_test
+#     if SetTelegramModel.objects.all()[0].flag_test == True:
+#         ru_test_flag = True
     for i in costs:
         if i['device'] == 'iphone':
             if i['region'] != 'ростест':
