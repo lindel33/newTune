@@ -902,7 +902,8 @@ def admin_main_menu(message):
                '\nСтат по регистрации: /stat_all_user' \
                '\nСтат по разделам: ...' \
                '\nСтат по продажам: ...' \
-#                '\n\nРестарт сервера: /server_restart'
+               '\n\nОтключить ростест: /ru_test_False' \
+               '\nВключить ростест: /ru_test_True'
         client.send_message(chat_id=message.chat.id,
                             text=text,
                             )
@@ -947,6 +948,27 @@ def admin_hours_users(message):
         client.send_message(chat_id=message.chat.id,
                             text=text + '\n\n\n Вернуться в сервисное меню /GetService',
                             )
+    else:
+        start_message(message)
+
+        
+@client.message_handler(commands=['ru_test_False'])
+def set_re_test_false(message):
+    if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
+        from tune_admin.models import SetTelegramModel
+        SetTelegramModel.objects.all().update(flag_test=False)
+        client.send_message(chat_id=message.chat.id,
+                            text='Групповая наценка на Ростест ВЫКЛЮЧЕНА')
+    else:
+        start_message(message)
+
+@client.message_handler(commands=['ru_test_True'])
+def set_re_test_false(message):
+    if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
+        from tune_admin.models import SetTelegramModel
+        SetTelegramModel.objects.all().update(flag_test=True)
+        client.send_message(chat_id=message.chat.id,
+                            text='Групповая наценка на Ростест ВКЛЮЧЕНА')
     else:
         start_message(message)
 
