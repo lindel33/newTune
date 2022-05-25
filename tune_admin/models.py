@@ -396,3 +396,10 @@ class UserModel(models.Model):
 
     def __str__(self):
         return 'Пользователь'
+
+
+class SetTelegramModel(models.Model):
+    flag_test = models.BooleanField()
+    
+    def __str__(self):
+        return 'Распознание Ростест'
