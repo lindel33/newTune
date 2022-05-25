@@ -917,7 +917,8 @@ def admin_hours_users(message):
 
         text = 'Текущие данные по часам\n'
         stat = StaticUserHourModel.objects.all()
-        stat_count = stat.count()
+        today_reg = datetime.date.today().strftime('%m/%d/%Y')
+        stat_count = stat.filter(date_created=today_reg).count()
         text += 'Всего: ' + str(stat_count) + '\n\n'
         _time = int((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H')) + 1
         i = 0
@@ -940,7 +941,7 @@ def admin_hours_users(message):
         text = 'Кол-во зарегистрированных пользователей\n\n'
         today_reg = datetime.date.today().strftime('%m/%d/%Y')
         stat = UserModel.objects.all()
-        stat_count = stat.filter(date_created=today_reg).count()
+        stat_count = stat.count()
         text += 'Всего: ' + str(stat_count)
         
         today_reg = stat.filter(date_created=today_reg).count()
