@@ -262,64 +262,62 @@ def set_group_cost():
 #         ru_test_flag = True
     for i in costs:
         if i['device'] == 'iphone':
-            if i['region'] != 'ростест':
-                if i['series'] != '':
-                    for cs in my_csv:
-                        if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
-                            if i['series'] in cs['Title'].replace(' ', '').lower() and \
-                                    i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
-                                    i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
-                                if i['region'] == 'ростест' and ru_test_flag:
-                                    if cs['Price'] == '0':
-                                        cs['Price'] = i['cost']
-                                    if cs['Price'] != '0':
-                                        xxx.append(cs)
-                                elif i['region'] == 'америка':
-                                    if cs['Price'] == '0':
-                                        cs['Price'] = i['cost']
-                                    if cs['Price'] != '0':
-                                        xxx.append(cs)
-        # --------------------------------------------
+            
+            if i['series'] != '':
+                for cs in my_csv:
+                    if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                        if i['series'] in cs['Title'].replace(' ', '').lower() and \
+                                i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
+                                i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                            if i['region'] == 'ростест' and ru_test_flag:
+                                if cs['Price'] == '0':
+                                    cs['Price'] = i['cost']
+                                if cs['Price'] != '0':
+                                    xxx.append(cs)
+                            elif i['region'] == 'америка':
+                                if cs['Price'] == '0':
+                                    cs['Price'] = i['cost']
+                                if cs['Price'] != '0':
+                                    xxx.append(cs)
+    # --------------------------------------------
         if i['device'] == 'ipad':
-                if i['region'] == 'ростест':
-                    for cs in my_csv:
-                        if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
-                            if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
-                                    ')', '').replace('+', '') and \
-                                    i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
-                                    i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                for cs in my_csv:
+                    if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                        if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
+                                ')', '').replace('+', '') and \
+                                i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
+                                i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
 
-                                if i['region'] == 'ростест' and ru_test_flag:
-                                    if cs['Price'] == '0':
-                                        cs['Price'] = i['cost']
-                                    if cs['Price'] != '0':
-                                        xxx.append(cs)
-                                elif i['region'] == 'америка':
-                                    if cs['Price'] == '0':
-                                        cs['Price'] = i['cost']
-                                    if cs['Price'] != '0':
-                                        xxx.append(cs)
+                            if i['region'] == 'ростест' and ru_test_flag:
+                                if cs['Price'] == '0':
+                                    cs['Price'] = i['cost']
+                                if cs['Price'] != '0':
+                                    xxx.append(cs)
+                            elif i['region'] == 'америка':
+                                if cs['Price'] == '0':
+                                    cs['Price'] = i['cost']
+                                if cs['Price'] != '0':
+                                    xxx.append(cs)
 
         # --------------------------------------------
         if i['device'] == 'watch':
-                if i['region'] == 'ростест':
-                    for cs in my_csv:
-                        if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
-                            if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
-                                    ')', '') and \
-                                    i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
-                                    i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                for cs in my_csv:
+                    if i['device'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
+                        if i['series'] in cs['Title'].replace(' ', '').lower().replace('(', '').replace(
+                                ')', '') and \
+                                i['memory'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower() and \
+                                i['region'] in (cs['Title'] + cs['Editions']).replace(' ', '').lower():
 
-                                if i['region'] == 'ростест' and ru_test_flag:
-                                    if cs['Price'] == '0':
-                                        cs['Price'] = i['cost']
-                                    if cs['Price'] != '0':
-                                        xxx.append(cs)
-                                elif i['region'] == 'америка':
-                                    if cs['Price'] == '0':
-                                        cs['Price'] = i['cost']
-                                    if cs['Price'] != '0':
-                                        xxx.append(cs)
+                            if i['region'] == 'ростест' and ru_test_flag:
+                                if cs['Price'] == '0':
+                                    cs['Price'] = i['cost']
+                                if cs['Price'] != '0':
+                                    xxx.append(cs)
+                            elif i['region'] == 'америка':
+                                if cs['Price'] == '0':
+                                    cs['Price'] = i['cost']
+                                if cs['Price'] != '0':
+                                    xxx.append(cs)
 
 
 
