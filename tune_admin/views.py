@@ -938,10 +938,11 @@ def admin_hours_users(message):
     if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
 
         text = 'Кол-во зарегистрированных пользователей\n\n'
-        stat = UserModel.objects.all()
-        stat_count = stat.count()
-        text += 'Всего: ' + str(stat_count)
         today_reg = datetime.date.today().strftime('%m/%d/%Y')
+        stat = UserModel.objects.all()
+        stat_count = stat.filter(date_created=today_reg).count()
+        text += 'Всего: ' + str(stat_count)
+        
         today_reg = stat.filter(date_created=today_reg).count()
         text += '\nСегодня: ' + str(today_reg)
 
