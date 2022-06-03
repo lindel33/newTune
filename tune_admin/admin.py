@@ -167,9 +167,12 @@ class PostAdmin(admin.ModelAdmin):
     @staticmethod
     @admin.action(description='Сбросить все акции')
     def drop_sale( modeladmin, request, queryset):
-        Product.objects.filter(sell=False, 
-                               booking=False,
-                               moderation=True).update(sale=True)
+        all_pro = Product.objects.all()
+        for i in all_pro:
+            if i.sale == True:
+                i.price = i.price + 2000
+                i.save()
+        Product.objects.update(sale=False)
         
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
