@@ -507,7 +507,8 @@ def my_budget_show(message):
             keyboard_category.keyboard = keyboard_products
             client.send_message(chat_id=message.chat.id,
                                 text='Вот ссылки на все модели по Вашему бюджету',
-                                reply_markup=keyboard_category)
+                                reply_markup=keyboard_category,
+                                parse_mode='MarkdownV2')
         except:
             pass
 
@@ -716,7 +717,8 @@ def tradein_model(message):
     keyboard_products.keyboard = result
     client.send_message(chat_id=message.chat.id,
                         text='Вот все скидки',
-                        reply_markup=keyboard_products)
+                        reply_markup=keyboard_products,
+                        parse_mode='MarkdownV2')
 
 
 @client.message_handler(func=lambda message: message.text == 'Ремонт устройств')
@@ -737,7 +739,8 @@ def main_menu_repair(message, text='Выбирите устройство'):
     keyboard_products.keyboard = buttons
     client.send_message(chat_id=message.chat.id,
                         text=text,
-                        reply_markup=keyboard_products)
+                        reply_markup=keyboard_products,
+                        parse_mode='MarkdownV2')
 
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '🔧')
