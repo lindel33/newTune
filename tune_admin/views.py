@@ -431,7 +431,8 @@ def show_model(message, extra=None):
                     telebot.types.InputMediaPhoto(f3), ])
                 client.send_message(chat_id=message.chat.id,
                                     text='Хотите забронировать эту модель?',
-                                    reply_markup=keyboard)
+                                    reply_markup=keyboard,
+                                   parse_mode='MarkdownV2')
             else:
                 f1, f2 = open(path_to_media + str(detail_product[0].image_1), 'rb'), \
                          open(path_to_media + str(detail_product[0].image_2), 'rb')
@@ -442,7 +443,8 @@ def show_model(message, extra=None):
                     telebot.types.InputMediaPhoto(f2)])
                 client.send_message(chat_id=message.chat.id,
                                     text='Хотите забронировать эту модель?',
-                                    reply_markup=keyboard)
+                                    reply_markup=keyboard,
+                                   parse_mode='MarkdownV2')
         else:
             print(detail_product)
             f1, f2 = open(path_to_media + str(detail_product[0].image_1), 'rb'), \
@@ -454,7 +456,8 @@ def show_model(message, extra=None):
                 telebot.types.InputMediaPhoto(f2)])
             client.send_message(chat_id=message.chat.id,
                                 text='Хотите узнать подробнее?',
-                                reply_markup=keyboard)
+                                reply_markup=keyboard,
+                               parse_mode='MarkdownV2')
     except:
         return 0
 
@@ -716,7 +719,7 @@ def tradein_model(message):
     keyboard_products = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_products.keyboard = result
     client.send_message(chat_id=message.chat.id,
-                        text='Вот все скидки',
+                        text='~~Вот все скидки~~',
                         reply_markup=keyboard_products,
                         parse_mode='HTML')
 
