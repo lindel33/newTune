@@ -719,7 +719,7 @@ def tradein_model(message):
     keyboard_products = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_products.keyboard = result
     client.send_message(chat_id=message.chat.id,
-                        text='~~Вот все скидки~~',
+                        text='Вот все скидки',
                         reply_markup=keyboard_products,
                         parse_mode='HTML')
 
