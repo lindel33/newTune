@@ -273,7 +273,7 @@ class Product(models.Model):
         if self.discount_cost == 0:
             self.name = str(self.name)  + ' - ' + str(result_price)
         else:
-            self.name = str(self.name)  + ' - <s>' + str(result_price) + '</s> ' + str(self.discount_cost)
+            self.name = str(self.name)  + ' - ' + str('\u0336'.join(str(result_price)) + '\u0336') + ' ' + str(self.discount_cost)
 
         if self.smile:
             self.name = str(self.name) + str(self.smile)
