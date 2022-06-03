@@ -162,7 +162,7 @@ class Product(models.Model):
     booking = models.BooleanField('Забронированно?', default=False)
     moderation = models.BooleanField('Допущен к публикации?', default=True)
     price = models.PositiveIntegerField('Цена')
-
+    discount_cost = models.PositiveIntegerField('Цена со скидкой', default=0)
     smile = models.CharField('Эмодзи к цене', max_length=5, choices=choices_smile, null=True, blank=True,
                              help_text='Оставить пустым, если не нужен', default='₽')
     name = models.CharField('Название', max_length=150, null=False,
@@ -269,7 +269,11 @@ class Product(models.Model):
         else:
             self.name = str(self.name_tmp)
 
-        self.name = str(self.name)  + ' - ' + str(result_price)
+        
+        if self.discount_cost == 0:
+            self.name = str(self.name)  + ' - ' + str(result_price)
+        else:
+            self.name = str(self.name)  + ' - ~~' + str(result_price) + '~~ ' + str(self.discount_cost)
 
         if self.smile:
             self.name = str(self.name) + str(self.smile)
