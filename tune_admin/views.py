@@ -426,7 +426,7 @@ def show_model(message, extra=None):
                              open(path_to_media + str(detail_product[0].image_3), 'rb')
                 f1, f2, f3 = f1.read(), f2.read(), f3.read()
                 client.send_media_group(chat_id=message.chat.id, media=[
-                    telebot.types.InputMediaPhoto(f1, caption=detail_product[0].base_text),
+                    telebot.types.InputMediaPhoto(f1, caption=detail_product[0].base_text,parse_mode='MarkdownV2'),
                     telebot.types.InputMediaPhoto(f2),
                     telebot.types.InputMediaPhoto(f3), ])
                 client.send_message(chat_id=message.chat.id,
@@ -439,7 +439,7 @@ def show_model(message, extra=None):
 
                 f1, f2 = f1.read(), f2.read()
                 client.send_media_group(chat_id=message.chat.id, media=[
-                    telebot.types.InputMediaPhoto(f1, caption=detail_product[0].base_text),
+                    telebot.types.InputMediaPhoto(f1, caption=detail_product[0].base_text,parse_mode='MarkdownV2'),
                     telebot.types.InputMediaPhoto(f2)])
                 client.send_message(chat_id=message.chat.id,
                                     text='Хотите забронировать эту модель?',
@@ -452,7 +452,7 @@ def show_model(message, extra=None):
 
             f1, f2 = f1.read(), f2.read()
             client.send_media_group(chat_id=message.chat.id, media=[
-                telebot.types.InputMediaPhoto(f1, caption=detail_product[0].text),
+                telebot.types.InputMediaPhoto(f1, caption=detail_product[0].text,parse_mode='MarkdownV2'),
                 telebot.types.InputMediaPhoto(f2)])
             client.send_message(chat_id=message.chat.id,
                                 text='Хотите узнать подробнее?',
