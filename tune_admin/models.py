@@ -279,8 +279,8 @@ class Product(models.Model):
             last_1 = price_list.pop(-1)
             last_2 = price_list.pop(-1)
             last_3 = price_list.pop(-1)
-            result_price = "".join(price_list) + '.' + last_3 + last_2 + last_1
-            self.name = str(self.name)  + ' - ' + str('\u0336'.join(str(result_price)) + '\u0336').replace('.', '') + ' ' + str(result_price)
+            res_price = "".join(price_list) + '.' + last_3 + last_2 + last_1
+            self.name = str(self.name)  + ' - ' + str('\u0336'.join(str(result_price)) + '\u0336').replace('.', '') + ' ' + str(res_price)
 
         if self.smile:
             self.name = str(self.name) + str(self.smile)
