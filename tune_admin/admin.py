@@ -163,6 +163,14 @@ class PostAdmin(admin.ModelAdmin):
                     sale_products.save()
                     exit_list.append(1)
 
+                    
+    @staticmethod
+    @admin.action(description='Сбросить все акции')
+    def drop_sale( modeladmin, request, queryset):
+        Product.objects.filter(sell=False, 
+                               booking=False,
+                               moderation=True).update(sale=True)
+        
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['category', ]
