@@ -718,7 +718,7 @@ def tradein_model(message):
     client.send_message(chat_id=message.chat.id,
                         text='Вот все скидки',
                         reply_markup=keyboard_products,
-                        parse_mode='MarkdownV2')
+                        parse_mode='HTML')
 
 
 @client.message_handler(func=lambda message: message.text == 'Ремонт устройств')
