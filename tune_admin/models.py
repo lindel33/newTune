@@ -273,7 +273,14 @@ class Product(models.Model):
         if self.discount_cost == 0:
             self.name = str(self.name)  + ' - ' + str(result_price)
         else:
-            self.name = str(self.name)  + ' - ' + str('\u0336'.join(str(result_price)) + '\u0336') + ' ' + str(self.discount_cost)
+          price_list = []
+          for element in str(self.discount_cost):
+             price_list.append(element)
+          last_1 = price_list.pop(-1)
+          last_2 = price_list.pop(-1)
+          last_3 = price_list.pop(-1)
+          result_price = "".join(price_list) + '.' + last_3 + last_2 + last_1
+            self.name = str(self.name)  + ' - ' + str('\u0336'.join(str(result_price)) + '\u0336') + ' ' + str(self.result_price)
 
         if self.smile:
             self.name = str(self.name) + str(self.smile)
