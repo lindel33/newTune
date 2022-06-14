@@ -630,115 +630,117 @@ main_menu.append(['⬅️Главное меню'])
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
 def trade_main(message, text='Выберите устройство'):
-    list_user = UserModel.objects.all()
-    list_user_id = [str(user_id.user_id) for user_id in list_user]
+    start_message(message, text='Программа trade-in доступна!\nС помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у (так же принятое по программе trade-in).\nЧтобы узнать размер скидки выберите пункт «Связаться с менеджером»\nИли позвоните по телефону: \n+7 (932) 222-54-45')
+  
+#     list_user = UserModel.objects.all()
+#     list_user_id = [str(user_id.user_id) for user_id in list_user]
 
-    id_user = message.chat.id
-    if id_user not in list_user_id:
-        list_user_id.append(id_user)
-        TelegramUserModel.objects.create(
-            user_id=id_user,
-            username=message.chat.username,
-            first_name=message.chat.first_name,
-        )
+#     id_user = message.chat.id
+#     if id_user not in list_user_id:
+#         list_user_id.append(id_user)
+#         TelegramUserModel.objects.create(
+#             user_id=id_user,
+#             username=message.chat.username,
+#             first_name=message.chat.first_name,
+#         )
 
-    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard.keyboard = main_menu
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=keyboard)
-
-
-@client.message_handler(func=lambda message: message.text.split()[0] == '♻️')
-def trade_series(message):
-    device = message.text.split()[1]
-    main_menu_series = TradeInSeriesModel.objects.filter(name__icontains=device)
-    main_menu_series = [['📍 ' + buttons.name] for buttons in main_menu_series]
-    if not main_menu_series:
-        trade_main(message=message,
-                   text='Этот раздел еще закрыт')
-        return 1
-    main_menu_series.append(['⬅️Назад к Trade-in'])
-    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard.keyboard = main_menu_series
-    client.send_message(chat_id=message.chat.id,
-                        text='Выберите серию',
-                        reply_markup=keyboard)
-    UserStepModel.objects.filter(
-        user__user_id=message.chat.id
-    ).delete()
+#     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+#     keyboard.keyboard = main_menu
+#     client.send_message(chat_id=message.chat.id,
+#                         text=text,
+#                         reply_markup=keyboard)
 
 
-@client.message_handler(func=lambda message: message.text.split()[0] == '📍')
-def trade_first_step(message, text='Далее выберите из указанных вариантов'):
-    device = message.text.replace('📍 ', '')
-    UserStepModel.objects.create(
-        user=TelegramUserModel.objects.filter(user_id=message.chat.id)[0],
-        steps_ok='1',
-        cost=TradeInSeriesModel.objects.filter(name=device)[0].start_cost,
-        device=device
-    )
-    steps = TradeInStepModel.objects.filter(series__name=device).filter(step=1)[0]
-    steps = VariableFoeStepModel.objects.filter(step=steps.id)
-    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard.keyboard = [['📌 ' + i.name] for i in steps]
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=keyboard)
+# @client.message_handler(func=lambda message: message.text.split()[0] == '♻️')
+# def trade_series(message):
+#     device = message.text.split()[1]
+#     main_menu_series = TradeInSeriesModel.objects.filter(name__icontains=device)
+#     main_menu_series = [['📍 ' + buttons.name] for buttons in main_menu_series]
+#     if not main_menu_series:
+#         trade_main(message=message,
+#                    text='Этот раздел еще закрыт')
+#         return 1
+#     main_menu_series.append(['⬅️Назад к Trade-in'])
+#     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+#     keyboard.keyboard = main_menu_series
+#     client.send_message(chat_id=message.chat.id,
+#                         text='Выберите серию',
+#                         reply_markup=keyboard)
+#     UserStepModel.objects.filter(
+#         user__user_id=message.chat.id
+#     ).delete()
 
 
-@client.message_handler(func=lambda message: message.text.split()[0] == '📌')
-def trade_again_step(message):
-    user_data = UserStepModel.objects.filter(
-        user__user_id=message.chat.id,
-    )
-    device = user_data[0].device
-    step = user_data[0].steps_ok
-    max_step = TradeInSeriesModel.objects.filter(
-        name=device
-    )[0].max_step
-    if int(max_step) != int(step):
-        variable = VariableFoeStepModel.objects.filter(
-            step__step=step,
-            name=message.text.replace('📌 ', '')
-        )
-        new_cost = user_data[0].cost + variable[0].increase - variable[0].decrease
-        step = str(int(step) + 1)
-        UserStepModel.objects.filter(
-            user__user_id=message.chat.id,
-        ).update(
-            steps_ok=step,
-            cost=new_cost,
-        )
-        nex = TradeInStepModel.objects.filter(
-            step=step,
-            series__name=device
-        )
-        name = nex[0].name
-        next = VariableFoeStepModel.objects.filter(
-            step=nex[0].id
-        )
-        keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-        keyboard.keyboard = [['📌 ' + i.name] for i in next]
-        client.send_message(chat_id=message.chat.id,
-                            text=name,
-                            reply_markup=keyboard)
+# @client.message_handler(func=lambda message: message.text.split()[0] == '📍')
+# def trade_first_step(message, text='Далее выберите из указанных вариантов'):
+#     device = message.text.replace('📍 ', '')
+#     UserStepModel.objects.create(
+#         user=TelegramUserModel.objects.filter(user_id=message.chat.id)[0],
+#         steps_ok='1',
+#         cost=TradeInSeriesModel.objects.filter(name=device)[0].start_cost,
+#         device=device
+#     )
+#     steps = TradeInStepModel.objects.filter(series__name=device).filter(step=1)[0]
+#     steps = VariableFoeStepModel.objects.filter(step=steps.id)
+#     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+#     keyboard.keyboard = [['📌 ' + i.name] for i in steps]
+#     client.send_message(chat_id=message.chat.id,
+#                         text=text,
+#                         reply_markup=keyboard)
 
-    else:
-        variable = VariableFoeStepModel.objects.filter(
-            step__step=step,
-            name=message.text.replace('📌 ', '')
-        )
-        new_cost = user_data[0].cost + variable[0].increase - variable[0].decrease
-        UserStepModel.objects.filter(
-            user__user_id=message.chat.id,
-        ).update(
-            cost=new_cost,
-        )
-        text = f'Оценка завершена!\n' \
-               f'Стоимость {str(new_cost)}'
-        trade_main(message=message,
-                   text=text)
+
+# @client.message_handler(func=lambda message: message.text.split()[0] == '📌')
+# def trade_again_step(message):
+#     user_data = UserStepModel.objects.filter(
+#         user__user_id=message.chat.id,
+#     )
+#     device = user_data[0].device
+#     step = user_data[0].steps_ok
+#     max_step = TradeInSeriesModel.objects.filter(
+#         name=device
+#     )[0].max_step
+#     if int(max_step) != int(step):
+#         variable = VariableFoeStepModel.objects.filter(
+#             step__step=step,
+#             name=message.text.replace('📌 ', '')
+#         )
+#         new_cost = user_data[0].cost + variable[0].increase - variable[0].decrease
+#         step = str(int(step) + 1)
+#         UserStepModel.objects.filter(
+#             user__user_id=message.chat.id,
+#         ).update(
+#             steps_ok=step,
+#             cost=new_cost,
+#         )
+#         nex = TradeInStepModel.objects.filter(
+#             step=step,
+#             series__name=device
+#         )
+#         name = nex[0].name
+#         next = VariableFoeStepModel.objects.filter(
+#             step=nex[0].id
+#         )
+#         keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+#         keyboard.keyboard = [['📌 ' + i.name] for i in next]
+#         client.send_message(chat_id=message.chat.id,
+#                             text=name,
+#                             reply_markup=keyboard)
+
+#     else:
+#         variable = VariableFoeStepModel.objects.filter(
+#             step__step=step,
+#             name=message.text.replace('📌 ', '')
+#         )
+#         new_cost = user_data[0].cost + variable[0].increase - variable[0].decrease
+#         UserStepModel.objects.filter(
+#             user__user_id=message.chat.id,
+#         ).update(
+#             cost=new_cost,
+#         )
+#         text = f'Оценка завершена!\n' \
+#                f'Стоимость {str(new_cost)}'
+#         trade_main(message=message,
+#                    text=text)
 
 
 def get_trade_products():
@@ -777,113 +779,112 @@ def tradein_model(message):
 
 @client.message_handler(func=lambda message: message.text == 'Ремонт устройств')
 def main_menu_repair(message, text='Выберите устройство'):
-    start_message(message, text='Программа trade-in доступна!\nС помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у (так же принятое по программе trade-in).\nЧтобы узнать размер скидки выберите пункт «Связаться с менеджером»\nИли позвоните по телефону: \n+7 (932) 222-54-45')
     
-#     try:
-#         UserChoiceModel.objects.filter(
-#             user_id=TelegramUserModel.objects.get(
-#                 user_id=message.chat.id
-#             ).id
-#         ).delete()
-#     except EOFError as _:
-#         pass
+    try:
+        UserChoiceModel.objects.filter(
+            user_id=TelegramUserModel.objects.get(
+                user_id=message.chat.id
+            ).id
+        ).delete()
+    except EOFError as _:
+        pass
 
-#     buttons = ButtonModel.objects.all()
-#     buttons = [['🔧 ' + i.name_button] for i in buttons]
-#     buttons.append(['⬅️Главное меню'])
-#     keyboard_products = telebot.types.ReplyKeyboardMarkup(True, True)
-#     keyboard_products.keyboard = buttons
-#     client.send_message(chat_id=message.chat.id,
-#                         text=text,
-#                         reply_markup=keyboard_products,
-#                         parse_mode='MarkdownV2')
+    buttons = ButtonModel.objects.all()
+    buttons = [['🔧 ' + i.name_button] for i in buttons]
+    buttons.append(['⬅️Главное меню'])
+    keyboard_products = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard_products.keyboard = buttons
+    client.send_message(chat_id=message.chat.id,
+                        text=text,
+                        reply_markup=keyboard_products,
+                        parse_mode='MarkdownV2')
 
 
-# @client.message_handler(func=lambda message: message.text.split()[0] == '🔧')
-# def service_repair(message):
-#     device = message.text.replace('🔧 ', '').split('|', 1)[0]
-#     id_user = TelegramUserModel.objects.get(
-#         user_id=message.chat.id
-#     ).id
-#     user_device = UserChoiceModel.objects.filter(
-#         user_id=id_user
-#     )
-#     if not user_device:
-#         user_query = TelegramUserModel.objects.get(
-#             user_id=message.chat.id,
-#         )
-#         UserChoiceModel.objects.create(
-#             user_id=user_query,
-#             cost=0,
-#             device=device
-#         )
-#         buttons = ServiceModels.objects.filter(
-#             series__name_button=message.text.replace('🔧 ', '')
-#         )
-#         buttons = [['Завершить и показать сумму ремонта']] + \
-#                   [['🔧 ' +
-#                     i.name +
-#                     ' | ' +
-#                     str(i.cost) +
-#                     'p'
-#                     ] for i in buttons]
-#         buttons.append(['⬅️Главное меню'])
-#         keyboard_products = telebot.types.ReplyKeyboardMarkup(True, True)
-#         keyboard_products.keyboard = buttons
-#         client.send_message(chat_id=message.chat.id,
-#                             text='text',
-#                             reply_markup=keyboard_products)
-#         return 1
+@client.message_handler(func=lambda message: message.text.split()[0] == '🔧')
+def service_repair(message):
+    device = message.text.replace('🔧 ', '').split('|', 1)[0]
+    id_user = TelegramUserModel.objects.get(
+        user_id=message.chat.id
+    ).id
+    user_device = UserChoiceModel.objects.filter(
+        user_id=id_user
+    )
+    if not user_device:
+        user_query = TelegramUserModel.objects.get(
+            user_id=message.chat.id,
+        )
+        UserChoiceModel.objects.create(
+            user_id=user_query,
+            cost=0,
+            device=device
+        )
+        buttons = ServiceModels.objects.filter(
+            series__name_button=message.text.replace('🔧 ', '')
+        )
+        buttons = [['Завершить и показать сумму ремонта']] + \
+                  [['🔧 ' +
+                    i.name +
+                    ' | ' +
+                    str(i.cost) +
+                    'p'
+                    ] for i in buttons]
+        buttons.append(['⬅️Главное меню'])
+        keyboard_products = telebot.types.ReplyKeyboardMarkup(True, True)
+        keyboard_products.keyboard = buttons
+        client.send_message(chat_id=message.chat.id,
+                            text='text',
+                            reply_markup=keyboard_products)
+        return 1
 
-#     else:
-#         user_cost = user_device[0].cost
-#         user_device = user_device[0].device
-#         up = ServiceModels.objects.filter(
-#             series__name_button=user_device,
-#             name=device
-#         )
+    else:
+        user_cost = user_device[0].cost
+        user_device = user_device[0].device
+        up = ServiceModels.objects.filter(
+            series__name_button=user_device,
+            name=device
+        )
 
-#         buttons = ButtonModel.objects.get(
-#             name_button=user_device
-#         )
-#         buttons = ServiceModels.objects.filter(
-#             series=buttons
-#         )
-#         id_user = TelegramUserModel.objects.get(
-#             user_id=message.chat.id
-#         )
-#         id_user = UserChoiceModel.objects.get(
-#             user_id=id_user
-#         )
-#         xx = UseService.objects.filter(
-#             user=id_user,
-#         )
-#         if message.text in [i.name_service for i in xx]:
-#             pass
-#         else:
-#             UseService.objects.create(
-#                 user=id_user,
-#                 name_service=message.text
-#             )
-#             UserChoiceModel.objects.update(
-#                 device=user_device,
-#                 cost=str(int(user_cost) + int(up[0].cost))
-#             )
-#         buttons = [['Завершить и показать сумму ремонта']] + \
-#                   [['🔧 ' +
-#                     i.name +
-#                     ' | ' +
-#                     str(i.cost) +
-#                     'p'
-#                     ] for i in buttons]
-#         buttons.append(['⬅️Главное меню'])
-#         keyboard_products = telebot.types.ReplyKeyboardMarkup(True, True)
-#         keyboard_products.keyboard = buttons
-#         client.send_message(chat_id=message.chat.id,
-#                             text=f'{message.text.replace("🔧 ", "")}'
-#                                  f'\n\n'
-#                                  f'Услуга успешно добавлена',
-#                             reply_markup=keyboard_products)
+        buttons = ButtonModel.objects.get(
+            name_button=user_device
+        )
+        buttons = ServiceModels.objects.filter(
+            series=buttons
+        )
+        id_user = TelegramUserModel.objects.get(
+            user_id=message.chat.id
+        )
+        id_user = UserChoiceModel.objects.get(
+            user_id=id_user
+        )
+        xx = UseService.objects.filter(
+            user=id_user,
+        )
+        if message.text in [i.name_service for i in xx]:
+            pass
+        else:
+            UseService.objects.create(
+                user=id_user,
+                name_service=message.text
+            )
+            UserChoiceModel.objects.update(
+                device=user_device,
+                cost=str(int(user_cost) + int(up[0].cost))
+            )
+        buttons = [['Завершить и показать сумму ремонта']] + \
+                  [['🔧 ' +
+                    i.name +
+                    ' | ' +
+                    str(i.cost) +
+                    'p'
+                    ] for i in buttons]
+        buttons.append(['⬅️Главное меню'])
+        keyboard_products = telebot.types.ReplyKeyboardMarkup(True, True)
+        keyboard_products.keyboard = buttons
+        client.send_message(chat_id=message.chat.id,
+                            text=f'{message.text.replace("🔧 ", "")}'
+                                 f'\n\n'
+                                 f'Услуга успешно добавлена',
+                            reply_markup=keyboard_products)
 
 
 @client.message_handler(func=lambda message: message.text == 'Завершить и показать сумму ремонта')
