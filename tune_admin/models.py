@@ -342,7 +342,12 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    def get_queryset(self, request):
+        # from userprofile.models import UserProfile
+        # from django.contrib.auth.models import User
+        # u = UserProfile.objects.get(user=User.objects.get(username=request.user.username)).region
+        return Product.objects.filter(sell=False)
 
 class BookingProduct(models.Model):
     product_pka = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
