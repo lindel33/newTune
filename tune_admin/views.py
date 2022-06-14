@@ -19,7 +19,7 @@ client = telebot.TeleBot(TOKEN, threaded=False)
 
 menu_support = ['📱 iPhone', '📲 iPad', '💻 MacBook',
                 '🎧 AirPods', '⌚ Watch',
-                '⬅️Главное меню']
+                '⌨ Устройства','⬅️Главное меню']
 #'⌨ Устройства', 
 sup_callback = ['Назад к Б/У iPhone', 'Назад к Б/У iPad', 'Назад к Б/У MacBook',
                 'Назад к Б/У AirPods', 'Назад к Б/У Watch',
@@ -28,7 +28,7 @@ path_to_media = '/home/apple/code/project1/tune/media/'
 
 
 def get_category():
-    result = ['📱 iPhone', '📲 iPad', '💻 MacBook', '🎧 AirPods', '⌚ Watch',]
+    result = ['📱 iPhone', '📲 iPad', '💻 MacBook', '🎧 AirPods', '⌚ Watch', '⌨ Устройства',]
     return result
 
 # '⌨ Устройства'
@@ -277,12 +277,12 @@ def support_menu(message, text='Вот все Б\У'):
     btn3 = telebot.types.KeyboardButton('💻 MacBook')
     btn4 = telebot.types.KeyboardButton('⌚ Watch')
     btn5 = telebot.types.KeyboardButton('🎧 AirPods')
-#     btn8 = telebot.types.KeyboardButton('⌨ Устройства')
+    btn8 = telebot.types.KeyboardButton('⌨ Устройства')
     btn9 = telebot.types.KeyboardButton('⬅️Главное меню')
     markup.add(btn1)
     markup.add(btn4, btn5)
     markup.add(btn2, btn3)
-#     markup.add(btn8)
+    markup.add(btn8)
     markup.add(btn9)
     client.send_message(message.chat.id, text=text, reply_markup=markup)
 
