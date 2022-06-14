@@ -452,7 +452,7 @@ class SendGlobalMessage(models.Model):
         all_users = list(set(str(i.user_id) for i in all_users))
         count = 0
 
-        for i in ['572982939', '572982939']:
+        for i in all_users:
             client.send_message(chat_id=i,
                                 text=str(self.text))
             count += 1
