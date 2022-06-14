@@ -165,6 +165,68 @@ def get_sale(message):
 
 
 
+global_reg = RegionUserModel.objects.all()
+regions_search = ['⚙️ Установить регион: ' + i.name for i in global_reg]
+
+
+@client.message_handler(func=lambda message: message.text in [
+    '⚙️ Настройки региона',
+    '⚙️ Настройки уведомлений',
+    '⚙️ Отключить уведомления',
+    '⚙️ Включить уведомления',
+
+] + regions_search)
+def switch_region(message):
+    global regions_search
+
+    if message.text == '⚙️ Настройки региона':
+        global_regions = RegionUserModel.objects.all()
+        regions_search = ['⚙️ Установить регион: ' + i.name for i in global_regions]
+        global_regions = [['⚙️ Установить регион: ' + i.name] for i in global_regions]
+        global_regions.append(['⬅️Главное меню'])
+        keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+        keyboard.keyboard = global_regions
+        client.send_message(chat_id=message.chat.id,
+                            text='Выберите свой регион',
+                            reply_markup=keyboard)
+
+    if message.text == '⚙️ Настройки уведомлений':
+        markup_notif = [
+            ['⚙️ Отключить уведомления'],
+            ['⚙️ Включить уведомления'],
+            ['⬅️Главное меню'],
+        ]
+        keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+        keyboard.keyboard = markup_notif
+        client.send_message(chat_id=message.chat.id,
+                            text='Выберите свой регион',
+                            reply_markup=keyboard)
+
+    if message.text in ['⚙️ Отключить уведомления', '⚙️ Включить уведомления']:
+        if message.text == '⚙️ Включить уведомления':
+            UserModel.objects.filter(
+                user_id=str(message.chat.id),
+            ).update(notifications=True)
+            start_message(message,
+                          text=f'Теперь Вы будете получать уведомления в боте',
+                          )
+        if message.text == '⚙️ Отключить уведомления':
+            UserModel.objects.filter(
+                user_id=str(message.chat.id),
+            ).update(notifications=False)
+            start_message(message,
+                          text=f'Вы больше не будете получать уведомления в боте',
+                          )
+
+    if message.text in regions_search:
+        UserModel.objects.filter(
+            user_id=str(message.chat.id),
+        ).update(region_user=RegionUserModel.objects.get(name=message.text.replace('⚙️ Установить регион: ', '')))
+        start_message(message,
+                      text=f"Ваш регион изменен на {message.text.replace('⚙️ Установить регион: ', '')}",
+                      )
+
+
 @client.message_handler(commands=['set'])
 def menu_settings(message):
     user_info = UserModel.objects.get(
@@ -179,70 +241,17 @@ def menu_settings(message):
     text = f'Ваши текущие настройки:\n' \
            f'Регион: {user_region}\n' \
            f'Уведомления: {user_notifications}'
-    markup_settings = telebot.types.InlineKeyboardMarkup()
-    butt = telebot.types.InlineKeyboardButton('Выбор региона', callback_data='region')
-    markup_settings.add(butt)
-    butt = telebot.types.InlineKeyboardButton('Уведомления', callback_data='notif')
-    markup_settings.add(butt)
+    markup_settings = [
+        ['⚙️ Настройки региона'],
+        ['⚙️ Настройки уведомлений'],
+        ['⬅️Главное меню'],
+    ]
+    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard.keyboard = markup_settings
     client.send_message(chat_id=message.chat.id,
                         text=text,
-                        reply_markup=markup_settings)
+                        reply_markup=keyboard)
 
-@client.callback_query_handler(func=lambda call: True)
-def switch_region22(call):
-    global_regions = RegionUserModel.objects.all()
-    global_regions = [i.name for i in global_regions]
-    markup_region = telebot.types.InlineKeyboardMarkup()
-
-    for i in global_regions:
-        button = telebot.types.InlineKeyboardButton(str(i), callback_data=str(i))
-        markup_region.add(button)
-        
-    client.send_message(chat_id=572982939,
-                        text='Выберите свой регион')
-    if call.data == 'region':
-        client.edit_message_text(chat_id=call.message.chat.id,
-                                 message_id=call.message.id,
-                                 text='Выберите свой регион',
-                                 reply_markup=markup_region)
-
-    if call.data == 'notif':
-        markup_notif = telebot.types.InlineKeyboardMarkup()
-        but = telebot.types.InlineKeyboardButton('Включить', callback_data='onNotif')
-        markup_notif.add(but)
-        but = telebot.types.InlineKeyboardButton('Отключить', callback_data='offNotif')
-        markup_notif.add(but)
-        client.edit_message_text(chat_id=call.message.chat.id,
-                                 message_id=call.message.id,
-                                 text='Выберите свой регион',
-                                 reply_markup=markup_notif)
-
-    if call.data in ['onNotif', 'offNotif']:
-        if call.data == 'onNotif':
-            UserModel.objects.filter(
-                user_id=str(call.message.chat.id),
-            ).update(notifications=True)
-            client.edit_message_text(chat_id=call.message.chat.id,
-                                     message_id=call.message.id,
-                                     text=f'Теперь Вы будете получать уведомления в боте',
-                                     )
-        if call.data == 'offNotif':
-            UserModel.objects.filter(
-                user_id=str(call.message.chat.id),
-            ).update(notifications=False)
-            client.edit_message_text(chat_id=call.message.chat.id,
-                                     message_id=call.message.id,
-                                     text=f'Вы больше не будете получать уведомления в боте',
-                                     )
-
-    if call.data in global_regions:
-        UserModel.objects.filter(
-            user_id=str(call.message.chat.id),
-        ).update(region_user=RegionUserModel.objects.get(name=call.data))
-        client.edit_message_text(chat_id=call.message.chat.id,
-                                 message_id=call.message.id,
-                                 text=f'Ваш регион изменен на {call.data}',
-                                 )
 
 @client.message_handler(func=lambda message: message.text == 'Запуск')
 @client.message_handler(func=lambda message: message.text == 'Начало')
