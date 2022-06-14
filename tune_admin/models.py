@@ -320,11 +320,6 @@ class Product(models.Model):
                                           booking_flag=False,
                                           sell_flag=False,)
 
-        from .views import update_products
-        update_products()  # Обновляем товары в боте
-        import os
-        os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
-          
     def __str__(self):
         return self.name
 
@@ -356,8 +351,7 @@ class BookingProduct(models.Model):
         if self.sell_flag:
             self.date_sell = str(datetime.date.today().strftime('%m/%d/%Y'))
         super().save(*args, **kwargs)
-        import os
-        os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
+
 
     def __str__(self):
         return str(self.product_pka)
