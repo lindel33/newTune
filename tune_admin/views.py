@@ -236,8 +236,8 @@ def menu_settings(message):
     for i in global_regions:
         button = telebot.types.InlineKeyboardButton(str(i), callback_data=str(i))
         markup_region.add(button)
-    client.edit_message_text(chat_id=message.chat.id,
-                                 message_id=message.id,
+    client.send_message(chat_id=message.chat.id,
+                              
                                  text='Выберите свой регион',
                                  reply_markup=markup_region)
 @client.message_handler(func=lambda message: message.text == 'Запуск')
