@@ -211,7 +211,15 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
-
+    def clean(self):
+        filter_names = ['Watch', 'iPhone', 'AirPods', 'iPad', 'MacBook', r'MacBook / iMac']
+        name_ = str(self.name).split()[0]
+        if str(self.category) != '⌨ Устройства':
+            if name_ not in filter_names:
+                if 'imac' == name_.lower():
+                    self.name = r'MacBook / ' + str(self.name)
+                else:
+                    raise ValidationError({'name': 'Не соответствует шаблону'})
     def save(self, extra=None, *args, **kwargs):
 
         if extra == '+':
