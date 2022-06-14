@@ -3,7 +3,12 @@ from django.utils.safestring import mark_safe
 from provider.models import ProviderProduct
 from .models import Product, Category, SeriesCategory,\
     BookingProduct, GuarantyModel, KitModel, StateModel,\
-    StaticUserHourModel, UserModel, RegionUserModel, SetTelegramModel
+    StaticUserHourModel, UserModel, RegionUserModel, SetTelegramModel, SendGlobalMessage
+
+
+@admin.register(SendGlobalMessage)
+class SendGlobalMessageAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(UserModel)
