@@ -401,6 +401,9 @@ class UserModel(models.Model):
                                     on_delete=models.CASCADE,
                                     null=True,
                                     verbose_name='Регион',)
+    notifications = models.BooleanField('Уведомления',
+                                        default=True)
+          
     class Meta:
         verbose_name = 'Регистрация пользователей'
         verbose_name_plural = 'Регистрация пользователей'
@@ -414,3 +417,20 @@ class SetTelegramModel(models.Model):
     
     def __str__(self):
         return 'Распознание Ростест'
+
+
+class SendGlobalMessage(models.Model):
+    text = models.TextField(verbose_name='Текст для рассылки')
+
+    def save(self, *args, **kwargs):
+        import telebot
+        TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'
+        client = telebot.TeleBot(TOKEN, threaded=False)
+        all_users = UserModel.objects.all()
+        all_users = list(set(str(i.user_id) for i in all_users))
+        # from cost_models.start_bot import global_message
+        # global_message(list_user=all_users,
+        #                text=self.text)
+        for i in all_users:
+            client.send_message(chat_id=i,
+                                text=str(self.text))
