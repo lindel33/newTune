@@ -1,9 +1,32 @@
+import time
 import os
+from pprint import pprint
 import datetime
+import MySQLdb
 import telebot
+import sys
+
+
+
+
+
+
+import django
+from cost_models.models import DetailModel
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.exceptions import PermissionDenied
 import requests
+
+# from trade_in.models import TelegramUserModel, UserStepModel,TradeInDevicesModel,\
+#     TradeInSeriesModel, VariableFoeStepModel, TradeInStepModel
+
+# from trade_id.models import ButtonModel, ServiceModels, UserChoiceModel, UseService
+# from trade_trade.models import Trade
+
+# from .models import Product, Category, SeriesCategory, StaticUserHourModel,UserModel
+
+
 from trade_in.models import (TelegramUserModel, UserStepModel,
                              TradeInDevicesModel, TradeInSeriesModel,
                              VariableFoeStepModel, TradeInStepModel)
@@ -17,6 +40,7 @@ TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'
 URL_BITRIX = 'https://im.bitrix.info/imwebhook/eh/e5750b73ce4b6f9cbedb96d9d7faf0881653435781/'
 client = telebot.TeleBot(TOKEN, threaded=False)
 
+
 menu_support = ['📱 iPhone', '📲 iPad', '💻 MacBook',
                 '🎧 AirPods', '⌚ Watch',
                 '⌨ Устройства', '⬅️Главное меню']
@@ -24,6 +48,9 @@ sup_callback = ['Назад к Б/У iPhone', 'Назад к Б/У iPad', 'На�
                 'Назад к Б/У AirPods', 'Назад к Б/У Watch',
                 'Назад к Б/У Устройства']
 path_to_media = '/home/apple/code/project1/tune/media/'
+
+
+
 
 
 def get_category():
@@ -50,9 +77,11 @@ def get_trade_state(name_to_search):
 
 
 def get_not_category(message):
-    result = Product.objects.filter(category_id=6,
-                                    
-                                    )
+    result = Product.objects.all().filter(category_id=6,
+                                          regin=UserModel.objects.get(
+                                              user_id=message.chat.id
+                                          ).region_user
+                                          )
     list_device = []
     for r in result:
         list_device.append(r.name)
@@ -550,7 +579,6 @@ def show_model(message):
                             parse_mode='HTML')
         return 0
 
-
 @client.message_handler(commands=['nm'])
 @client.message_handler(func=lambda message: message.text == 'Новые Устройства')
 def new_model(message):
@@ -656,44 +684,43 @@ main_menu.append(['⬅️Главное меню'])
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
 def trade_main(message, text='Выберите устройство'):
-    start_message(message, text='Программа trade-in доступна!\nС помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у (так же принятое по программе trade-in).\nЧтобы узнать размер скидки выберите пункт «Связаться с менеджером»\nИли позвоните по телефону: \n+7 (932) 222-54-45')
-#     list_user = UserModel.objects.all()
-#     list_user_id = [str(user_id.user_id) for user_id in list_user]
+    list_user = UserModel.objects.all()
+    list_user_id = [str(user_id.user_id) for user_id in list_user]
 
-#     id_user = message.chat.id
-#     if id_user not in list_user_id:
-#         list_user_id.append(id_user)
-#         TelegramUserModel.objects.create(
-#             user_id=id_user,
-#             username=message.chat.username,
-#             first_name=message.chat.first_name,
-#         )
+    id_user = message.chat.id
+    if id_user not in list_user_id:
+        list_user_id.append(id_user)
+        TelegramUserModel.objects.create(
+            user_id=id_user,
+            username=message.chat.username,
+            first_name=message.chat.first_name,
+        )
 
-#     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-#     keyboard.keyboard = main_menu
-#     client.send_message(chat_id=message.chat.id,
-#                         text=text,
-#                         reply_markup=keyboard)
+    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard.keyboard = main_menu
+    client.send_message(chat_id=message.chat.id,
+                        text=text,
+                        reply_markup=keyboard)
 
 
-# @client.message_handler(func=lambda message: message.text.split()[0] == '♻️')
-# def trade_series(message):
-#     device = message.text.split()[1]
-#     main_menu_series = TradeInSeriesModel.objects.filter(name__icontains=device)
-#     main_menu_series = [['📍 ' + buttons.name] for buttons in main_menu_series]
-#     if not main_menu_series:
-#         trade_main(message=message,
-#                    text='Этот раздел еще закрыт')
-#         return 1
-#     main_menu_series.append(['⬅️Назад к Trade-in'])
-#     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-#     keyboard.keyboard = main_menu_series
-#     client.send_message(chat_id=message.chat.id,
-#                         text='Выберите серию',
-#                         reply_markup=keyboard)
-#     UserStepModel.objects.filter(
-#         user__user_id=message.chat.id
-#     ).delete()
+@client.message_handler(func=lambda message: message.text.split()[0] == '♻️')
+def trade_series(message):
+    device = message.text.split()[1]
+    main_menu_series = TradeInSeriesModel.objects.filter(name__icontains=device)
+    main_menu_series = [['📍 ' + buttons.name] for buttons in main_menu_series]
+    if not main_menu_series:
+        trade_main(message=message,
+                   text='Этот раздел еще закрыт')
+        return 1
+    main_menu_series.append(['⬅️Назад к Trade-in'])
+    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard.keyboard = main_menu_series
+    client.send_message(chat_id=message.chat.id,
+                        text='Выберите серию',
+                        reply_markup=keyboard)
+    UserStepModel.objects.filter(
+        user__user_id=message.chat.id
+    ).delete()
 
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '📍')
