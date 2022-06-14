@@ -54,7 +54,10 @@ def get_not_category(message):
     result = Product.objects.filter(category_id=6,
                                     regin=UserModel.objects.get(
                                         user_id=message.chat.id
-                                    ).region_user
+                                    ).region_user,
+                                     moderation=True,
+                                     booking=False,
+                                     sell=False,
                                     )
     list_device = []
     for r in result:
