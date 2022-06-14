@@ -399,7 +399,8 @@ class UserModel(models.Model):
                                      default=False)
     region_user = models.ForeignKey(RegionUserModel,
                                     on_delete=models.CASCADE,
-                                    null=True,
+                                    null=False,
+                                    default=1,
                                     verbose_name='Регион',)
     notifications = models.BooleanField('Уведомления',
                                         default=True)
