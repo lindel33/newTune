@@ -476,7 +476,7 @@ def show_model(message):
                         ['Забронировать|Узнать подробней' + '\n' + message.text + ' Арт. ' + detail_product[
                             0].article])
         if message.text in get_not_category(message=message):
-            products.append([['⬅️Назад к Б/У ' + '']])
+            products.append(['⬅️Назад к Б/У ' + ''])
         else:
             products.append(['⬅️  Назад к Б/У ' + message.text.split()[0]])
     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
