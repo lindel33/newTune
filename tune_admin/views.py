@@ -189,7 +189,7 @@ def menu_settings(message):
                         reply_markup=markup_settings)
 
 @client.callback_query_handler(func=lambda call: True)
-def switch_region(call):
+def switch_region22(call):
   
     global_regions = RegionUserModel.objects.all()
     global_regions = [i.name for i in global_regions]
