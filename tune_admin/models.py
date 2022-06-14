@@ -453,8 +453,11 @@ class SendGlobalMessage(models.Model):
         count = 0
 
         for i in all_users:
-            client.send_message(chat_id=i,
-                                text=str(self.text))
+            try:
+                client.send_message(chat_id=i,
+                                    text=str(self.text))
+            except:
+                pass
             count += 1
             if count % 20 == 0:
                 time.sleep(1)
