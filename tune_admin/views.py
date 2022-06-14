@@ -167,48 +167,39 @@ def get_sale(message):
 
 @client.message_handler(commands=['set'])
 def menu_settings(message):
-    markup_inline = telebot.types.InlineKeyboardMarkup()
-    item = telebot.types.InlineKeyboardButton(
-        text='a', callback_data='test')
-    markup_inline.add(item)
-    client.send_message(message.chat.id, 'x',
-                        reply_markup=markup_inline
-                        ) 
-#     user_info = UserModel.objects.get(
-#         user_id=str(message.chat.id),
-#     )
-#     user_notifications = user_info.notifications
-#     if user_notifications:
-#         user_notifications = 'Включены'
-#     else:
-#         user_notifications = 'Отключены'
-#     user_region = user_info.region_user
-#     text = f'Ваши текущие настройки:\n' \
-#            f'Регион: {user_region}\n' \
-#            f'Уведомления: {user_notifications}'
-#     markup_settings = telebot.types.InlineKeyboardMarkup()
-#     butt = telebot.types.InlineKeyboardButton('Выбор региона', callback_data='region')
-#     markup_settings.add(butt)
-#     butt = telebot.types.InlineKeyboardButton('Уведомления', callback_data='notif')
-#     markup_settings.add(butt)
-#     client.send_message(chat_id=message.chat.id,
-#                         text=text,
-#                         reply_markup=markup_settings)
+    user_info = UserModel.objects.get(
+        user_id=str(message.chat.id),
+    )
+    user_notifications = user_info.notifications
+    if user_notifications:
+        user_notifications = 'Включены'
+    else:
+        user_notifications = 'Отключены'
+    user_region = user_info.region_user
+    text = f'Ваши текущие настройки:\n' \
+           f'Регион: {user_region}\n' \
+           f'Уведомления: {user_notifications}'
+    markup_settings = telebot.types.InlineKeyboardMarkup()
+    butt = telebot.types.InlineKeyboardButton('Выбор региона', callback_data='region')
+    markup_settings.add(butt)
+    butt = telebot.types.InlineKeyboardButton('Уведомления', callback_data='notif')
+    markup_settings.add(butt)
+    client.send_message(chat_id=message.chat.id,
+                        text=text,
+                        reply_markup=markup_settings)
 
 @client.callback_query_handler(func=lambda call: True)
 def switch_region22(call):
-   client.send_message(chat_id=572982939,
-                        text='Выберите свой регион')
-#     global_regions = RegionUserModel.objects.all()
-#     global_regions = [i.name for i in global_regions]
-#     markup_region = telebot.types.InlineKeyboardMarkup()
+    global_regions = RegionUserModel.objects.all()
+    global_regions = [i.name for i in global_regions]
+    markup_region = telebot.types.InlineKeyboardMarkup()
 
-#     for i in global_regions:
-#         button = telebot.types.InlineKeyboardButton(str(i), callback_data=str(i))
-#         markup_region.add(button)
+    for i in global_regions:
+        button = telebot.types.InlineKeyboardButton(str(i), callback_data=str(i))
+        markup_region.add(button)
         
-#     client.send_message(chat_id=572982939,
-#                         text='Выберите свой регион')
+    client.send_message(chat_id=572982939,
+                        text='Выберите свой регион')
     if call.data == 'region':
         client.edit_message_text(chat_id=call.message.chat.id,
                                  message_id=call.message.id,
