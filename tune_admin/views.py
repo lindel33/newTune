@@ -1144,7 +1144,7 @@ def bot(request):
                     last_name=message.chat.last_name
                 )
 
-            return HttpResponse(200)
+        return HttpResponse(200)
     except EncodingWarning as _:
         return HttpResponse(200)
 
