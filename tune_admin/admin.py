@@ -13,7 +13,7 @@ class SendGlobalMessageAdmin(admin.ModelAdmin):
 
 @admin.register(UserModel)
 class UserModelAdmin(admin.ModelAdmin):
-    list_display = ['name', 'user_id', 'first_name', 'last_name', 'region_user', ]
+    list_display = ['name', 'user_id', 'first_name', 'last_name', 'region_user', 'notifications', ]
 
 
 @admin.register(RegionUserModel)
