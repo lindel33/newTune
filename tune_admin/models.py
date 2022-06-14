@@ -149,7 +149,8 @@ valid_name_text = """
                       -- Watch 7 45 Silver\n<br>
                       -- AirPods 3\n<br>
                       -- MacBook Pro 13\n<br>
-                      -- MacBook / iMac 2021 24' 8/256"""
+                      -- MacBook / iMac 2021 24' 8/256<br><br>
+                      Для категории 'устройства' формат свободный"""
 
 
 class Product(models.Model):
