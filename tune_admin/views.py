@@ -209,32 +209,6 @@ def switch_region(call):
 
 @client.message_handler(commands=['set'])
 def menu_settings(message):
-    # us_id = str(message.chat.id) + str(
-    #     (datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H'))
-    # list_uss = StaticUserHourModel.objects.all()
-    # list_uss = [str(i.user_id) for i in list_uss]
-    #
-    # if str(us_id) not in list_uss:
-    #     StaticUserHourModel.objects.create(
-    #         user_id=str(us_id),
-    #         date_created=datetime.date.today().strftime('%m/%d/%Y'),
-    #         hour_created=str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H')),
-    #         full_id=str(message.chat.username),
-    #     )
-    #     start_message(message=message,
-    #                   text='У нас обновились товары!\nВы автоматически возвращены в главное меню')
-    # list_user = UserModel.objects.all()
-    # list_user_id = [str(user_id.user_id) for user_id in list_user]
-    #
-    # message = message
-    # if str(message.chat.id) not in list_user_id:
-    #     UserModel.objects.create(
-    #         user_id=str(message.chat.id),
-    #         date_created=datetime.date.today().strftime('%m/%d/%Y'),
-    #         name=message.chat.username,
-    #         first_name=message.chat.first_name,
-    #         last_name=message.chat.last_name
-    #     )
     user_info = UserModel.objects.get(
         user_id=str(message.chat.id),
     )
@@ -252,11 +226,20 @@ def menu_settings(message):
     markup_settings.add(butt)
     butt = telebot.types.InlineKeyboardButton('Уведомления', callback_data='notif')
     markup_settings.add(butt)
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=markup_settings)
+#     client.send_message(chat_id=message.chat.id,
+#                         text=text,
+#                         reply_markup=markup_settings)
+    global_regions = RegionUserModel.objects.all()
+    global_regions = [i.name for i in global_regions]
+    markup_region = telebot.types.InlineKeyboardMarkup()
 
-
+    for i in global_regions:
+        button = telebot.types.InlineKeyboardButton(str(i), callback_data=str(i))
+        markup_region.add(button)
+    client.edit_message_text(chat_id=message.chat.id,
+                                 message_id=message.id,
+                                 text='Выберите свой регион',
+                                 reply_markup=markup_region)
 @client.message_handler(func=lambda message: message.text == 'Запуск')
 @client.message_handler(func=lambda message: message.text == 'Начало')
 @client.message_handler(func=lambda message: message.text == 'Запустить бота')
