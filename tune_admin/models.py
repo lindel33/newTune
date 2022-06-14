@@ -141,6 +141,17 @@ class RegionUserModel(models.Model):
     def __str__(self):
         return self.name
 
+
+valid_name_text = """
+                      Допустимые форматы:\n<br><br>
+                      -- iPhone 13 Pro 128 Silver\n<br>
+                      -- iPad mini 6 WiFi Silver\n<br>
+                      -- Watch 7 45 Silver\n<br>
+                      -- AirPods 3\n<br>
+                      -- MacBook Pro 13\n<br>
+                      -- MacBook / iMac 2021 24' 8/256"""
+
+
 class Product(models.Model):
     """
     Модель товара
@@ -166,8 +177,7 @@ class Product(models.Model):
     smile = models.CharField('Эмодзи к цене', max_length=5, choices=choices_smile, null=True, blank=True,
                              help_text='Оставить пустым, если не нужен', default='₽')
     name = models.CharField('Название', max_length=150, null=False,
-                            help_text='Пример: iPhone 7 128 Blue ||'
-                                      'Формат: Модель/ Серия/ (Память/ Цвет/ Регион)-> если есть \n ' )
+                            help_text=valid_name_text)
     name_tmp = models.CharField('Фоновое имя', max_length=100, null=False)
     tests = models.BooleanField('Ростест?', default=False)
     article = models.CharField('Код товара', max_length=15, null=False,
