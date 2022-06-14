@@ -163,60 +163,49 @@ def get_sale(message):
 
 @client.callback_query_handler(func=lambda call: True)
 def switch_region(call):
-  client.send_message(call.message.chat.id, text='asdsdasad',)
-#     global_regions = RegionUserModel.objects.all()
-#     global_regions = [str(i.name) for i in global_regions]
-#     markup_region = telebot.types.InlineKeyboardMarkup()
+    if call.data == 'region':
+        client.edit_message_text(chat_id=call.message.chat.id,
+                                 message_id=call.message.id,
+                                 text='Выберите свой регион',
+                                 reply_markup=markup_region)
 
-#     for i in global_regions:
-#         button = telebot.types.InlineKeyboardButton(str(i), callback_data=str(i))
-#         markup_region.add(button)
-#     if call.data == 'region':
-#         client.send_message(chat_id=call.message.chat.id,
-#                            text='Выберите свой регион',)
-#         client.edit_message_text(chat_id=call.message.chat.id,
-#                                  message_id=call.message.id,
-#                                  text='Выберите свой регион',
-#                                  reply_markup=markup_region)
+    if call.data == 'notif':
+        markup_notif = telebot.types.InlineKeyboardMarkup()
+        but = telebot.types.InlineKeyboardButton('Включить', callback_data='onNotif')
+        markup_notif.add(but)
+        but = telebot.types.InlineKeyboardButton('Отключить', callback_data='offNotif')
+        markup_notif.add(but)
+        client.edit_message_text(chat_id=call.message.chat.id,
+                                 message_id=call.message.id,
+                                 text='Выберите свой регион',
+                                 reply_markup=markup_notif)
 
-#     if call.data == 'notif':
-#         markup_notif = telebot.types.InlineKeyboardMarkup()
-#         but = telebot.types.InlineKeyboardButton('Включить', callback_data='onNotif')
-#         markup_notif.add(but)
-#         but = telebot.types.InlineKeyboardButton('Отключить', callback_data='offNotif')
-#         markup_notif.add(but)
-#         client.edit_message_text(chat_id=call.message.chat.id,
-#                                  message_id=call.message.id,
-#                                  text='Выберите свой регион',
-#                                  reply_markup=markup_notif)
+    if call.data in ['onNotif', 'offNotif']:
+        if call.data == 'onNotif':
+            UserModel.objects.filter(
+                user_id=str(call.message.chat.id),
+            ).update(notifications=True)
+            client.edit_message_text(chat_id=call.message.chat.id,
+                                     message_id=call.message.id,
+                                     text=f'Теперь Вы будете получать уведомления в боте',
+                                     )
+        if call.data == 'offNotif':
+            UserModel.objects.filter(
+                user_id=str(call.message.chat.id),
+            ).update(notifications=False)
+            client.edit_message_text(chat_id=call.message.chat.id,
+                                     message_id=call.message.id,
+                                     text=f'Вы больше не будете получать уведомления в боте',
+                                     )
 
-#     if call.data in ['onNotif', 'offNotif']:
-#         if call.data == 'onNotif':
-#             UserModel.objects.filter(
-#                 user_id=str(call.message.chat.id),
-#             ).update(notifications=True)
-#             client.edit_message_text(chat_id=call.message.chat.id,
-#                                      message_id=call.message.id,
-#                                      text=f'Теперь Вы будете получать уведомления в боте',
-#                                      )
-#         if call.data == 'offNotif':
-#             UserModel.objects.filter(
-#                 user_id=str(call.message.chat.id),
-#             ).update(notifications=False)
-#             client.edit_message_text(chat_id=call.message.chat.id,
-#                                      message_id=call.message.id,
-#                                      text=f'Вы больше не будете получать уведомления в боте',
-#                                      )
-
-#     if call.data in global_regions:
-#         UserModel.objects.filter(
-#             user_id=str(call.message.chat.id),
-#         ).update(region_user=RegionUserModel.objects.get(name=call.data))
-#         client.edit_message_text(chat_id=call.message.chat.id,
-#                                  message_id=call.message.id,
-#                                  text=f'Ваш регион изменен на {call.data}',
-#                                  )
-
+    if call.data in global_regions:
+        UserModel.objects.filter(
+            user_id=str(call.message.chat.id),
+        ).update(region_user=RegionUserModel.objects.get(name=call.data))
+        client.edit_message_text(chat_id=call.message.chat.id,
+                                 message_id=call.message.id,
+                                 text=f'Ваш регион изменен на {call.data}',
+                                 )
 
 @client.message_handler(commands=['set'])
 def menu_settings(message):
