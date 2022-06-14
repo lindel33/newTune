@@ -14,6 +14,17 @@ default_guaranty = 'Гарантия от магазина на проверку
 default_text = text_default
 
 
+valid_name_text = """
+                      Допустимые форматы:\n<br><br>
+                      -- iPhone 13 Pro 128 Silver\n<br>
+                      -- iPad mini 6 WiFi Silver\n<br>
+                      -- Watch 7 45 Silver\n<br>
+                      -- AirPods 3\n<br>
+                      -- MacBook Pro 13\n<br>
+                      -- MacBook / iMac 2021 24' 8/256<br><br>
+                      Для категории 'устройства' формат свободный"""
+
+
 class ProviderProduct(models.Model):
     """
         Модель товара
@@ -39,8 +50,7 @@ class ProviderProduct(models.Model):
     smile = models.CharField('Эмодзи к цене', max_length=5, choices=choices_smile, null=True, blank=True,
                              help_text='Оставить пустым, если не нужен', default='₽')
     name = models.CharField('Название', max_length=150, null=False,
-                            help_text='Пример: iPhone 7 128 Blue ||'
-                                      'Формат: Модель/ Серия/ (Память/ Цвет/ Регион)-> если есть \n ')
+                            help_text=valid_name_text)
     name_tmp = models.CharField('Фоновое имя', max_length=100, null=False)
     tests = models.BooleanField('Ростест?', default=False)
     article = models.CharField('Код товара', max_length=15, null=False,
@@ -78,7 +88,16 @@ class ProviderProduct(models.Model):
     class Meta:
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
-
+    
+    def clean(self):
+        filter_names = ['Watch', 'iPhone', 'AirPods', 'iPad', 'MacBook', r'MacBook / iMac']
+        name_ = str(self.name).split()[0]
+        if str(self.category) != '⌨ Устройства':
+            if name_ not in filter_names:
+                if 'imac' == name_.lower():
+                    self.name = r'MacBook / ' + str(self.name)
+                else:
+                    raise ValidationError({'name': 'Не соответствует шаблону'})
     def save(self, extra=None, *args, **kwargs):
         if self.sell:
             Product.objects.filter(article=self.article).update(sell=True)
