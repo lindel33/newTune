@@ -161,7 +161,7 @@ def get_sale(message):
 # max_products = [x for x in max_all_products('ssss')]
 
 global_regions = RegionUserModel.objects.all()
-global_regions = [i.name for i in global_regions]
+global_regions = [str(i.name) for i in global_regions]
 markup_region = telebot.types.InlineKeyboardMarkup()
 
 for i in global_regions:
@@ -169,10 +169,10 @@ for i in global_regions:
     markup_region.add(button)
 
 
-def global_message(list_user, text):
-    for i in list_user:
-        client.send_message(chat_id=i,
-                            text=text)
+# def global_message(list_user, text):
+#     for i in list_user:
+#         client.send_message(chat_id=i,
+#                             text=text)
 
 
 @client.callback_query_handler(func=lambda call: True)
