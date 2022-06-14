@@ -309,6 +309,7 @@ def supp_product(message):
         support_menu(message, text='В этой категории сейчас пусто😔\n'
                                    'Следите за обновлениями у нас в канале\n'
                                    'https://t.me/tuneapple 👈')
+        return 0
     products.sort()
     if message.text in get_not_category(message=message):
         products.append(['⬅️  Назад к Б/У Устройствам'])
