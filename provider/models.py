@@ -97,6 +97,7 @@ class ProviderProduct(models.Model):
                 if 'imac' == name_.lower():
                     self.name = r'MacBook / ' + str(self.name)
                 else:
+                    from django.core.exceptions import ValidationError
                     raise ValidationError({'name': 'Не соответствует шаблону'})
     def save(self, extra=None, *args, **kwargs):
         if self.sell:
