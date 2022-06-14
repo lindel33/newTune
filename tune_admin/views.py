@@ -305,6 +305,10 @@ def supp_product(message):
     """
     products = [[x] for x in get_products(message.text.split()[1],
                                           message=message)]
+    if not products:
+        support_menu(message, text='В этой категории сейчас пусто😔\n'
+                                   'Следите за обновлениями у нас в канале\n'
+                                   'https://t.me/tuneapple 👈')
     products.sort()
     if message.text in get_not_category(message=message):
         products.append(['⬅️  Назад к Б/У Устройствам'])
