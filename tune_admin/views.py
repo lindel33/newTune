@@ -161,6 +161,30 @@ def get_sale(message):
 #                             text=text)
 
 
+
+@client.message_handler(commands=['set'])
+def menu_settings(message):
+    user_info = UserModel.objects.get(
+        user_id=str(message.chat.id),
+    )
+    user_notifications = user_info.notifications
+    if user_notifications:
+        user_notifications = 'Включены'
+    else:
+        user_notifications = 'Отключены'
+    user_region = user_info.region_user
+    text = f'Ваши текущие настройки:\n' \
+           f'Регион: {user_region}\n' \
+           f'Уведомления: {user_notifications}'
+    markup_settings = telebot.types.InlineKeyboardMarkup()
+    butt = telebot.types.InlineKeyboardButton('Выбор региона', callback_data='region')
+    markup_settings.add(butt)
+    butt = telebot.types.InlineKeyboardButton('Уведомления', callback_data='notif')
+    markup_settings.add(butt)
+    client.send_message(chat_id=message.chat.id,
+                        text=text,
+                        reply_markup=markup_settings)
+
 @client.callback_query_handler(func=lambda call: True)
 def switch_region(call):
   
@@ -219,29 +243,6 @@ def switch_region(call):
                                  message_id=call.message.id,
                                  text=f'Ваш регион изменен на {call.data}',
                                  )
-
-@client.message_handler(commands=['set'])
-def menu_settings(message):
-    user_info = UserModel.objects.get(
-        user_id=str(message.chat.id),
-    )
-    user_notifications = user_info.notifications
-    if user_notifications:
-        user_notifications = 'Включены'
-    else:
-        user_notifications = 'Отключены'
-    user_region = user_info.region_user
-    text = f'Ваши текущие настройки:\n' \
-           f'Регион: {user_region}\n' \
-           f'Уведомления: {user_notifications}'
-    markup_settings = telebot.types.InlineKeyboardMarkup()
-    butt = telebot.types.InlineKeyboardButton('Выбор региона', callback_data='region')
-    markup_settings.add(butt)
-    butt = telebot.types.InlineKeyboardButton('Уведомления', callback_data='notif')
-    markup_settings.add(butt)
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=markup_settings)
 
 @client.message_handler(func=lambda message: message.text == 'Запуск')
 @client.message_handler(func=lambda message: message.text == 'Начало')
