@@ -179,6 +179,8 @@ def switch_region(call):
         button = telebot.types.InlineKeyboardButton(str(i), callback_data=str(i))
         markup_region.add(button)
     if call.data == 'region':
+        client.send_message(chat_id=call.message.chat.id,
+                           text='Выберите свой регион',)
         client.edit_message_text(chat_id=call.message.chat.id,
                                  message_id=call.message.id,
                                  text='Выберите свой регион',
