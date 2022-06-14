@@ -174,6 +174,12 @@ class PostAdmin(admin.ModelAdmin):
                 i.save()
         Product.objects.update(sale=False)
         
+    def get_queryset(self, request):
+        from userprofile.models import UserProfile
+        from django.contrib.auth.models import User
+        u = UserProfile.objects.get(user=User.objects.get(username=request.user.username)).region
+        return Product.objects.filter(regin=u)
+        
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['category', ]
