@@ -167,13 +167,13 @@ def get_sale(message):
 
 @client.message_handler(commands=['set'])
 def menu_settings(message):
-      markup_inline = telebot.types.InlineKeyboardMarkup()
-      item = telebot.types.InlineKeyboardButton(
-          text='a', callback_data='test')
-      markup_inline.add(item)
-      client.send_message(message.chat.id, 'x',
-                          reply_markup=markup_inline
-                          ) 
+    markup_inline = telebot.types.InlineKeyboardMarkup()
+    item = telebot.types.InlineKeyboardButton(
+        text='a', callback_data='test')
+    markup_inline.add(item)
+    client.send_message(message.chat.id, 'x',
+                        reply_markup=markup_inline
+                        ) 
 #     user_info = UserModel.objects.get(
 #         user_id=str(message.chat.id),
 #     )
