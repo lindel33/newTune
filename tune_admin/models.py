@@ -445,13 +445,18 @@ class SendGlobalMessage(models.Model):
           
     def save(self, *args, **kwargs):
         import telebot
+        import time
         TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'
         client = telebot.TeleBot(TOKEN, threaded=False)
         all_users = UserModel.objects.filter(notifications=True)
         all_users = list(set(str(i.user_id) for i in all_users))
+        count = 0
 
-        for i in all_users:
+        for i in ['572982939', '572982939']:
             client.send_message(chat_id=i,
                                 text=str(self.text))
+            count += 1
+            if count % 20 == 0:
+                time.sleep(1)
 
        
