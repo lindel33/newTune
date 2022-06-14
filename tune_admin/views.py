@@ -714,6 +714,9 @@ trade_product = get_trade_products()
 @client.message_handler(func=lambda message: message.text == '💥Скидки💥')
 def tradein_model(message):
     sale = get_sale()
+    if sale == []:
+        start_message(message, 'Ничего не найдено')
+        return 0
     result = [['🔻 ' + x] for x in sorted(sale)]
     result.append(['⬅️Главное меню'])
     keyboard_products = telebot.types.ReplyKeyboardMarkup(True, True)
