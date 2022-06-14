@@ -551,6 +551,7 @@ def show_model(message):
                                 text='Хотите забронировать эту модель?',
                                 reply_markup=keyboard,
                                 parse_mode='HTML')
+            return 0
         else:
             f1, f2 = open(path_to_media + str(detail_product[0].image_1), 'rb'), \
                      open(path_to_media + str(detail_product[0].image_2), 'rb')
@@ -563,6 +564,7 @@ def show_model(message):
                                 text='Хотите забронировать эту модель?',
                                 reply_markup=keyboard,
                                 parse_mode='HTML')
+            return 0
     else:
         f1 = open(path_to_media + str(detail_product[0].image_1), 'rb')
         f2 = open(path_to_media + str(detail_product[0].image_2), 'rb')
@@ -575,7 +577,7 @@ def show_model(message):
                             text='Хотите узнать подробнее?',
                             reply_markup=keyboard,
                             parse_mode='HTML')
-
+        return 0
 
 @client.message_handler(commands=['nm'])
 @client.message_handler(func=lambda message: message.text == 'Новые Устройства')
