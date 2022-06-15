@@ -65,13 +65,10 @@ def get_not_category(message):
     return list_device
 
 
-def get_all_products():
+def get_all_products(message):
     result = Product.objects.values('name').filter(sell=False,
                                                    booking=False,
                                                    moderation=True,
-                                                   regin=UserModel.object.get(
-                                                       user_id=message.chat.id
-                                                   ).region_user
                                                    )
     list_all = []
     for i in result:
