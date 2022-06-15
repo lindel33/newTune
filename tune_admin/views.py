@@ -151,7 +151,7 @@ def get_sale(message):
                                                    regin=UserModel.objects.get(
                                                        user_id=message.chat.id
                                                    ).region_user)
-                                                  )
+                                                  
     list_all = []
     for i in result:
         list_all.append(i['name'])
