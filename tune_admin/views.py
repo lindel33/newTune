@@ -27,11 +27,13 @@ sup_callback = ['Назад к Б/У iPhone', 'Назад к Б/У iPad', 'На�
 path_to_media = '/home/apple/code/project1/tune/media/'
 
 
+
+
 def get_category():
-    result = ['📱 iPhone', '📲 iPad', '💻 MacBook', '🎧 AirPods', '⌚ Watch', '⌨ Устройства',]
+    result = ['📱 iPhone', '📲 iPad', '💻 MacBook', '🎧 AirPods', '⌚ Watch', '⌨ Устройства']
     return result
 
-# '⌨ Устройства'
+
 def get_series(name_series):
     result = SeriesCategory.objects.filter(category__icontains=f'{name_series}')
     list_1 = []
@@ -51,24 +53,30 @@ def get_trade_state(name_to_search):
 
 
 def get_not_category(message):
-    result = Product.objects.filter(category_id=6,
-                                     moderation=True,
-                                     booking=False,
-                                     sell=False,
-                                    )
+    result = Product.objects.select_related().filter(category_id=6,
+                                                     regin=UserModel.objects.get(
+                                                         user_id=message.chat.id
+                                                     ).region_user
+                                                     )
     list_device = []
     for r in result:
         list_device.append(r.name)
+
     return list_device
 
 
 def get_all_products():
-    result = [i[0] for i in Product.objects.values_list('name').filter(sell=False,
-                                                                       booking=False,
-                                                                       moderation=True,
-                                                                       )]
-
-    return result
+    result = Product.objects.values('name').filter(sell=False,
+                                                   booking=False,
+                                                   moderation=True,
+                                                   # regin=UserModel.object.get(
+                                                   #     user_id=message.chat.id
+                                                   # ).region_user
+                                                   )
+    list_all = []
+    for i in result:
+        list_all.append(i['name'])
+    return list_all
 
 
 def max_all_products(message):
@@ -85,8 +93,7 @@ def get_current_product(message):
                                                         moderation=True,
                                                         regin=UserModel.objects.get(
                                                             user_id=message.chat.id
-                                                        ).region_user
-                                                       )
+                                                        ).region_user)
     list_id = []
     exit = []
     for i in result:
@@ -121,10 +128,9 @@ def get_price(price_min, price_max, message):
         booking=False,
         sell=False,
         moderation=True,
-#         regin=UserModel.objects.get(
-#             user_id=message.chat.id
-#         ).region_user)
-    )
+        regin=UserModel.objects.get(
+            user_id=message.chat.id
+        ).region_user)
     result = [['⋅ ' + str(x['name'])] for x in result]
     return result
 
@@ -151,18 +157,10 @@ def get_sale(message):
                                                    regin=UserModel.objects.get(
                                                        user_id=message.chat.id
                                                    ).region_user)
-                                                  
     list_all = []
     for i in result:
         list_all.append(i['name'])
     return list_all
-
-
-# def global_message(list_user, text):
-#     for i in list_user:
-#         client.send_message(chat_id=i,
-#                             text=text)
-
 
 
 global_reg = RegionUserModel.objects.all()
