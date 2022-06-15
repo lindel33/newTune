@@ -198,9 +198,9 @@ class Product(models.Model):
     day_next_publish = models.DateTimeField('Дата следующего поста', default=get_deadline)
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE,
-                                 verbose_name='Модель')
+                                 verbose_name='Модель', null=True, blank=True)
     series = models.ForeignKey(SeriesCategory, on_delete=models.CASCADE,
-                               verbose_name='Серия')
+                               verbose_name='Серия', null=True, blank=True)
           
     regin = models.ForeignKey(RegionUserModel, on_delete=models.CASCADE, null=True, verbose_name='Регион',default=1)
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True, verbose_name='Автор',)
@@ -232,6 +232,9 @@ class Product(models.Model):
                 else:
                     from django.core.exceptions import ValidationError
                     raise ValidationError({'name': 'Не соответствует шаблону'})
+        if not self.category or not self.series:
+          from django.core.exceptions import ValidationError
+          raise ValidationError({'name': 'Ошибка'})
     def save(self, extra=None, *args, **kwargs):
 
         if extra == '+':
