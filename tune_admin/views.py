@@ -11,15 +11,15 @@ import requests
 import datetime
 import telebot
 
-project_path = os.path.dirname(os.path.abspath('../../main.py'))
-sys.path.append(project_path)
-os.environ["DJANGO_SETTINGS_MODULE"] = "tune.settings"
-django.setup()
-TOKEN = '5376806714:AAELQVr7_Xe648jHUnI6ZmVa32VPqikNz8Q'  # Local Bot
+# project_path = os.path.dirname(os.path.abspath('../../main.py'))
+# sys.path.append(project_path)
+# os.environ["DJANGO_SETTINGS_MODULE"] = "tune.settings"
+# django.setup()
+TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'  # Local Bot
 client = telebot.TeleBot(TOKEN, threaded=False)
 # client.delete_webhook()
 # path_to_media = '/home/oem/projects/TuneApple/tune/media/'
-path_to_media = 'C:\\Users\\lindel\\Py_Projects\\newTune\\media\\'
+path_to_media = '/home/apple/code/project1/tune/media/'
 # path_to_media = '/mnt/c/Users/lindel/Py_Projects/newTune/media/'
 
 from trade_in.models import (TelegramUserModel, UserStepModel,
