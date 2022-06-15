@@ -52,9 +52,6 @@ def get_trade_state(name_to_search):
 
 def get_not_category(message):
     result = Product.objects.filter(category_id=6,
-#                                     regin=UserModel.objects.get(
-#                                         user_id=message.chat.id
-#                                     ).region_user,
                                      moderation=True,
                                      booking=False,
                                      sell=False,
@@ -86,9 +83,9 @@ def get_current_product(message):
     result = Product.objects.values('series_id').filter(sell=False,
                                                         booking=False,
                                                         moderation=True,
-#                                                         regin=UserModel.objects.get(
-#                                                             user_id=message.chat.id
-#                                                         ).region_user
+                                                        regin=UserModel.objects.get(
+                                                            user_id=message.chat.id
+                                                        ).region_user
                                                        )
     list_id = []
     exit = []
@@ -106,9 +103,9 @@ def get_products(category_name, message):
                                                    moderation=True,
                                                    booking=False,
                                                    sell=False,
-#                                                    regin=UserModel.objects.get(
-#                                                        user_id=message.chat.id
-#                                                    ).region_user
+                                                   regin=UserModel.objects.get(
+                                                       user_id=message.chat.id
+                                                   ).region_user
                                                    )
     list_product = []
     for i in result:
@@ -151,9 +148,9 @@ def get_sale(message):
     result = Product.objects.values('name').filter(sell=False,
                                                    booking=False,
                                                    sale=True,
-#                                                    regin=UserModel.objects.get(
-#                                                        user_id=message.chat.id
-#                                                    ).region_user)
+                                                   regin=UserModel.objects.get(
+                                                       user_id=message.chat.id
+                                                   ).region_user)
                                                   )
     list_all = []
     for i in result:
