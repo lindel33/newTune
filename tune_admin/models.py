@@ -232,9 +232,12 @@ class Product(models.Model):
                 else:
                     from django.core.exceptions import ValidationError
                     raise ValidationError({'name': 'Не соответствует шаблону'})
-        if not self.category or not self.series:
+        if not self.category:
           from django.core.exceptions import ValidationError
-          raise ValidationError({'name': 'Ошибка'})
+          raise ValidationError({'category': 'Ошибка'})
+        if not self.series:
+          from django.core.exceptions import ValidationError
+          raise ValidationError({'series': 'Ошибка'})
     def save(self, extra=None, *args, **kwargs):
 
         if extra == '+':
