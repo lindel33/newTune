@@ -1,27 +1,9 @@
-# # -*- coding: utf-8 -*-
-# TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'  # Local Bot
-# client = telebot.TeleBot(TOKEN, threaded=False)
-# client.delete_webhook()
-# client.set_webhook('https://tuneapple.space/api/v1')
-# client.polling(none_stop=True)
 import os
-import sys
-import django
-import requests
 import datetime
 import telebot
-
-# project_path = os.path.dirname(os.path.abspath('../../main.py'))
-# sys.path.append(project_path)
-# os.environ["DJANGO_SETTINGS_MODULE"] = "tune.settings"
-# django.setup()
-TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'  # Local Bot
-client = telebot.TeleBot(TOKEN, threaded=False)
-# client.delete_webhook()
-# path_to_media = '/home/oem/projects/TuneApple/tune/media/'
-path_to_media = '/home/apple/code/project1/tune/media/'
-# path_to_media = '/mnt/c/Users/lindel/Py_Projects/newTune/media/'
-
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import requests
 from trade_in.models import (TelegramUserModel, UserStepModel,
                              TradeInDevicesModel, TradeInSeriesModel,
                              VariableFoeStepModel, TradeInStepModel)
@@ -31,16 +13,20 @@ from tune_admin.models import (Product, SeriesCategory,
                                StaticUserHourModel, UserModel,
                                RegionUserModel, )
 
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
+TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'
+URL_BITRIX = 'https://im.bitrix.info/imwebhook/eh/e5750b73ce4b6f9cbedb96d9d7faf0881653435781/'
+client = telebot.TeleBot(TOKEN, threaded=False)
 
 menu_support = ['📱 iPhone', '📲 iPad', '💻 MacBook',
                 '🎧 AirPods', '⌚ Watch',
-                '⌨ Устройства', '⬅️Главное меню']
+                '⌨ Устройства','⬅️Главное меню']
+#'⌨ Устройства', 
 sup_callback = ['Назад к Б/У iPhone', 'Назад к Б/У iPad', 'Назад к Б/У MacBook',
                 'Назад к Б/У AirPods', 'Назад к Б/У Watch',
                 'Назад к Б/У Устройства']
-URL_BITRIX = 'https://im.bitrix.info/imwebhook/eh/ca1bf54311c14fb2e7281238sdasdasdadsasdab5bcd5d41653467218/'
+path_to_media = '/home/apple/code/project1/tune/media/'
+
+
 
 
 def get_category():
@@ -68,9 +54,7 @@ def get_trade_state(name_to_search):
 
 def get_not_category(message):
     result = Product.objects.select_related().filter(category_id=6,
-                                                     regin=UserModel.objects.get(
-                                                         user_id=message.chat.id
-                                                     ).region_user
+                                                     
                                                      )
     list_device = []
     for r in result:
@@ -83,9 +67,6 @@ def get_all_products():
     result = Product.objects.values('name').filter(sell=False,
                                                    booking=False,
                                                    moderation=True,
-                                                   # regin=UserModel.object.get(
-                                                   #     user_id=message.chat.id
-                                                   # ).region_user
                                                    )
     list_all = []
     for i in result:
@@ -105,9 +86,7 @@ def get_current_product(message):
     result = Product.objects.values('series_id').filter(sell=False,
                                                         booking=False,
                                                         moderation=True,
-                                                        regin=UserModel.objects.get(
-                                                            user_id=message.chat.id
-                                                        ).region_user)
+                                                        )
     list_id = []
     exit = []
     for i in result:
@@ -124,9 +103,6 @@ def get_products(category_name, message):
                                                    moderation=True,
                                                    booking=False,
                                                    sell=False,
-                                                   regin=UserModel.objects.get(
-                                                       user_id=message.chat.id
-                                                   ).region_user
                                                    )
     list_product = []
     for i in result:
@@ -141,10 +117,7 @@ def get_price(price_min, price_max, message):
         name__icontains=f'{"iPhone"}',
         booking=False,
         sell=False,
-        moderation=True,
-        regin=UserModel.objects.get(
-            user_id=message.chat.id
-        ).region_user)
+        moderation=True,)
     result = [['⋅ ' + str(x['name'])] for x in result]
     return result
 
@@ -167,26 +140,11 @@ def get_max_min_price(cost):
 def get_sale(message):
     result = Product.objects.values('name').filter(sell=False,
                                                    booking=False,
-                                                   sale=True,
-                                                   regin=UserModel.objects.get(
-                                                       user_id=message.chat.id
-                                                   ).region_user)
+                                                   sale=True,)
     list_all = []
     for i in result:
         list_all.append(i['name'])
     return list_all
-
-
-# current_category = list(set([x[1] for x in get_current_product('ssss')]))
-# all_products = [x for x in get_all_products('ssss')]
-# current_product = get_current_product('ssss')
-# max_products = [x for x in max_all_products('ssss')]
-
-
-def global_message(list_user, text):
-    for i in list_user:
-        client.send_message(chat_id=i,
-                            text=text)
 
 
 global_reg = RegionUserModel.objects.all()
@@ -251,7 +209,7 @@ def switch_region(message):
                       )
 
 
-@client.message_handler(commands=['settings'])
+@client.message_handler(commands=['set'])
 def menu_settings(message):
     user_info = UserModel.objects.get(
         user_id=str(message.chat.id),
@@ -284,20 +242,20 @@ def menu_settings(message):
 @client.message_handler(func=lambda message: message.text == 'Старт')
 @client.message_handler(func=lambda message: message.text == '⬅️Главное меню')
 @client.message_handler(commands=['start'])
-def start_message(message, text='Вы в главном меню'):
+def start_message(message, text='Что хотите найти?'):
     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = telebot.types.KeyboardButton('💥Скидки💥')
     btn2 = telebot.types.KeyboardButton('Новые Устройства')
     btn3 = telebot.types.KeyboardButton('Б/У Устройства')
     btn4 = telebot.types.KeyboardButton('Trade-in / Продажа')
     btn5 = telebot.types.KeyboardButton('Мой бюджет')
-    btn6 = telebot.types.KeyboardButton('Обменка')
-    btn7 = telebot.types.KeyboardButton('FAQ')
+    # btn6 = telebot.types.KeyboardButton('Обменка')
+    # btn7 = telebot.types.KeyboardButton('FAQ')
     btn8 = telebot.types.KeyboardButton('Связаться с менеджером')
     markup.add(btn1)
     markup.add(btn2, btn3)
     markup.add(btn4, btn5)
-    markup.add(btn6, btn7)
+    # markup.add(btn6, btn7)
     markup.add(btn8)
     client.send_message(message.chat.id, text=text, reply_markup=markup)
 
@@ -329,6 +287,11 @@ def supp_product(message):
     """
     products = [[x] for x in get_products(message.text.split()[1],
                                           message=message)]
+    if not products:
+        support_menu(message, text='В этой категории сейчас пусто😔\n'
+                                   'Следите за обновлениями у нас в канале\n'
+                                   'https://t.me/tuneapple 👈')
+        return 0
     products.sort()
     if message.text in get_not_category(message=message):
         products.append(['⬅️  Назад к Б/У Устройствам'])
@@ -511,10 +474,9 @@ def show_model(message):
                         ['Забронировать|Узнать подробней' + '\n' + message.text + ' Арт. ' + detail_product[
                             0].article])
         if message.text in get_not_category(message=message):
-            products.append(['⬅️Назад к Б/У '])
+            products.append(['⬅️Назад к Б/У ' + ''])
         else:
             products.append(['⬅️  Назад к Б/У ' + message.text.split()[0]])
-        print(products)
     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard.keyboard = products
     if '🔁' not in tmp:
@@ -531,6 +493,7 @@ def show_model(message):
                                 text='Хотите забронировать эту модель?',
                                 reply_markup=keyboard,
                                 parse_mode='HTML')
+            return 0
         else:
             f1, f2 = open(path_to_media + str(detail_product[0].image_1), 'rb'), \
                      open(path_to_media + str(detail_product[0].image_2), 'rb')
@@ -543,6 +506,7 @@ def show_model(message):
                                 text='Хотите забронировать эту модель?',
                                 reply_markup=keyboard,
                                 parse_mode='HTML')
+            return 0
     else:
         f1 = open(path_to_media + str(detail_product[0].image_1), 'rb')
         f2 = open(path_to_media + str(detail_product[0].image_2), 'rb')
@@ -555,6 +519,7 @@ def show_model(message):
                             text='Хотите узнать подробнее?',
                             reply_markup=keyboard,
                             parse_mode='HTML')
+        return 0
 
 
 @client.message_handler(commands=['nm'])
@@ -662,115 +627,117 @@ main_menu.append(['⬅️Главное меню'])
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
 def trade_main(message, text='Выберите устройство'):
-    list_user = UserModel.objects.all()
-    list_user_id = [str(user_id.user_id) for user_id in list_user]
+    start_message(message, text='Программа trade-in доступна!\nС помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у (так же принятое по программе trade-in).\nЧтобы узнать размер скидки выберите пункт «Связаться с менеджером»\nИли позвоните по телефону: \n+7 (932) 222-54-45')
+  
+#     list_user = UserModel.objects.all()
+#     list_user_id = [str(user_id.user_id) for user_id in list_user]
 
-    id_user = message.chat.id
-    if id_user not in list_user_id:
-        list_user_id.append(id_user)
-        TelegramUserModel.objects.create(
-            user_id=id_user,
-            username=message.chat.username,
-            first_name=message.chat.first_name,
-        )
+#     id_user = message.chat.id
+#     if id_user not in list_user_id:
+#         list_user_id.append(id_user)
+#         TelegramUserModel.objects.create(
+#             user_id=id_user,
+#             username=message.chat.username,
+#             first_name=message.chat.first_name,
+#         )
 
-    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard.keyboard = main_menu
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=keyboard)
-
-
-@client.message_handler(func=lambda message: message.text.split()[0] == '♻️')
-def trade_series(message):
-    device = message.text.split()[1]
-    main_menu_series = TradeInSeriesModel.objects.filter(name__icontains=device)
-    main_menu_series = [['📍 ' + buttons.name] for buttons in main_menu_series]
-    if not main_menu_series:
-        trade_main(message=message,
-                   text='Этот раздел еще закрыт')
-        return 1
-    main_menu_series.append(['⬅️Назад к Trade-in'])
-    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard.keyboard = main_menu_series
-    client.send_message(chat_id=message.chat.id,
-                        text='Выберите серию',
-                        reply_markup=keyboard)
-    UserStepModel.objects.filter(
-        user__user_id=message.chat.id
-    ).delete()
+#     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+#     keyboard.keyboard = main_menu
+#     client.send_message(chat_id=message.chat.id,
+#                         text=text,
+#                         reply_markup=keyboard)
 
 
-@client.message_handler(func=lambda message: message.text.split()[0] == '📍')
-def trade_first_step(message, text='Далее выберите из указанных вариантов'):
-    device = message.text.replace('📍 ', '')
-    UserStepModel.objects.create(
-        user=TelegramUserModel.objects.filter(user_id=message.chat.id)[0],
-        steps_ok='1',
-        cost=TradeInSeriesModel.objects.filter(name=device)[0].start_cost,
-        device=device
-    )
-    steps = TradeInStepModel.objects.filter(series__name=device).filter(step=1)[0]
-    steps = VariableFoeStepModel.objects.filter(step=steps.id)
-    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard.keyboard = [['📌 ' + i.name] for i in steps]
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=keyboard)
+# @client.message_handler(func=lambda message: message.text.split()[0] == '♻️')
+# def trade_series(message):
+#     device = message.text.split()[1]
+#     main_menu_series = TradeInSeriesModel.objects.filter(name__icontains=device)
+#     main_menu_series = [['📍 ' + buttons.name] for buttons in main_menu_series]
+#     if not main_menu_series:
+#         trade_main(message=message,
+#                    text='Этот раздел еще закрыт')
+#         return 1
+#     main_menu_series.append(['⬅️Назад к Trade-in'])
+#     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+#     keyboard.keyboard = main_menu_series
+#     client.send_message(chat_id=message.chat.id,
+#                         text='Выберите серию',
+#                         reply_markup=keyboard)
+#     UserStepModel.objects.filter(
+#         user__user_id=message.chat.id
+#     ).delete()
 
 
-@client.message_handler(func=lambda message: message.text.split()[0] == '📌')
-def trade_again_step(message):
-    user_data = UserStepModel.objects.filter(
-        user__user_id=message.chat.id,
-    )
-    device = user_data[0].device
-    step = user_data[0].steps_ok
-    max_step = TradeInSeriesModel.objects.filter(
-        name=device
-    )[0].max_step
-    if int(max_step) != int(step):
-        variable = VariableFoeStepModel.objects.filter(
-            step__step=step,
-            name=message.text.replace('📌 ', '')
-        )
-        new_cost = user_data[0].cost + variable[0].increase - variable[0].decrease
-        step = str(int(step) + 1)
-        UserStepModel.objects.filter(
-            user__user_id=message.chat.id,
-        ).update(
-            steps_ok=step,
-            cost=new_cost,
-        )
-        nex = TradeInStepModel.objects.filter(
-            step=step,
-            series__name=device
-        )
-        name = nex[0].name
-        next = VariableFoeStepModel.objects.filter(
-            step=nex[0].id
-        )
-        keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-        keyboard.keyboard = [['📌 ' + i.name] for i in next]
-        client.send_message(chat_id=message.chat.id,
-                            text=name,
-                            reply_markup=keyboard)
+# @client.message_handler(func=lambda message: message.text.split()[0] == '📍')
+# def trade_first_step(message, text='Далее выберите из указанных вариантов'):
+#     device = message.text.replace('📍 ', '')
+#     UserStepModel.objects.create(
+#         user=TelegramUserModel.objects.filter(user_id=message.chat.id)[0],
+#         steps_ok='1',
+#         cost=TradeInSeriesModel.objects.filter(name=device)[0].start_cost,
+#         device=device
+#     )
+#     steps = TradeInStepModel.objects.filter(series__name=device).filter(step=1)[0]
+#     steps = VariableFoeStepModel.objects.filter(step=steps.id)
+#     keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+#     keyboard.keyboard = [['📌 ' + i.name] for i in steps]
+#     client.send_message(chat_id=message.chat.id,
+#                         text=text,
+#                         reply_markup=keyboard)
 
-    else:
-        variable = VariableFoeStepModel.objects.filter(
-            step__step=step,
-            name=message.text.replace('📌 ', '')
-        )
-        new_cost = user_data[0].cost + variable[0].increase - variable[0].decrease
-        UserStepModel.objects.filter(
-            user__user_id=message.chat.id,
-        ).update(
-            cost=new_cost,
-        )
-        text = f'Оценка завершена!\n' \
-               f'Стоимость {str(new_cost)}'
-        trade_main(message=message,
-                   text=text)
+
+# @client.message_handler(func=lambda message: message.text.split()[0] == '📌')
+# def trade_again_step(message):
+#     user_data = UserStepModel.objects.filter(
+#         user__user_id=message.chat.id,
+#     )
+#     device = user_data[0].device
+#     step = user_data[0].steps_ok
+#     max_step = TradeInSeriesModel.objects.filter(
+#         name=device
+#     )[0].max_step
+#     if int(max_step) != int(step):
+#         variable = VariableFoeStepModel.objects.filter(
+#             step__step=step,
+#             name=message.text.replace('📌 ', '')
+#         )
+#         new_cost = user_data[0].cost + variable[0].increase - variable[0].decrease
+#         step = str(int(step) + 1)
+#         UserStepModel.objects.filter(
+#             user__user_id=message.chat.id,
+#         ).update(
+#             steps_ok=step,
+#             cost=new_cost,
+#         )
+#         nex = TradeInStepModel.objects.filter(
+#             step=step,
+#             series__name=device
+#         )
+#         name = nex[0].name
+#         next = VariableFoeStepModel.objects.filter(
+#             step=nex[0].id
+#         )
+#         keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+#         keyboard.keyboard = [['📌 ' + i.name] for i in next]
+#         client.send_message(chat_id=message.chat.id,
+#                             text=name,
+#                             reply_markup=keyboard)
+
+#     else:
+#         variable = VariableFoeStepModel.objects.filter(
+#             step__step=step,
+#             name=message.text.replace('📌 ', '')
+#         )
+#         new_cost = user_data[0].cost + variable[0].increase - variable[0].decrease
+#         UserStepModel.objects.filter(
+#             user__user_id=message.chat.id,
+#         ).update(
+#             cost=new_cost,
+#         )
+#         text = f'Оценка завершена!\n' \
+#                f'Стоимость {str(new_cost)}'
+#         trade_main(message=message,
+#                    text=text)
 
 
 def get_trade_products():
@@ -794,6 +761,9 @@ trade_product = get_trade_products()
 @client.message_handler(func=lambda message: message.text == '💥Скидки💥')
 def tradein_model(message):
     sale = get_sale(message)
+    if sale == []:
+        start_message(message, 'Ничего не найдено')
+        return 0
     result = [['🔻 ' + x] for x in sorted(sale)]
     result.append(['⬅️Главное меню'])
     keyboard_products = telebot.types.ReplyKeyboardMarkup(True, True)
@@ -806,6 +776,7 @@ def tradein_model(message):
 
 @client.message_handler(func=lambda message: message.text == 'Ремонт устройств')
 def main_menu_repair(message, text='Выберите устройство'):
+    
     try:
         UserChoiceModel.objects.filter(
             user_id=TelegramUserModel.objects.get(
@@ -943,10 +914,10 @@ from trade_trade.models import Trade
 text_trade = """
 Помимо новых и б/у устройств у нас всегда в наличии техника после гарантийного обмена, в простонародье — обменка
 
-Что такое обменка?
+Что такое обменка? 
 
 — Обменка это устройство, которое было заменено, не отремонтировано, не восстановлено,\
- а именно заменено по гарантии на абсолютно новое.
+ а именно заменено по гарантии на абсолютно новое. 
 
 Откуда появляются такие телефоны?
 
@@ -955,7 +926,7 @@ text_trade = """
  Secret Service или к любому другому официальному дилеру, который занимается гарантийный обслуживаем. \
  Сервисный центр принимает наше устройство, выявляет неисправность и выдает нам новое устройство — обменку.\
   Это абсолютно новое, не активированное устройство, с официальной гарантией Apple 1 год. Все устройства с \
-  обмена — Ростест, поскольку заменяются по гарантии на территории РФ.
+  обмена — Ростест, поскольку заменяются по гарантии на территории РФ. 
 
 — Какая гарантия на Обменки?
 
@@ -1083,18 +1054,19 @@ def admin_hours_users(message):
 
 @client.message_handler(content_types=['text'])
 def bitrix_client(message):
-    if message.text.lower().split()[0] == 'забронировать|узнать' or \
-            message.text.lower() == 'купить новое устройство':
-        start_message(message, text='Пожалуйста дождитесь ответа менеджера,'
-                                    ' он поможет Вам забронировать устройство или расскажет о нем более подробно 👩🏻‍💻')
-    if message.text.lower() == 'связаться с менеджером':
-        start_message(message, text='Пожалуйста дождитесь ответа менеджера,'
-                                    ' он поможет Вам забронировать устройство или расскажет о нем более подробно 👩🏻‍💻')
-    jsn = message.__dict__.get('json')
-    ts = {'update_id': 287246100,
-          'message': jsn}
+    if str(message.chat.id) != '572982939':
+        if message.text.lower().split()[0] == 'забронировать|узнать' or \
+                message.text.lower() == 'купить новое устройство':
+            start_message(message, text='Пожалуйста дождитесь ответа менеджера,'
+                                        ' он поможет Вам забронировать устройство или расскажет о нем более подробно 👩🏻‍💻')
+        if message.text.lower() == 'связаться с менеджером':
+            start_message(message, text='Пожалуйста дождитесь ответа менеджера,'
+                                        ' он поможет Вам забронировать устройство или расскажет о нем более подробно 👩🏻‍💻')
+        jsn = message.__dict__.get('json')
+        ts = {'update_id': 287246100,
+              'message': jsn}
 
-    requests.post(URL_BITRIX, json=ts)
+        requests.post(URL_BITRIX, json=ts)
 
 
 @client.message_handler(content_types=['voice'])
@@ -1154,11 +1126,8 @@ def bot(request):
                     last_name=message.chat.last_name
                 )
 
-            return HttpResponse(200)
+        return HttpResponse(200)
     except EncodingWarning as _:
         return HttpResponse(200)
 
     return HttpResponse(200)
-
-#
-# client.polling(non_stop=True)
