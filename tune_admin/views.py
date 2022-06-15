@@ -88,7 +88,8 @@ def get_current_product(message):
                                                         moderation=True,
 #                                                         regin=UserModel.objects.get(
 #                                                             user_id=message.chat.id
-#                                                         ).region_user)
+#                                                         ).region_user
+                                                       )
     list_id = []
     exit = []
     for i in result:
@@ -126,6 +127,7 @@ def get_price(price_min, price_max, message):
 #         regin=UserModel.objects.get(
 #             user_id=message.chat.id
 #         ).region_user)
+    )
     result = [['⋅ ' + str(x['name'])] for x in result]
     return result
 
@@ -152,6 +154,7 @@ def get_sale(message):
 #                                                    regin=UserModel.objects.get(
 #                                                        user_id=message.chat.id
 #                                                    ).region_user)
+                                                  )
     list_all = []
     for i in result:
         list_all.append(i['name'])
