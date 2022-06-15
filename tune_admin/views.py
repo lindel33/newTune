@@ -284,7 +284,7 @@ def menu_settings(message):
 @client.message_handler(func=lambda message: message.text == 'Старт')
 @client.message_handler(func=lambda message: message.text == '⬅️Главное меню')
 @client.message_handler(commands=['start'])
-def start_message(message, text='Вы в главном меню\nДля попадания в меню Ваших настроек нажмите --> /settings'):
+def start_message(message, text='Вы в главном меню'):
     markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = telebot.types.KeyboardButton('💥Скидки💥')
     btn2 = telebot.types.KeyboardButton('Новые Устройства')
