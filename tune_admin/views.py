@@ -1130,4 +1130,3 @@ def bot(request):
     except EncodingWarning as _:
         return HttpResponse(200)
 
-    return HttpResponse(200)
