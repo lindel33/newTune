@@ -198,9 +198,9 @@ class Product(models.Model):
     day_next_publish = models.DateTimeField('Дата следующего поста', default=get_deadline)
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE,
-                                 verbose_name='Модель', null=True, blank=True)
+                                 verbose_name='Модель')
     series = models.ForeignKey(SeriesCategory, on_delete=models.CASCADE,
-                               verbose_name='Серия', null=True, blank=True)
+                               verbose_name='Серия')
           
     regin = models.ForeignKey(RegionUserModel, on_delete=models.CASCADE, null=True, verbose_name='Регион',default=1)
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True, verbose_name='Автор',)
