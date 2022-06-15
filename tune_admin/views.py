@@ -54,7 +54,9 @@ def get_trade_state(name_to_search):
 
 def get_not_category(message):
     result = Product.objects.select_related().filter(category_id=6,
-                                                     
+                                                     regin=UserModel.objects.get(
+                                                         user_id=message.chat.id
+                                                     ).region_user
                                                      )
     list_device = []
     for r in result:
@@ -67,6 +69,9 @@ def get_all_products():
     result = Product.objects.values('name').filter(sell=False,
                                                    booking=False,
                                                    moderation=True,
+                                                   regin=UserModel.object.get(
+                                                       user_id=message.chat.id
+                                                   ).region_user
                                                    )
     list_all = []
     for i in result:
@@ -86,7 +91,9 @@ def get_current_product(message):
     result = Product.objects.values('series_id').filter(sell=False,
                                                         booking=False,
                                                         moderation=True,
-                                                        )
+                                                        regin=UserModel.objects.get(
+                                                            user_id=message.chat.id
+                                                        ).region_user)
     list_id = []
     exit = []
     for i in result:
@@ -103,6 +110,9 @@ def get_products(category_name, message):
                                                    moderation=True,
                                                    booking=False,
                                                    sell=False,
+                                                   regin=UserModel.objects.get(
+                                                       user_id=message.chat.id
+                                                   ).region_user
                                                    )
     list_product = []
     for i in result:
@@ -117,7 +127,10 @@ def get_price(price_min, price_max, message):
         name__icontains=f'{"iPhone"}',
         booking=False,
         sell=False,
-        moderation=True,)
+        moderation=True,
+        regin=UserModel.objects.get(
+            user_id=message.chat.id
+        ).region_user)
     result = [['⋅ ' + str(x['name'])] for x in result]
     return result
 
