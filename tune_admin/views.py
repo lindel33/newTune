@@ -62,7 +62,7 @@ def get_not_category(message):
     return list_device
 
 
-def get_all_products(message):
+def get_all_products():
     result = Product.objects.values('name').filter(sell=False,
                                                    booking=False,
                                                    moderation=True,
