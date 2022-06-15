@@ -53,7 +53,9 @@ def get_trade_state(name_to_search):
 
 
 def get_not_category(message):
-    result = Product.objects.select_related().filter(category_id=6,
+    result = Product.objects.select_related().filter(category_id=6,sell=False,
+                                                   booking=False,
+                                                   moderation=True,
                                                      )
     list_device = []
     for r in result:
