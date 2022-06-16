@@ -525,10 +525,8 @@ def show_model(message):
 @client.message_handler(commands=['nm'])
 @client.message_handler(func=lambda message: message.text == 'Новые Устройства')
 def new_model(message):
-    client.send_message(chat_id=message.chat.id,
-                        text='https://tuneapple.ru',
-                        parse_mode='HTML')
-
+    start_message(message,
+                  text='Новые устройства всегда в наличии. Для заказа выберите пункт «Связаться с менеджером» или позвоните по телефону:\n +7 (932) 222-54-45')
 
 @client.message_handler(commands=['mb'])
 @client.message_handler(func=lambda message: message.text == 'Мой бюджет')
