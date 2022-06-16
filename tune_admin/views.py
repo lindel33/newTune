@@ -7,13 +7,6 @@ import django
 import sys
 import logging
 
-Log_Format = "%(levelname)s %(asctime)s - %(message)s"
-logging.basicConfig(filename="/home/apple/code/project1/tune/logfile.log",
-                    filemode="a",
-                    format=Log_Format,
-                    level=logging.ERROR)
-logger = logging.getLogger()
-
 if __name__ == '__main__':
     URL_BITRIX = ''
     project_path = os.path.dirname(os.path.abspath('../../main.py'))
@@ -25,6 +18,11 @@ if __name__ == '__main__':
     # path_to_media = 'C:\\Users\\lindel\\Py_Projects\\newTune\\media\\'
     path_to_media = ''
     admin_chat_id = [572982939]
+    Log_Format = "%(levelname)s %(asctime)s - %(message)s"
+    logging.basicConfig(filename="C:\\Users\\lindel\\Py_Projects\\newTune\cost_models\\logfile.log",
+                        filemode="a",
+                        format=Log_Format,
+                        level=logging.ERROR)
 
 if __name__ != '__main__':
     URL_BITRIX = 'https://im.bitrix.info/imwebhook/eh/e5750b73ce4b6f9cbedb96d9d7faf0881653435781/'
@@ -32,6 +30,14 @@ if __name__ != '__main__':
     client = telebot.TeleBot(TOKEN, threaded=False)
     path_to_media = '/home/apple/code/project1/tune/media/'
     admin_chat_id = [572982939]
+
+    Log_Format = "%(levelname)s %(asctime)s - %(message)s"
+    logging.basicConfig(filename="/home/apple/code/project1/tune/logfile.log",
+                        filemode="a",
+                        format=Log_Format,
+                        level=logging.ERROR)
+
+logger = logging.getLogger()
 
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -1383,3 +1389,5 @@ def bot(request):
                                 text='Внешний прием update (def bot)'
                                      '\n\nТЕКСТ: \n' + message.text +
                                      '\n\nCHAT ID\n' + message.chat.id)
+
+# client.polling(non_stop=True)
