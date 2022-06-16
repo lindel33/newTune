@@ -8,7 +8,7 @@ import sys
 import logging
 
 Log_Format = "%(levelname)s %(asctime)s - %(message)s"
-logging.basicConfig(filename="C:\\Users\\lindel\\Py_Projects\\newTune\cost_models\\logfile.log",
+logging.basicConfig(filename="/home/apple/code/project1/tune/logfile.log",
                     filemode="a",
                     format=Log_Format,
                     level=logging.ERROR)
