@@ -921,7 +921,7 @@ trade_product = get_trade_products()
 def tradein_model(message):
     try:
         sale = get_sale(message)
-        if sale:
+        if not sale:
             start_message(message, 'Ничего не найдено')
             return 0
         result = [['🔻 ' + x] for x in sorted(sale)]
@@ -1383,6 +1383,3 @@ def bot(request):
                                 text='Внешний прием update (def bot)'
                                      '\n\nТЕКСТ: \n' + message.text +
                                      '\n\nCHAT ID\n' + message.chat.id)
-
-
-
