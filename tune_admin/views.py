@@ -526,7 +526,7 @@ def show_model(message):
 @client.message_handler(func=lambda message: message.text == 'Новые Устройства')
 def new_model(message):
     start_message(message,
-                  text='Новые устройства всегда в наличии. Для заказа выберите пункт «Связаться с менеджером» или позвоните по телефону:\n +7 (932) 222-54-45')
+                  text='Новые устройства всегда в наличии.\n Для заказа выберите пункт «Связаться с менеджером» или позвоните по телефону:\n +7 (932) 222-54-45')
 
 @client.message_handler(commands=['mb'])
 @client.message_handler(func=lambda message: message.text == 'Мой бюджет')
