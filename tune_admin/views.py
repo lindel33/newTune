@@ -30,6 +30,7 @@ if __name__ != '__main__':
     URL_BITRIX = 'https://im.bitrix.info/imwebhook/eh/e5750b73ce4b6f9cbedb96d9d7faf0881653435781/'
     TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'
     client = telebot.TeleBot(TOKEN, threaded=False)
+    path_to_media = '/home/apple/code/project1/tune/media/'
     admin_chat_id = [572982939]
 
 from django.http import HttpResponse
