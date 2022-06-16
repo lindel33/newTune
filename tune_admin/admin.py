@@ -14,7 +14,7 @@ class SendGlobalMessageAdmin(admin.ModelAdmin):
 @admin.register(UserModel)
 class UserModelAdmin(admin.ModelAdmin):
     list_display = ['name', 'user_id', 'first_name', 'last_name', 'region_user', 'notifications', ]
-    search_fields = ('hour_created', 'user_id', )
+    search_fields = ('user_id', )
 
 @admin.register(RegionUserModel)
 class RegionUserModelAdmin(admin.ModelAdmin):
@@ -29,7 +29,7 @@ class RegionUserModelAdmin(admin.ModelAdmin):
 @admin.register(StaticUserHourModel)
 class StaticUserHourModelAdmin(admin.ModelAdmin):
     list_display = ['user_id', 'full_id', 'hour_created', ]
-    search_fields = ('user_id', )
+    search_fields = ('hour_created', 'user_id', )
 
 @admin.register(StateModel)
 class StateModelAdmin(admin.ModelAdmin):
