@@ -29,7 +29,7 @@ class RegionUserModelAdmin(admin.ModelAdmin):
 @admin.register(StaticUserHourModel)
 class StaticUserHourModelAdmin(admin.ModelAdmin):
     list_display = ['user_id', 'full_id', 'hour_created', ]
-    search_fields = ('hour_created', )
+    search_fields = ('hour_created', 'user_id', )
 
 @admin.register(StateModel)
 class StateModelAdmin(admin.ModelAdmin):
