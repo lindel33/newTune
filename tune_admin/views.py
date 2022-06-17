@@ -743,16 +743,13 @@ def main_menu_faq(message):
                                      '\n\nCHAT ID\n' + message.chat.id)
 
 
-main_menu = TradeInDevicesModel.objects.all()
-main_menu = [[buttons.name] for buttons in main_menu]
-main_menu.append(['⬅️Главное меню'])
+
 
 
 @client.message_handler(commands=['ti'])
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
 def trade_main(message, text='Выберите устройство'):
-
     start_message(message,
                   text='Программа trade-in доступна!\n'
                        'С помощью нее вы можете сдать свое старое устройство'
@@ -767,6 +764,9 @@ def trade_main(message, text='Выберите устройство'):
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 @client.message_handler(func=lambda message: message.text == '2iu2872')
 def trade_main(message, text='Выберите устройство'):
+    main_menu = TradeInDevicesModel.objects.all()
+    main_menu = [[buttons.name] for buttons in main_menu]
+    main_menu.append(['⬅️Главное меню'])
     try:
         list_user = UserModel.objects.all()
         list_user_id = [str(user_id.user_id) for user_id in list_user]
