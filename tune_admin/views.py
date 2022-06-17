@@ -1334,54 +1334,54 @@ def bot(request):
 
             json_data = request.body.decode('utf-8')
             update = telebot.types.Update.de_json(json_data)
-            logger.error(update)
-            us_id = str(update.message.chat.id) + str(
-                (datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H'))
-            list_uss = StaticUserHourModel.objects.all()
-            list_uss = [str(i.user_id) for i in list_uss]
-            message = update.message
-            try:
-                if str(us_id) not in list_uss:
-                    StaticUserHourModel.objects.create(
-                        user_id=str(us_id),
-                        date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                        hour_created=str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H')),
-                        full_id=str(update.message.chat.username),
-                    )
-                    start_message(message=update.message,
-                                  text='У нас обновились товары!\n'
-                                       'Вы автоматически возвращены в главное меню')
-                else:
+            if update.message:
+                us_id = str(update.message.chat.id) + str(
+                    (datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H'))
+                list_uss = StaticUserHourModel.objects.all()
+                list_uss = [str(i.user_id) for i in list_uss]
+                message = update.message
+                try:
+                    if str(us_id) not in list_uss:
+                        StaticUserHourModel.objects.create(
+                            user_id=str(us_id),
+                            date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                            hour_created=str((datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H')),
+                            full_id=str(update.message.chat.username),
+                        )
+                        start_message(message=update.message,
+                                      text='У нас обновились товары!\n'
+                                           'Вы автоматически возвращены в главное меню')
+                    else:
+                        client.process_new_updates([update])
+                except IndexError as _:
                     client.process_new_updates([update])
-            except IndexError as _:
-                client.process_new_updates([update])
-                logger.error(f"Ошибка регистрации статы по часам (def bot)")
-                for i in admin_chat_id:
-                    client.send_message(chat_id=i,
-                                        text='Ошибка регистрации статы по часам (def bot)'
-                                             '\n\nТЕКСТ: \n' + message.text +
-                                             '\n\nCHAT ID\n' + message.chat.id)
-
-            list_user = UserModel.objects.all()
-            list_user_id = [str(user_id.user_id) for user_id in list_user]
-
-            try:
-                if str(message.chat.id) not in list_user_id:
-                    UserModel.objects.create(
-                        user_id=str(message.chat.id),
-                        date_created=datetime.date.today().strftime('%m/%d/%Y'),
-                        name=message.chat.username,
-                        first_name=message.chat.first_name,
-                        last_name=message.chat.last_name
-                    )
-            except IndexError as _:
-                client.process_new_updates([update])
-                logger.error(f"Ошибка регистрации пользователя (def bot)")
-                for i in admin_chat_id:
-                    client.send_message(chat_id=i,
-                                        text='Ошибка регистрации пользователя (def bot)'
-                                             '\n\nТЕКСТ: \n' + message.text +
-                                             '\n\nCHAT ID\n' + message.chat.id)
+                    logger.error(f"Ошибка регистрации статы по часам (def bot)")
+                    for i in admin_chat_id:
+                        client.send_message(chat_id=i,
+                                            text='Ошибка регистрации статы по часам (def bot)'
+                                                 '\n\nТЕКСТ: \n' + message.text +
+                                                 '\n\nCHAT ID\n' + message.chat.id)
+    
+                list_user = UserModel.objects.all()
+                list_user_id = [str(user_id.user_id) for user_id in list_user]
+    
+                try:
+                    if str(message.chat.id) not in list_user_id:
+                        UserModel.objects.create(
+                            user_id=str(message.chat.id),
+                            date_created=datetime.date.today().strftime('%m/%d/%Y'),
+                            name=message.chat.username,
+                            first_name=message.chat.first_name,
+                            last_name=message.chat.last_name
+                        )
+                except IndexError as _:
+                    client.process_new_updates([update])
+                    logger.error(f"Ошибка регистрации пользователя (def bot)")
+                    for i in admin_chat_id:
+                        client.send_message(chat_id=i,
+                                            text='Ошибка регистрации пользователя (def bot)'
+                                                 '\n\nТЕКСТ: \n' + message.text +
+                                                 '\n\nCHAT ID\n' + message.chat.id)
         return HttpResponse(200)
     except IndexError as _:
         logger.error(f"Внешний прием update (def bot)")
@@ -1390,5 +1390,3 @@ def bot(request):
                                 text='Внешний прием update (def bot)'
                                      '\n\nТЕКСТ: \n' + message.text +
                                      '\n\nCHAT ID\n' + message.chat.id)
-
-# client.polling(non_stop=True)
