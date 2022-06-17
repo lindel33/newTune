@@ -1382,6 +1382,8 @@ def bot(request):
                                             text='Ошибка регистрации пользователя (def bot)'
                                                  '\n\nТЕКСТ: \n' + message.text +
                                                  '\n\nCHAT ID\n' + message.chat.id)
+            else:
+                logger.error(f"Ошибка update {update.my_chat_member}")
         return HttpResponse(200)
     except IndexError as _:
         logger.error(f"Внешний прием update (def bot)")
