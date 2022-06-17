@@ -12,9 +12,9 @@ class TelegramUserModelAdmin(admin.ModelAdmin):
     list_display = ['username', 'user_id', ]
 
 
-# @admin.register(UserStepModel)
-# class UserStepModelAdmin(admin.ModelAdmin):
-#     pass
+@admin.register(UserStepModel)
+class UserStepModelAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(TradeInSeriesModel)
