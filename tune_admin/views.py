@@ -832,12 +832,12 @@ def trade_first_step(message, text='Далее выберите из указа�
             cost=TradeInSeriesModel.objects.filter(name=device)[0].start_cost,
             device=device
         )
-        steps = TradeInStepModel.objects.filter(series__name=device).filter(step=1)[0]
-        steps = VariableFoeStepModel.objects.filter(step=steps.id)
+        stepsw = TradeInStepModel.objects.filter(series__name=device).filter(step=1)[0]
+        steps = VariableFoeStepModel.objects.filter(step=stepsw.id)
         keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
         keyboard.keyboard = [['📌 ' + i.name] for i in steps]
         client.send_message(chat_id=message.chat.id,
-                            text=text,
+                            text=steps.name,
                             reply_markup=keyboard)
     except IndexError as _:
         logger.error("Ошибка trade_first_step")
