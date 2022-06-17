@@ -3,8 +3,8 @@ from django.db import models
 
 class TelegramUserModel(models.Model):
     user_id = models.CharField('Id пользователя', max_length=25)
-    username = models.CharField('Ник пользователя', max_length=255)
-    first_name = models.CharField('Имя пользователя', max_length=255)
+    username = models.CharField('Ник пользователя', max_length=255, null=True)
+    first_name = models.CharField('Имя пользователя', max_length=255, null=True)
     date_registered = models.DateField('Дата регистрации', auto_now=True)
 
     
