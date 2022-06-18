@@ -37,9 +37,10 @@ class TradeInDevicesModel(models.Model):
 
 class TradeInSeriesModel(models.Model):
     name = models.CharField('Название серии', max_length=20)
-    start_cost = models.IntegerField('Начальная цена')
+    start_cost = models.IntegerField('Начальная цена', default=0)
     max_step = models.IntegerField('Всего шагов')
     objects = models.Manager()
+    
     class Meta:
         verbose_name = 'Серия'
         verbose_name_plural = 'Серии'
@@ -51,8 +52,8 @@ class TradeInSeriesModel(models.Model):
 class VariableFoeStepModel(models.Model):
     name = models.CharField('Название выбора',
                             max_length=50)
-    increase = models.IntegerField('Увеличение при выборе на', )
-    decrease = models.IntegerField('Уменьшение при выборе на', )
+    increase = models.IntegerField('Увеличение при выборе на', default=0)
+    decrease = models.IntegerField('Уменьшение при выборе на', default=0)
     step = models.ForeignKey('TradeInStepModel',
                              on_delete=models.CASCADE,
                              verbose_name='Номер шага',
