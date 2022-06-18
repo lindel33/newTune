@@ -97,12 +97,12 @@ class TopicalCost:
 
             if 'iphonese' in ser:
                 ser = ser.replace('iphonese', '')
-                ser = ser + ' SE'
+                ser = ser + 'SE'
                 return ser
             
             if 'iphonexr' in ser:
                 ser = ser.replace('iphonexr', '')
-                ser = ser + ' XR'
+                ser = ser + 'XR'
                 return ser
             
             return ser
