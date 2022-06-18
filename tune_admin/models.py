@@ -468,7 +468,8 @@ class SendGlobalMessage(models.Model):
         all_users = UserModel.objects.filter(notifications=True)
         all_users = list(set(str(i.user_id) for i in all_users))
         count = 0
-
+        client.send_message(chat_id='572982939',
+                          text=str(self.text))
         for i in all_users:
             try:
                 client.send_message(chat_id=i,
