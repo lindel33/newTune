@@ -816,7 +816,7 @@ def new_model_step_3(message):
         i['series'] + ' ' +
         get_memory(i['memory']) + ' ' +
         get_color(i['color']) + ' ' +
-        get_cost(str(int(float(i['cost'])))) + ' ' + i['region']
+        get_cost(str(int(float(i['cost'])))) + i['region']
         for i in sss]
 
     seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
@@ -969,19 +969,8 @@ main_menu = [[buttons.name] for buttons in main_menu]
 main_menu.append(['⬅️Главное меню'])
 
 
+@client.message_handler(commands=['ti'])
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
-def trade_main(message, text='Выберите устройство'):
-    start_message(message,
-                  text='Программа trade-in доступна!\n'
-                       'С помощью нее вы можете сдать свое старое устройство'
-                       ' Apple и получить скидку на новое или б/у'
-                       ' (так же принятое по программе trade-in).\n'
-                       'Чтобы узнать размер скидки выберите пункт '
-                       '«Связаться с менеджером»\n'
-                       'Или позвоните по телефону: \n'
-                       '+7 (932) 222-54-45')
-
-@client.message_handler(commands=['trad'])
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 def trade_main(message, text='Выберите устройство'):
     list_user = TelegramUserModel.objects.all()
