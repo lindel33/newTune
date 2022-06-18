@@ -99,7 +99,12 @@ class TopicalCost:
                 ser = ser.replace('iphonese', '')
                 ser = ser + ' SE'
                 return ser
-
+            
+            if 'iphonexr' in ser:
+                ser = ser.replace('iphonexr', '')
+                ser = ser + ' XR'
+                return ser
+            
             return ser
 
         series = '13promax,|13pro,|13mini,|13,|' \
