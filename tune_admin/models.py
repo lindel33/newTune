@@ -451,6 +451,7 @@ class SendGlobalMessage(models.Model):
           
           
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         import logging
 
         Log_Format = "%(levelname)s %(asctime)s - %(message)s"
