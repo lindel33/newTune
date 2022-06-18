@@ -7,13 +7,18 @@ from .models import TradeInStepModel, VariableFoeStepModel, \
     TelegramUserModel
 
 
-@admin.register(TelegramUserModel)
-class TelegramUserModelAdmin(admin.ModelAdmin):
-    list_display = ['username', 'user_id', ]
+# @admin.register(TelegramUserModel)
+# class TelegramUserModelAdmin(admin.ModelAdmin):
+#     list_display = ['username', 'user_id', ]
 
 
-@admin.register(UserStepModel)
-class UserStepModelAdmin(admin.ModelAdmin):
+# @admin.register(UserStepModel)
+# class UserStepModelAdmin(admin.ModelAdmin):
+#     pass
+
+
+@admin.register(TradeInDevicesModel)
+class TradeInDevicesModelAdmin(admin.ModelAdmin):
     pass
 
 
@@ -22,9 +27,6 @@ class TradeInSeriesModelAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(TradeInDevicesModel)
-class TradeInDevicesModelAdmin(admin.ModelAdmin):
-    pass
 
 
 @admin.register(TradeInStepModel)
