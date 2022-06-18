@@ -981,7 +981,7 @@ def trade_main(message, text='Выберите устройство'):
                        'Или позвоните по телефону: \n'
                        '+7 (932) 222-54-45')
 
-@client.message_handler(commands=['/trad'])
+@client.message_handler(commands=['trad'])
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 def trade_main(message, text='Выберите устройство'):
     list_user = TelegramUserModel.objects.all()
