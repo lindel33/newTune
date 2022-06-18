@@ -698,17 +698,17 @@ def new_model_step_1_2(message):
     products = topical.iphone
     series = set((i['device'] + ' ' + i['series']).replace('\n', '') for i in products
                  if seria.replace(device + ' ', '') in i['series'])
-    print(series)
+
     if series == set():
         new_model_step_1(message,
                          extra='iPhone',
                          text='Нет в наличии')
         return 0
-    if message.text == '▪️ iPhone SE' or message.text == '▪️ iPhone XR':
-        ss = message
-        ss.text = ss.text.replace('▪️ ', '🔹  ')
-        new_model_step_3(ss)
-        return 0
+#     if message.text == '▪️ iPhone SE' or message.text == '▪️ iPhone XR':
+#         ss = message
+#         ss.text = ss.text.replace('▪️ ', '🔹  ')
+#         new_model_step_3(ss)
+#         return 0
     z = sorted([['🔸 ' + i] for i in series])
     z = z[::-1]
     out = []
