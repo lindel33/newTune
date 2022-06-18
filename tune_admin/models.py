@@ -451,6 +451,15 @@ class SendGlobalMessage(models.Model):
           
           
     def save(self, *args, **kwargs):
+        import logging
+
+        Log_Format = "%(levelname)s %(asctime)s - %(message)s"
+        logging.basicConfig(filename="/home/apple/code/project1/tune/tune_admin/logfile.log",
+                    filemode="a",
+                    format=Log_Format,
+                    level=logging.ERROR)
+        logger = logging.getLogger()
+        
         import telebot
         import time
         TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'
@@ -464,9 +473,11 @@ class SendGlobalMessage(models.Model):
                 client.send_message(chat_id=i,
                                     text=str(self.text))
             except:
-                pass
+                logger.error(i)
+            logger.error('отправил', i)
             count += 1
             if count % 20 == 0:
+                logger.error('ожидание')
                 time.sleep(1)
 
        
