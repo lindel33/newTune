@@ -1036,12 +1036,9 @@ def trade_first_step(message, text='Далее выберите из указа�
                             text=text,
                             reply_markup=keyboard)
     except IndexError as _:
-        logger.error("Ошибка trade_first_step")
-        for i in admin_chat_id:
-            client.send_message(chat_id=i,
-                                text='Ошибка trade_first_step'
-                                     '\n\nТЕКСТ: \n' + message.text +
-                                     '\n\nCHAT ID\n' + message.chat.id)
+        client.send_message(chat_id=message.chat.id,
+                            text='Еще не доступно')
+
 
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '📌')
