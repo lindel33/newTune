@@ -20,3 +20,6 @@ def get_photo(series):
 
       if 'iphonese' in name:
           return path_to_iphone + 'iphone/iphone_se.PNG'
+        
+      if 'iphonexr' in name:
+          return path_to_iphone + 'iphone/iphone_xr.jpg'
