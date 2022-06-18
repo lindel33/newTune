@@ -1014,13 +1014,8 @@ def trade_series(message):
             user__user_id=message.chat.id
         ).delete()
     except IndexError as _:
-        logger.error("Ошибка trade_series")
-        for i in admin_chat_id:
-            client.send_message(chat_id=i,
-                                text='Ошибка trade_series'
-                                     '\n\nТЕКСТ: \n' + message.text +
-                                     '\n\nCHAT ID\n' + message.chat.id)
-
+        client.send_message(chat_id=message.chat.id,
+                            text='Еще не доступно')
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '📍')
 def trade_first_step(message, text='Далее выберите из указанных вариантов'):
