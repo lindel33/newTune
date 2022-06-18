@@ -692,6 +692,7 @@ def new_model_step_1(message, extra=None, text=f'Выберите серию'):
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '▪️')
 def new_model_step_1_2(message):
+
     device = message.text.replace('▪️ ', '').split()[0]
     seria = message.text.replace('▪️ ', '')
     products = topical.iphone
@@ -702,6 +703,11 @@ def new_model_step_1_2(message):
         new_model_step_1(message,
                          extra='iPhone',
                          text='Нет в наличии')
+        return 0
+    if message.text == '▪️ iPhone SE' or message.text == '▪️ iPhone XR':
+        ss = message
+        ss.text = ss.text.replace('▪️ ', '🔹  ')
+        new_model_step_3(ss)
         return 0
     z = sorted([['🔸 ' + i] for i in series])
     z = z[::-1]
@@ -718,37 +724,6 @@ def new_model_step_1_2(message):
     out.append(['⬅️Назад к новым устройствам'])
     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_category.keyboard = out
-    client.send_message(chat_id=message.chat.id,
-                        text=f'Выберите серию',
-                        reply_markup=keyboard_category)
-
-
-def get_memory(memory):
-    if memory == 1:
-        return '1 ТБ'
-    return memory
-
-
-@client.message_handler(func=lambda message: message.text.split()[0] == '🔸')
-def new_model_step_2(message):
-    device = message.text.split()[1]
-    if '🔸' in message.text:
-        seria = message.text.replace('🔸 ', '')
-    elif '🔸' not in message.text:
-        seria = message.text.split()[-1]
-    elif '⬅️' in message.text:
-        seria = message.text.replace('⬅️', '')
-        seria = seria.replace('Выбрать другую серию', '')
-    products = topical.iphone
-    seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
-                     for i in products
-                     if
-                     (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ', '').lower()))
-    z = sorted(list([i] for i in seria))
-    z = z[::-1]
-    z.append([f'⬅️Выбрать другой {device}'])
-    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard_category.keyboard = z
     client.send_message(chat_id=message.chat.id,
                         text=f'Выберите серию',
                         reply_markup=keyboard_category)
@@ -844,6 +819,37 @@ def new_model_step_3(message):
                       photo=f1,
                       caption=text,
                       reply_markup=keyboard_category)
+
+
+def get_memory(memory):
+    if memory == 1:
+        return '1 ТБ'
+    return memory
+
+
+@client.message_handler(func=lambda message: message.text.split()[0] == '🔸')
+def new_model_step_2(message):
+    device = message.text.split()[1]
+    if '🔸' in message.text:
+        seria = message.text.replace('🔸 ', '')
+    elif '🔸' not in message.text:
+        seria = message.text.split()[-1]
+    elif '⬅️' in message.text:
+        seria = message.text.replace('⬅️', '')
+        seria = seria.replace('Выбрать другую серию', '')
+    products = topical.iphone
+    seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
+                     for i in products
+                     if
+                     (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ', '').lower()))
+    z = sorted(list([i] for i in seria))
+    z = z[::-1]
+    z.append([f'⬅️Выбрать другой {device}'])
+    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard_category.keyboard = z
+    client.send_message(chat_id=message.chat.id,
+                        text=f'Выберите серию',
+                        reply_markup=keyboard_category)
 
 
 @client.message_handler(commands=['mb'])
@@ -977,10 +983,11 @@ def trade_main(message, text='Выберите устройство'):
     start_message(message,
                   text="""
                   Программа trade-in доступна!
-С помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у (так же принятое по программе trade-in).
-Чтобы узнать размер скидки выберите пункт «Связаться с менеджером»
-Или позвоните по телефону: 
-+7 (932) 222-54-45
+                С помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у
+                 (так же принятое по программе trade-in).
+                Чтобы узнать размер скидки выберите пункт «Связаться с менеджером»
+                Или позвоните по телефону: 
+                +7 (932) 222-54-45
                   """)
 
 
@@ -1004,13 +1011,6 @@ def trade_main(message, text='Выберите устройство'):
     client.send_message(chat_id=message.chat.id,
                         text=text,
                         reply_markup=keyboard)
-    # except IndexError as _:
-    #     logger.error("Ошибка trade_main")
-    #     for i in admin_chat_id:
-    #         client.send_message(chat_id=i,
-    #                             text='Ошибка trade_main'
-    #                                  '\n\nТЕКСТ: \n' + message.text +
-    #                                  '\n\nCHAT ID\n' + message.chat.id)
 
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '♻️')
