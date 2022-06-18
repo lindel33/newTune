@@ -612,18 +612,20 @@ def show_model(message):
                                      '\n\nCHAT ID\n' + message.chat.id)
 
 
+# @client.message_handler(commands=['new'])
+# @client.message_handler(func=lambda message: message.text == 'Новые Устройства')
+# @client.message_handler(func=lambda message: message.text == 'Новые Устройства')
+# def new_model(message):
+#     start_message(message,
+#                   text='Новые устройства всегда в наличии.\n'
+#                        'Для заказа выберите пункт '
+#                        '«Связаться с менеджером» '
+#                        'или позвоните по телефону:\n'
+#                        '+7 (932) 222-54-45')
+
+
 @client.message_handler(commands=['new'])
 @client.message_handler(func=lambda message: message.text == 'Новые Устройства')
-def new_model(message):
-    start_message(message,
-                  text='Новые устройства всегда в наличии.\n'
-                       'Для заказа выберите пункт '
-                       '«Связаться с менеджером» '
-                       'или позвоните по телефону:\n'
-                       '+7 (932) 222-54-45')
-
-
-@client.message_handler(commands=['new2'])
 @client.message_handler(func=lambda message: '⬅️Назад к новым устройствам' in message.text)
 def new_model(message):
     new_mod = [
