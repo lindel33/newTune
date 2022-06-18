@@ -623,7 +623,7 @@ def new_model(message):
                        '+7 (932) 222-54-45')
 
 
-@client.message_handler(commands=['qwe123'])
+@client.message_handler(commands=['new2'])
 @client.message_handler(func=lambda message: '⬅️Назад к новым устройствам' in message.text)
 def new_model(message):
     new_mod = [
@@ -646,33 +646,45 @@ topical.get_clear()
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '🆕')
 @client.message_handler(func=lambda message: '⬅️Выбрать другой ' in message.text)
-def new_model_step_1(message):
-    if '⬅️Выбрать другой ' in message.text:
-        device = message.text.replace('⬅️Выбрать другой ', '')
+def new_model_step_1(message, extra=None, text=f'Выберите серию'):
+    if extra:
+        device = extra
     else:
-        device = message.text.replace('🆕 ', '').replace(' ', '')
+        if '⬅️Выбрать другой ' in message.text:
+            device = message.text.replace('⬅️Выбрать другой ', '')
+        else:
+            device = message.text.replace('🆕 ', '').replace(' ', '')
+    if device == 'iPhone':
+        out = [
+            ['▪️ iPhone 13'],
+            ['▪️ iPhone 12', '▪️ iPhone 11'],
+            ['▪️ iPhone XR', '▪️ iPhone SE'],
+            ['⬅️Назад к новым устройствам']
+        ]
+    else:
+        products = topical.iphone
+        series = set([device + ' ' + i['series'] for i in products
+                      if device == i['device']
+                      and len(i['series'].split()) == 1])
+        series.add('iPhone XR')
+        z = sorted([['▪️ ' + i] for i in series])
 
-    products = topical.iphone
-    series = set([device + ' ' + i['series'] for i in products
-                  if device == i['device']
-                  and len(i['series'].split()) == 1])
-    z = sorted([['▪️ ' + i] for i in series])
-    z = z[::-1]
-    out = []
+        z = z[::-1]
+        out = []
 
-    while z:
-        if len(z) == 1:
-            out.append(z[0])
-            break
-        tmp = z[:2]
-        z.remove(tmp[0])
-        z.remove(tmp[1])
-        out.append([tmp[0][0], tmp[1][0]])
-    out.append(['⬅️Назад к новым устройствам'])
+        while z:
+            if len(z) == 1:
+                out.append(z[0])
+                break
+            tmp = z[:2]
+            z.remove(tmp[0])
+            z.remove(tmp[1])
+            out.append([tmp[0][0], tmp[1][0]])
+        out.append(['⬅️Назад к новым устройствам'])
     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_category.keyboard = out
     client.send_message(chat_id=message.chat.id,
-                        text=f'Выберите серию',
+                        text=text,
                         reply_markup=keyboard_category)
 
 
@@ -683,6 +695,12 @@ def new_model_step_1_2(message):
     products = topical.iphone
     series = set((i['device'] + ' ' + i['series']).replace('\n', '') for i in products
                  if seria.replace(device + ' ', '') in i['series'])
+    print(series)
+    if series == set():
+        new_model_step_1(message,
+                         extra='iPhone',
+                         text='Нет в наличии')
+        return 0
     z = sorted([['🔸 ' + i] for i in series])
     z = z[::-1]
     out = []
@@ -953,19 +971,6 @@ main_menu.append(['⬅️Главное меню'])
 
 @client.message_handler(commands=['ti'])
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
-def trade_main(message, text='Выберите устройство'):
-    start_message(message,
-                  text='Программа trade-in доступна!\n'
-                       'С помощью нее вы можете сдать свое старое устройство'
-                       ' Apple и получить скидку на новое или б/у'
-                       ' (так же принятое по программе trade-in).\n'
-                       'Чтобы узнать размер скидки выберите пункт '
-                       '«Связаться с менеджером»\n'
-                       'Или позвоните по телефону: \n'
-                       '+7 (932) 222-54-45')
-
-    
-@client.message_handler(commands=['trad'])
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 def trade_main(message, text='Выберите устройство'):
     list_user = TelegramUserModel.objects.all()
@@ -1014,8 +1019,13 @@ def trade_series(message):
             user__user_id=message.chat.id
         ).delete()
     except IndexError as _:
-        client.send_message(chat_id=message.chat.id,
-                            text='Еще не доступно')
+        logger.error("Ошибка trade_series")
+        for i in admin_chat_id:
+            client.send_message(chat_id=i,
+                                text='Ошибка trade_series'
+                                     '\n\nТЕКСТ: \n' + message.text +
+                                     '\n\nCHAT ID\n' + message.chat.id)
+
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '📍')
 def trade_first_step(message, text='Далее выберите из указанных вариантов'):
@@ -1038,7 +1048,6 @@ def trade_first_step(message, text='Далее выберите из указа�
     except IndexError as _:
         client.send_message(chat_id=message.chat.id,
                             text='Еще не доступно')
-
 
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '📌')
