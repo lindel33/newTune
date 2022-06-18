@@ -953,6 +953,17 @@ main_menu.append(['⬅️Главное меню'])
 
 @client.message_handler(commands=['ti'])
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
+    start_message(message,
+                      text='Программа trade-in доступна!\n'
+                           'С помощью нее вы можете сдать свое старое устройство'
+                           ' Apple и получить скидку на новое или б/у'
+                           ' (так же принятое по программе trade-in).\n'
+                           'Чтобы узнать размер скидки выберите пункт '
+                           '«Связаться с менеджером»\n'
+                           'Или позвоните по телефону: \n'
+                           '+7 (932) 222-54-45')
+
+@client.message_handler(commands=['trad'])
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 def trade_main(message, text='Выберите устройство'):
     list_user = TelegramUserModel.objects.all()
