@@ -623,7 +623,7 @@ def new_model(message):
                        '+7 (932) 222-54-45')
 
 
-@client.message_handler(commands=['qwe123'])
+@client.message_handler(commands=['new2'])
 @client.message_handler(func=lambda message: '⬅️Назад к новым устройствам' in message.text)
 def new_model(message):
     new_mod = [
@@ -646,33 +646,45 @@ topical.get_clear()
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '🆕')
 @client.message_handler(func=lambda message: '⬅️Выбрать другой ' in message.text)
-def new_model_step_1(message):
-    if '⬅️Выбрать другой ' in message.text:
-        device = message.text.replace('⬅️Выбрать другой ', '')
+def new_model_step_1(message, extra=None, text=f'Выберите серию'):
+    if extra:
+        device = extra
     else:
-        device = message.text.replace('🆕 ', '').replace(' ', '')
+        if '⬅️Выбрать другой ' in message.text:
+            device = message.text.replace('⬅️Выбрать другой ', '')
+        else:
+            device = message.text.replace('🆕 ', '').replace(' ', '')
+    if device == 'iPhone':
+        out = [
+            ['▪️ iPhone 13'],
+            ['▪️ iPhone 12', '▪️ iPhone 11'],
+            ['▪️ iPhone XR', '▪️ iPhone SE'],
+            ['⬅️Назад к новым устройствам']
+        ]
+    else:
+        products = topical.iphone
+        series = set([device + ' ' + i['series'] for i in products
+                      if device == i['device']
+                      and len(i['series'].split()) == 1])
+        series.add('iPhone XR')
+        z = sorted([['▪️ ' + i] for i in series])
 
-    products = topical.iphone
-    series = set([device + ' ' + i['series'] for i in products
-                  if device == i['device']
-                  and len(i['series'].split()) == 1])
-    z = sorted([['▪️ ' + i] for i in series])
-    z = z[::-1]
-    out = []
+        z = z[::-1]
+        out = []
 
-    while z:
-        if len(z) == 1:
-            out.append(z[0])
-            break
-        tmp = z[:2]
-        z.remove(tmp[0])
-        z.remove(tmp[1])
-        out.append([tmp[0][0], tmp[1][0]])
-    out.append(['⬅️Назад к новым устройствам'])
+        while z:
+            if len(z) == 1:
+                out.append(z[0])
+                break
+            tmp = z[:2]
+            z.remove(tmp[0])
+            z.remove(tmp[1])
+            out.append([tmp[0][0], tmp[1][0]])
+        out.append(['⬅️Назад к новым устройствам'])
     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_category.keyboard = out
     client.send_message(chat_id=message.chat.id,
-                        text=f'Выберите серию',
+                        text=text,
                         reply_markup=keyboard_category)
 
 
@@ -683,6 +695,12 @@ def new_model_step_1_2(message):
     products = topical.iphone
     series = set((i['device'] + ' ' + i['series']).replace('\n', '') for i in products
                  if seria.replace(device + ' ', '') in i['series'])
+    print(series)
+    if series == set():
+        new_model_step_1(message,
+                         extra='iPhone',
+                         text='Нет в наличии')
+        return 0
     z = sorted([['🔸 ' + i] for i in series])
     z = z[::-1]
     out = []
@@ -762,6 +780,7 @@ def get_clear_message(message):
             message = message.replace(i, '')
     return message
 
+
 @client.message_handler(func=lambda message: message.text.split()[0] == '🔹')
 def new_model_step_3(message):
     help_text = 'Ростест 🇷🇺 - официальная гарантия Apple 2 года.' \
@@ -809,7 +828,8 @@ def new_model_step_3(message):
     z = z[::-1]
     z.append([f'⬅️Выбрать другой {device}'])
     z.insert(0, ['Забронировать новое устройство'])
-    text = get_clear_message("\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺') + '\n\n' + help_text)
+    text = get_clear_message(
+        "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺') + '\n\n' + help_text)
     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_category.keyboard = z
     from tune_admin.get_photo import get_photo
@@ -950,57 +970,33 @@ main_menu.append(['⬅️Главное меню'])
 
 
 @client.message_handler(commands=['ti'])
-@client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
-def trade_main(message, text='Выберите устройство'):
-    start_message(message,
-                  text='Программа trade-in доступна!\n'
-                       'С помощью нее вы можете сдать свое старое устройство'
-                       ' Apple и получить скидку на новое или б/у'
-                       ' (так же принятое по программе trade-in).\n'
-                       'Чтобы узнать размер скидки выберите пункт '
-                       '«Связаться с менеджером»\n'
-                       'Или позвоните по телефону: \n'
-                       '+7 (932) 222-54-45')
-
-
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 def trade_main(message, text='Выберите устройство'):
-    try:
-        start_message(message,
-                      text='Программа trade-in доступна!\n'
-                           'С помощью нее вы можете сдать свое старое устройство'
-                           ' Apple и получить скидку на новое или б/у'
-                           ' (так же принятое по программе trade-in).\n'
-                           'Чтобы узнать размер скидки выберите пункт '
-                           '«Связаться с менеджером»\n'
-                           'Или позвоните по телефону: \n'
-                           '+7 (932) 222-54-45')
+    list_user = TelegramUserModel.objects.all()
+    list_user_id = [str(user_id.user_id) for user_id in list_user]
 
-        list_user = UserModel.objects.all()
-        list_user_id = [str(user_id.user_id) for user_id in list_user]
+    id_user = message.chat.id
+    if str(id_user) not in list_user_id:
+        list_user_id.append(id_user)
+        TelegramUserModel.objects.create(
+            user_id=id_user,
+            username=message.chat.username,
+            first_name=message.chat.first_name,
+        )
 
-        id_user = message.chat.id
-        if id_user not in list_user_id:
-            list_user_id.append(id_user)
-            TelegramUserModel.objects.create(
-                user_id=id_user,
-                username=message.chat.username,
-                first_name=message.chat.first_name,
-            )
-
-        keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-        keyboard.keyboard = main_menu
-        client.send_message(chat_id=message.chat.id,
-                            text=text,
-                            reply_markup=keyboard)
-    except IndexError as _:
-        logger.error("Ошибка trade_main")
-        for i in admin_chat_id:
-            client.send_message(chat_id=i,
-                                text='Ошибка trade_main'
-                                     '\n\nТЕКСТ: \n' + message.text +
-                                     '\n\nCHAT ID\n' + message.chat.id)
+    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard.keyboard = main_menu
+    client.send_message(chat_id=message.chat.id,
+                        text=text,
+                        reply_markup=keyboard)
+    # except IndexError as _:
+    #     logger.error("Ошибка trade_main")
+    #     for i in admin_chat_id:
+    #         client.send_message(chat_id=i,
+    #                             text='Ошибка trade_main'
+    #                                  '\n\nТЕКСТ: \n' + message.text +
+    #                                  '\n\nCHAT ID\n' + message.chat.id)
 
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '♻️')
@@ -1035,6 +1031,7 @@ def trade_series(message):
 def trade_first_step(message, text='Далее выберите из указанных вариантов'):
     try:
         device = message.text.replace('📍 ', '')
+        UserStepModel.objects.filter(user_id=str(message.chat.id)).delete()
         UserStepModel.objects.create(
             user=TelegramUserModel.objects.filter(user_id=message.chat.id)[0],
             steps_ok='1',
@@ -1049,70 +1046,84 @@ def trade_first_step(message, text='Далее выберите из указа�
                             text=text,
                             reply_markup=keyboard)
     except IndexError as _:
-        logger.error("Ошибка trade_first_step")
-        for i in admin_chat_id:
-            client.send_message(chat_id=i,
-                                text='Ошибка trade_first_step'
-                                     '\n\nТЕКСТ: \n' + message.text +
-                                     '\n\nCHAT ID\n' + message.chat.id)
+        client.send_message(chat_id=message.chat.id,
+                            text='Еще не доступно')
 
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '📌')
 def trade_again_step(message):
-    try:
-        user_data = UserStepModel.objects.filter(
-            user__user_id=message.chat.id,
+    user_data = UserStepModel.objects.filter(
+        user__user_id=message.chat.id,
+    )
+    device = user_data[0].device
+    step = user_data[0].steps_ok
+    max_step = TradeInSeriesModel.objects.filter(
+        name=device
+    )[0].max_step
+
+    if int(max_step) == int(step):
+        next_step_name = TradeInStepModel.objects.get(
+            step=step,
+            series=TradeInSeriesModel.objects.get(
+                name=device
+            )
         )
-        device = user_data[0].device
-        step = user_data[0].steps_ok
-        max_step = TradeInSeriesModel.objects.filter(
+        next_step = VariableFoeStepModel.objects.get(
+            step=next_step_name,
+            name=message.text.replace('📌 ', '')
+        )
+
+        new_cost = user_data[0].cost + next_step.increase - next_step.decrease
+        UserStepModel.objects.filter(
+            user__user_id=message.chat.id,
+        ).update(
+            cost=new_cost,
+        )
+        default_text = '\n\nЭто максимально возможная сумма' \
+                       ' скидки за ваше по программе trade-in,' \
+                       ' при наличии идеального состояния и полного' \
+                       ' комплекта (коробка, зарядка, наушники).' \
+                       ' Точная стоимость будет озвучена ТОЛЬКО после' \
+                       ' диагностики в нашем магазине.' \
+                       ' Диагностика происходит при вас в течение 5 минут.'
+        start_message(message,
+                      text=f'Оценка завершена!\nОценочная стоимость: {new_cost}p' + default_text)
+        return 0
+
+    # ----
+    current_step_name = TradeInStepModel.objects.get(
+        step=step,
+        series=TradeInSeriesModel.objects.get(
             name=device
-        )[0].max_step
-        if int(max_step) != int(step):
-            variable = VariableFoeStepModel.objects.filter(
-                step__step=step,
-                name=message.text.replace('📌 ', '')
-            )
-            new_cost = user_data[0].cost + variable[0].increase - variable[0].decrease
-            step = str(int(step) + 1)
-            UserStepModel.objects.filter(
-                user__user_id=message.chat.id,
-            ).update(
-                steps_ok=step,
-                cost=new_cost,
-            )
-            nex = TradeInStepModel.objects.filter(
-                step=step,
-                series__name=device
-            )
-            name = nex[0].name
-            next = VariableFoeStepModel.objects.filter(
-                step=nex[0].id
-            )
-            keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
-            keyboard.keyboard = [['📌 ' + i.name] for i in next]
-            client.send_message(chat_id=message.chat.id,
-                                text=name,
-                                reply_markup=keyboard)
+        )
+    )
+    current_step = VariableFoeStepModel.objects.get(
+        step=current_step_name,
+        name=message.text.replace('📌 ', '')
+    )
+    new_cost = user_data[0].cost + current_step.increase - current_step.decrease
+    UserStepModel.objects.filter(
+        user__user_id=message.chat.id,
+    ).update(
+        steps_ok=int(step) + 1,
+        cost=new_cost,
+    )
+    # ----
 
-        else:
-
-            variable = VariableFoeStepModel.objects.filter(
-                step__step=step,
-                name=message.text.replace('📌 ', '')
-            )
-            new_cost = user_data[0].cost + variable[0].increase - variable[0].decrease
-            UserStepModel.objects.filter(
-                user__user_id=message.chat.id,
-            ).update(
-                cost=new_cost,
-            )
-            text = f'Оценка завершена!\n' \
-                   f'Стоимость {str(new_cost)}'
-            trade_main(message=message,
-                       text=text)
-    except IndexError as _:
-        logger.error("Ошибка trade_again_step")
+    next_step_name = TradeInStepModel.objects.get(
+        step=int(step) + 1,
+        series=TradeInSeriesModel.objects.get(
+            name=device
+        )
+    )
+    next_step = VariableFoeStepModel.objects.filter(
+        step=next_step_name
+    )
+    keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard.keyboard = [['📌 ' + i.name] for i in next_step]
+    client.send_message(chat_id=message.chat.id,
+                        text=next_step_name.name,
+                        reply_markup=keyboard)
 
 
 def get_trade_products():
@@ -1494,7 +1505,7 @@ def bitrix_client(message):
                 start_message(message, text='Пожалуйста дождитесь ответа менеджера,'
                                             ' он поможет Вам забронировать устройство'
                                             ' или расскажет о нем более подробно 👩🏻‍💻')
-            if message.text == 'Забронировать новое устройство':
+            if message.text.lower() == 'Забронировать новое устройство':
                 start_message(message, text='Пожалуйста дождитесь ответа менеджера,'
                                             ' он поможет Вам забронировать устройство'
                                             ' или расскажет о нем более подробно 👩🏻‍💻')
@@ -1505,7 +1516,7 @@ def bitrix_client(message):
             jsn = message.__dict__.get('json')
             ts = {'update_id': 287246100,
                   'message': jsn}
-
+        if __name__ != '__main__':
             requests.post(URL_BITRIX, json=ts)
     except IndexError as _:
         logger.error(f"Ошибка bitrix_client")
@@ -1515,7 +1526,7 @@ def bitrix_client(message):
                                      '\n\nТЕКСТ: \n' + message.text +
                                      '\n\nCHAT ID\n' + message.chat.id)
 
-            
+
 @client.message_handler(content_types=['voice'])
 def voice(message):
     try:
@@ -1626,4 +1637,5 @@ def bot(request):
                                      '\n\nCHAT ID\n' + message.chat.id)
 
 
-# client.polling(non_stop=True)
+if __name__ == '__main__':
+    client.polling(non_stop=True)
