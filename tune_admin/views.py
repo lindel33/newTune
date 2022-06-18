@@ -722,7 +722,8 @@ def new_model_step_2(message):
     products = topical.iphone
     seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
                      for i in products
-                     if (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ', '').lower()))
+                     if
+                     (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ', '').lower()))
     z = sorted(list([i] for i in seria))
     z = z[::-1]
     z.append([f'⬅️Выбрать другой {device}'])
@@ -753,6 +754,13 @@ def get_clear_name(name):
     name = re.sub(memory, '', name)
     return name
 
+
+def get_clear_message(message):
+    names_to_filter = ['iPhone ']
+    for i in names_to_filter:
+        if i in message:
+            message = message.replace(i, '')
+    return message
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '🔹')
 def new_model_step_3(message):
@@ -794,12 +802,13 @@ def new_model_step_3(message):
 
     seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
                      for i in products
-                     if (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ', '').lower()))
+                     if
+                     (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ', '').lower()))
 
     z = sorted(list([i] for i in seria))
     z = z[::-1]
     z.append([f'⬅️Выбрать другой {device}'])
-    text = "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺') + '\n\n' + help_text
+    text = get_clear_message("\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺') + '\n\n' + help_text)
     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_category.keyboard = z
     from tune_admin.get_photo import get_photo
@@ -952,8 +961,8 @@ def trade_main(message, text='Выберите устройство'):
                        '«Связаться с менеджером»\n'
                        'Или позвоните по телефону: \n'
                        '+7 (932) 222-54-45')
-    
-    
+
+
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 def trade_main(message, text='Выберите устройство'):
     try:
