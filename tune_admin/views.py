@@ -953,6 +953,7 @@ main_menu.append(['⬅️Главное меню'])
 
 @client.message_handler(commands=['ti'])
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
+def trade_main(message, text='Выберите устройство'):
     start_message(message,
                       text='Программа trade-in доступна!\n'
                            'С помощью нее вы можете сдать свое старое устройство'
