@@ -794,7 +794,7 @@ def new_model_step_3(message):
 
     seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
                      for i in products
-                     if i['series'] in seria))
+                     if (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ', '').lower()))
 
     z = sorted(list([i] for i in seria))
     z = z[::-1]
