@@ -612,7 +612,7 @@ def show_model(message):
                                      '\n\nCHAT ID\n' + message.chat.id)
 
 
-
+@client.message_handler(commands=['new'])
 @client.message_handler(func=lambda message: message.text == 'Новые Устройства')
 def new_model(message):
     start_message(message,
@@ -622,88 +622,196 @@ def new_model(message):
                        'или позвоните по телефону:\n'
                        '+7 (932) 222-54-45')
 
-# @client.message_handler(commands=['new'])
-# @client.message_handler(func=lambda message: '⬅️Назад к новым устройствам' in message.text)
-# def new_model(message):
-#     new_mod = [
-#         ['🆕 iPhone'],
-#         # ['🆕 iPad'],
-#         ['⬅️Главное меню'],
-#     ]
-#     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
-#     keyboard_category.keyboard = new_mod
-#     client.send_message(chat_id=message.chat.id,
-#                         text=f'Выберите устройство',
-#                         reply_markup=keyboard_category)
+
+@client.message_handler(commands=['qwe123'])
+@client.message_handler(func=lambda message: '⬅️Назад к новым устройствам' in message.text)
+def new_model(message):
+    new_mod = [
+        ['🆕 iPhone'],
+        # ['🆕 iPad'],
+        ['⬅️Главное меню'],
+    ]
+    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard_category.keyboard = new_mod
+    client.send_message(chat_id=message.chat.id,
+                        text=f'Выберите устройство',
+                        reply_markup=keyboard_category)
 
 
-# from cost_models.base_price import TopicalCost
+from cost_models.base_price import TopicalCost
 
-# topical = TopicalCost()
-# topical.get_clear()
-
-
-# @client.message_handler(func=lambda message: message.text.split()[0] == '🆕')
-# def new_model_step_2(message):
-#     device = message.text.replace('🆕 ', '').replace(' ', '')
-
-#     products = topical.iphone
-#     series = set([device + ' ' + i['series'] for i in products if device == i['device']])
-#     series = sorted([['🔸 ' + i] for i in series]) + [['⬅️Назад к новым устройствам']]
-#     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
-#     keyboard_category.keyboard = series
-#     client.send_message(chat_id=message.chat.id,
-#                         text=f'Выберите серию',
-#                         reply_markup=keyboard_category)
+topical = TopicalCost()
+topical.get_clear()
 
 
-# @client.message_handler(func=lambda message: message.text.split()[0] == '🔸')
-# def new_model_step_2_3(message):
-#     if '🔸' in message.text:
-#         seria = message.text.replace('🔸 ', '')
-#     else:
-#         seria = message.text.split()[-1]
-#     print(seria)
-#     products = topical.iphone
-#     seria = list(set('🔹 ' + seria + ' ' + i['memory']
-#                      for i in products
-#                      if i['series'] in seria))
+@client.message_handler(func=lambda message: message.text.split()[0] == '🆕')
+@client.message_handler(func=lambda message: '⬅️Выбрать другой ' in message.text)
+def new_model_step_1(message):
+    if '⬅️Выбрать другой ' in message.text:
+        device = message.text.replace('⬅️Выбрать другой ', '')
+    else:
+        device = message.text.replace('🆕 ', '').replace(' ', '')
 
-#     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
-#     keyboard_category.keyboard = sorted([[i] for i in seria]) + [['⬅️Назад к новым устройствам']]
-#     client.send_message(chat_id=message.chat.id,
-#                         text=f'Выберите серию',
-#                         reply_markup=keyboard_category)
+    products = topical.iphone
+    series = set([device + ' ' + i['series'] for i in products
+                  if device == i['device']
+                  and len(i['series'].split()) == 1])
+    z = sorted([['▪️ ' + i] for i in series])
+    z = z[::-1]
+    out = []
+
+    while z:
+        if len(z) == 1:
+            out.append(z[0])
+            break
+        tmp = z[:2]
+        z.remove(tmp[0])
+        z.remove(tmp[1])
+        out.append([tmp[0][0], tmp[1][0]])
+    out.append(['⬅️Назад к новым устройствам'])
+    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard_category.keyboard = out
+    client.send_message(chat_id=message.chat.id,
+                        text=f'Выберите серию',
+                        reply_markup=keyboard_category)
 
 
-# def get_cost(l):
-#     cost = [i for i in l]
-#     last_1 = cost.pop(-1)
-#     last_2 = cost.pop(-1)
-#     last_3 = cost.pop(-1)
-#     res_price = "".join(cost) + '.' + last_3 + last_2 + last_1
-#     return res_price
+@client.message_handler(func=lambda message: message.text.split()[0] == '▪️')
+def new_model_step_1_2(message):
+    device = message.text.replace('▪️ ', '').split()[0]
+    seria = message.text.replace('▪️ ', '')
+    products = topical.iphone
+    series = set((i['device'] + ' ' + i['series']).replace('\n', '') for i in products
+                 if seria.replace(device + ' ', '') in i['series'])
+    z = sorted([['🔸 ' + i] for i in series])
+    z = z[::-1]
+    out = []
+
+    while z:
+        if len(z) == 1:
+            out.append(z[0])
+            break
+        tmp = z[:2]
+        z.remove(tmp[0])
+        z.remove(tmp[1])
+        out.append([tmp[0][0], tmp[1][0]])
+    out.append(['⬅️Назад к новым устройствам'])
+    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard_category.keyboard = out
+    client.send_message(chat_id=message.chat.id,
+                        text=f'Выберите серию',
+                        reply_markup=keyboard_category)
 
 
-# @client.message_handler(func=lambda message: message.text.split()[0] == '🔹')
-# def new_model_step_3(message):
-#     seria = message.text.replace('🔹 ', '')
-#     device = seria.split()[0]
-#     products = topical.iphone
-#     series = sorted(set([
-#         i['device'] + ' ' +
-#         i['series'] + ' ' +
-#         i['memory'] + ' ' +
-#         i['color'] + ' ' +
-#         get_cost(str(int(float(i['cost'])))) + 'p ' + i['region']
-#         for i in products if device + ' ' + i['series'] + ' ' + i['memory']
-#         == seria and i['memory'] in seria]))  # [f'⬅️Назад к новым {device}']
-#     text = "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺')
-#     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
-#     keyboard_category.keyboard = [['Забронировать новое устройство'], [f'⬅️Назад к новым устройствам']]
-#     client.send_message(chat_id=message.chat.id,
-#                         text=text,
-#                         reply_markup=keyboard_category)
+def get_memory(memory):
+    if memory == 1:
+        return '1 ТБ'
+    return memory
+
+
+@client.message_handler(func=lambda message: message.text.split()[0] == '🔸')
+def new_model_step_2(message):
+    device = message.text.split()[1]
+    if '🔸' in message.text:
+        seria = message.text.replace('🔸 ', '')
+    elif '🔸' not in message.text:
+        seria = message.text.split()[-1]
+    elif '⬅️' in message.text:
+        seria = message.text.replace('⬅️', '')
+        seria = seria.replace('Выбрать другую серию', '')
+    products = topical.iphone
+    seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
+                     for i in products
+                     if i['series'] in seria))
+    z = sorted(list([i] for i in seria))
+    z = z[::-1]
+    z.append([f'⬅️Выбрать другой {device}'])
+    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard_category.keyboard = z
+    client.send_message(chat_id=message.chat.id,
+                        text=f'Выберите серию',
+                        reply_markup=keyboard_category)
+
+
+def get_cost(l):
+    cost = [i for i in l]
+    last_1 = cost.pop(-1)
+    last_2 = cost.pop(-1)
+    last_3 = cost.pop(-1)
+    res_price = "".join(cost) + '.' + last_3 + last_2 + last_1
+    return res_price
+
+
+def get_color(color):
+    color = color.capitalize()
+    return color
+
+
+def get_clear_name(name):
+    import re
+    memory = ' 64| 128| 256| 512| 1 ТБ'
+    name = re.sub(memory, '', name)
+    return name
+
+
+@client.message_handler(func=lambda message: message.text.split()[0] == '🔹')
+def new_model_step_3(message):
+    help_text = 'Ростест 🇷🇺 - официальная гарантия Apple 2 года.' \
+                '\n\nАмерика 🇺🇸 - официальная гарантия Apple 1 год.'
+    seria = message.text.replace('🔹 ', '')
+    device = seria.split()[0]
+    products = topical.iphone
+    sss = []
+
+    from itertools import groupby
+
+    def grouper(item):
+        """Будем использовать эту функцию для группировки сортировки."""
+        return item['color']
+
+    data = topical.iphone
+    data = sorted(data, key=grouper)
+    kk = ''
+    for key, group_items in groupby(data, key=grouper):
+        kk_new = key
+        for item in group_items:
+            if device + ' ' + item['series'] + ' ' + get_memory(item['memory']) \
+                    == seria and item['memory'] in seria:
+                if kk_new == kk:
+                    sss.append(item)
+                else:
+                    kk = kk_new
+                    item['device'] = '\n' + item['device']
+                    sss.append(item)
+
+    series = [
+        i['device'] + ' ' +
+        i['series'] + ' ' +
+        get_memory(i['memory']) + ' ' +
+        get_color(i['color']) + ' ' +
+        get_cost(str(int(float(i['cost'])))) + ' ' + i['region']
+        for i in sss]
+
+    seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
+                     for i in products
+                     if i['series'] in seria))
+
+    z = sorted(list([i] for i in seria))
+    z = z[::-1]
+    z.append([f'⬅️Выбрать другой {device}'])
+    text = "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺') + '\n\n' + help_text
+    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard_category.keyboard = z
+    from tune_admin.get_photo import get_photo
+    get_photo(message.text.replace('🔹 ', ''))
+
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+
+    f1 = f1.read()
+    client.send_photo(chat_id=message.chat.id,
+                      photo=f1,
+                      caption=text,
+                      reply_markup=keyboard_category)
 
 
 @client.message_handler(commands=['mb'])
@@ -826,32 +934,26 @@ def main_menu_faq(message):
                                      '\n\nCHAT ID\n' + message.chat.id)
 
 
-
+main_menu = TradeInDevicesModel.objects.all()
+main_menu = [[buttons.name] for buttons in main_menu]
+main_menu.append(['⬅️Главное меню'])
 
 
 @client.message_handler(commands=['ti'])
 @client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
 @client.message_handler(func=lambda message: message.text == 'Trade-in / Продажа')
 def trade_main(message, text='Выберите устройство'):
-    start_message(message,
-                  text='Программа trade-in доступна!\n'
-                       'С помощью нее вы можете сдать свое старое устройство'
-                       ' Apple и получить скидку на новое или б/у'
-                       ' (так же принятое по программе trade-in).\n'
-                       'Чтобы узнать размер скидки выберите пункт '
-                       '«Связаться с менеджером»\n'
-                       'Или позвоните по телефону: \n'
-                       '+7 (932) 222-54-45')
-    
-main_menu = TradeInDevicesModel.objects.all()
-main_menu = [[buttons.name] for buttons in main_menu]
-main_menu.append(['⬅️Главное меню'])
-
-
-@client.message_handler(func=lambda message: message.text == '⬅️Назад к Trade-in')
-@client.message_handler(func=lambda message: message.text == '2iu2872')
-def trade_main(message, text='Выберите устройство'):
     try:
+        start_message(message,
+                      text='Программа trade-in доступна!\n'
+                           'С помощью нее вы можете сдать свое старое устройство'
+                           ' Apple и получить скидку на новое или б/у'
+                           ' (так же принятое по программе trade-in).\n'
+                           'Чтобы узнать размер скидки выберите пункт '
+                           '«Связаться с менеджером»\n'
+                           'Или позвоните по телефону: \n'
+                           '+7 (932) 222-54-45')
+
         list_user = UserModel.objects.all()
         list_user_id = [str(user_id.user_id) for user_id in list_user]
 
@@ -971,6 +1073,7 @@ def trade_again_step(message):
                                 reply_markup=keyboard)
 
         else:
+
             variable = VariableFoeStepModel.objects.filter(
                 step__step=step,
                 name=message.text.replace('📌 ', '')
@@ -1450,10 +1553,10 @@ def bot(request):
                                             text='Ошибка регистрации статы по часам (def bot)'
                                                  '\n\nТЕКСТ: \n' + message.text +
                                                  '\n\nCHAT ID\n' + message.chat.id)
-    
+
                 list_user = UserModel.objects.all()
                 list_user_id = [str(user_id.user_id) for user_id in list_user]
-    
+
                 try:
                     if str(message.chat.id) not in list_user_id:
                         UserModel.objects.create(
@@ -1471,8 +1574,6 @@ def bot(request):
                                             text='Ошибка регистрации пользователя (def bot)'
                                                  '\n\nТЕКСТ: \n' + message.text +
                                                  '\n\nCHAT ID\n' + message.chat.id)
-            else:
-                logger.error(f"Ошибка update {update.my_chat_member}")
         return HttpResponse(200)
     except IndexError as _:
         logger.error(f"Внешний прием update (def bot)")
@@ -1481,3 +1582,6 @@ def bot(request):
                                 text='Внешний прием update (def bot)'
                                      '\n\nТЕКСТ: \n' + message.text +
                                      '\n\nCHAT ID\n' + message.chat.id)
+
+
+# client.polling(non_stop=True)
