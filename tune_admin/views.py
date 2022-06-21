@@ -840,7 +840,13 @@ def new_model_step_1_2(message):
         if text:
             text = get_clear_message(text + '\n\n' + help_text)
         else:
+            out = [
+                ['▪️ MacBook Pro', '▪️ MacBook Air'],
+                ['⬅️Назад к новым устройствам']
+            ]
             text = 'Нет в наличии'
+            keyboard_category.keyboard = out
+            
             client.send_message(chat_id=message.chat.id,
                                 text=text,
                                 reply_markup=keyboard_category)
