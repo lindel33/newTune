@@ -598,8 +598,7 @@ class NewPriceModel(models.Model):
     
     
 class CSVModel(models.Model):
-    name = models.CharField(max_length=255,
-                            verbose_name='Название товара')
+    name = models.TextField(verbose_name='Название товара')
     csv_id = models.CharField(max_length=50,
                               verbose_name='Tilda ID')
     cost = models.IntegerField(verbose_name='Цена товара')
