@@ -54,7 +54,7 @@ def get_photo(series):
             return path_to_iphone + 'ipad/mini_6.jpg'
 
         if re.findall('2019|2020|2021|2022|2023|2024', name) and len(name.split()) == 1:
-            return path_to_iphone + 'ipad/mini_6.jpg'
+            return path_to_iphone + 'ipad/ipad_9.jpg'
 
     if 'airpods' in name:
         if 'airpods' in name and 'max' not in name:
