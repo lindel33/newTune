@@ -622,9 +622,7 @@ class CSVModel(models.Model):
                 i['Title'] = str(self.name)
         new_cvs_data(data)
         super().save(*args, **kwargs)
-        from cost_models.base_price import TopicalCost
-        from tune_admin.views import topical
+#         from cost_models.base_price import TopicalCost
+#         from tune_admin.views import topical
 
-        topical = topical.__new__(TopicalCost)
-        import os
-        res = os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
+#         topical = topical.__new__(TopicalCost)
