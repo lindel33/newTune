@@ -4,7 +4,7 @@ import re
 def get_photo(series):
     name = series.replace(' ', '').lower()
 
-    path_to_iphone = 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\'
+    path_to_iphone = '/home/apple/code/project1/tune/tune_admin/ac_photo/'
     if 'iphone' in name:
         if 'iphone13mini' in name:
             return path_to_iphone + 'iphone/iphone_13_mini.jpg'
