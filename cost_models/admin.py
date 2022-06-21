@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import DetailModel, NewPriceModel, ProviderModel
+from .models import DetailModel, NewPriceModel, ProviderModel, CSVModel
 from .restart_csv import post_cvs1, new_cvs_data, restart_server
 from django.shortcuts import redirect
 
@@ -92,3 +92,8 @@ class NewPriceModelAdmin(admin.ModelAdmin):
 @admin.register(ProviderModel)
 class ProviderModelAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(CSVModel)
+class CSVModelAdmin(admin.ModelAdmin):
+    list_display = ['name', 'cost', 'csv_id', ]
