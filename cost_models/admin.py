@@ -99,3 +99,4 @@ class ProviderModelAdmin(admin.ModelAdmin):
 @admin.register(CSVModel)
 class CSVModelAdmin(admin.ModelAdmin):
     list_display = ['name', 'cost', 'csv_id', ]
+    search_fields = ('name', )
