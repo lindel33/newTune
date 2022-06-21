@@ -625,5 +625,5 @@ class CSVModel(models.Model):
         from cost_models.base_price import TopicalCost
         from tune_admin.views import topical
 
-        topical.__new__(TopicalCost)
+        topical = topical.__new__(TopicalCost)
 
