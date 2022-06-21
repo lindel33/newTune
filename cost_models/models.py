@@ -622,4 +622,6 @@ class CSVModel(models.Model):
                 i['Title'] = str(self.name)
         new_cvs_data(data)
         super().save(*args, **kwargs)
+        from tune_admin.views import topical
+        topical.get_clear()
 
