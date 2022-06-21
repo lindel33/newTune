@@ -623,5 +623,6 @@ class CSVModel(models.Model):
         new_cvs_data(data)
         super().save(*args, **kwargs)
         from tune_admin.views import topical
-        topical.get_clear()
+
+        topical.__new__(TopicalCost)
 
