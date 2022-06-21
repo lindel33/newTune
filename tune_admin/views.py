@@ -851,7 +851,6 @@ def new_model_step_1_2(message):
                                 text=text,
                                 reply_markup=keyboard_category)
             return 0
-        text += '\n\n' + help_text
         get_photo(message.text.replace('🔹 ', ''))
 
         f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
