@@ -602,7 +602,7 @@ class CSVModel(models.Model):
                             verbose_name='Название товара')
     csv_id = models.CharField(max_length=50,
                               verbose_name='Tilda ID')
-    cost = models.SmallIntegerField(verbose_name='Цена товара')
+    cost = models.IntegerField(verbose_name='Цена товара')
     count = models.SmallIntegerField(default=0)
 
     class Meta:
