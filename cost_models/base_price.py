@@ -318,14 +318,16 @@ class TopicalCost:
         from cost_models.service import colors
         save_line = line
         line = line.replace('gb', 'Гб', )
+        line = line.replace('Gb', 'Гб', )
         year = '2019|2020|2021|2022|2023|2023'
         year = re.findall(year, line)[0]
         line = line.replace(year, '')
 
         def get_ssd(line_ssd):
-            ssd = 'ssd128|ssd256|ssd512|ssd1024'
+            ssd = 'ssd128|ssd256|ssd512|ssd1Tb'
             ssd = re.findall(ssd, line_ssd)[0]
             ssd = ssd.replace('ssd', 'SSD ')
+            ssd = ssd.replace('Tb', 'Тб')
             return ssd
 
         def get_ram(line_ram):
@@ -334,7 +336,7 @@ class TopicalCost:
             return ssd
 
         def get_series(line_series):
-            series = 'air13|pro13'
+            series = 'air13|pro13|pro14'
             series = re.findall(series, line_series)[0]
             series = series.replace('air', 'Air ')
             series = series.replace('pro', 'Pro ')
