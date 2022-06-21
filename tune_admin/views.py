@@ -1,11 +1,14 @@
 # # -*- coding: utf-8 -*-
 import os
 import datetime
+from pprint import pprint
+
 import requests
 import telebot
 import django
 import sys
 import logging
+from tune_admin.get_photo import get_photo
 
 if __name__ == '__main__':
     URL_BITRIX = ''
@@ -58,6 +61,8 @@ menu_support = ['📱 iPhone', '📲 iPad', '💻 MacBook',
 sup_callback = ['Назад к Б/У iPhone', 'Назад к Б/У iPad',
                 'Назад к Б/У MacBook', 'Назад к Б/У AirPods',
                 'Назад к Б/У Watch', 'Назад к Б/У Устройства']
+help_text = 'Ростест 🇷🇺 - официальная гарантия Apple 2 года.' \
+            '\n\nАмерика 🇺🇸 - официальная гарантия Apple 1 год.'
 
 
 def get_category():
@@ -628,11 +633,11 @@ def show_model(message):
 @client.message_handler(func=lambda message: message.text == 'Новые Устройства')
 @client.message_handler(func=lambda message: '⬅️Назад к новым устройствам' in message.text)
 def new_model(message):
-    new_mod = [
-        ['🆕 iPhone'],
-        # ['🆕 iPad'],
-        ['⬅️Главное меню'],
-    ]
+    new_mod = [['🆕 iPhone'],
+               # ['🆕 iPad', '🆕 Watch'],
+               # ['🆕 AirPods', '🆕 MacBook'],
+               ['⬅️Главное меню'],
+               ]
     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_category.keyboard = new_mod
     client.send_message(chat_id=message.chat.id,
@@ -663,14 +668,159 @@ def new_model_step_1(message, extra=None, text=f'Выберите серию'):
             ['▪️ iPhone XR', '▪️ iPhone SE'],
             ['⬅️Назад к новым устройствам']
         ]
-    else:
-        products = topical.iphone
-        series = set([device + ' ' + i['series'] for i in products
-                      if device == i['device']
-                      and len(i['series'].split()) == 1])
-        series.add('iPhone XR')
-        z = sorted([['▪️ ' + i] for i in series])
+    elif device == 'iPad':
+        out = [
+            ['▪️ iPad Pro', '▪️ iPad Air'],
+            ['▪️ iPad', '▪️ iPad Mini'],
+            ['⬅️Назад к новым устройствам']
+        ]
+    elif device == 'Watch':
+        out = [
+            ['▪️ Watch 7', '▪️ Watch 6'],
+            ['▪️ Watch 3', '▪️ Watch SE'],
+            ['⬅️Назад к новым устройствам']
+        ]
+    elif device == 'AirPods':
+        out = [
+            ['▪️ AirPods 2/3/Pro', '▪️ AirPods Max'],
+            ['⬅️Назад к новым устройствам']
+        ]
+    elif device == 'MacBook':
+        out = [
+            ['▪️ MacBook Pro', '▪️ MacBook Air'],
+            ['⬅️Назад к новым устройствам']
+        ]
+    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
+    keyboard_category.keyboard = out
+    client.send_message(chat_id=message.chat.id,
+                        text=text,
+                        reply_markup=keyboard_category)
 
+
+@client.message_handler(func=lambda message: message.text.split()[0] == '▪️')
+def new_model_step_1_2(message):
+    device = message.text.replace('▪️ ', '').split()[0]
+    seria = message.text.replace('▪️ ', '')
+    if device == 'iPhone':
+        products = topical.iphone
+        series = set((i['device'] + ' ' + i['series']).replace('\n', '') for i in products
+                     if seria.replace(device + ' ', '') in i['series'])
+        back_device = 'iPhone'
+    elif device == 'iPad':
+        products = topical.ipad
+        if message.text == '▪️ iPad':
+            series = set((i['device'] + ' ' + i['series']).replace('\n', '') for i in products
+                         if len(i['series'].split()) == 1)
+        else:
+            series = set((i['device'] + ' ' + i['series']).replace('\n', '') for i in products
+                         if seria.replace(device + ' ', '') in i['series'])
+        back_device = 'iPad'
+
+    elif device == 'Watch':
+        products = topical.watch
+        series = set((i['device'] + ' ' + i['series']).replace('\n', '') for i in products
+                     if seria.replace(device + ' ', '') in i['series'])
+        back_device = 'Watch'
+
+    elif 'AirPods' in device:
+        sss = []
+        from itertools import groupby
+
+        def grouper(item):
+            """Будем использовать эту функцию для группировки сортировки."""
+            return item['mem_tmp']
+
+        data = topical.airpods
+        data = sorted(data, key=grouper)
+        kk = ''
+        for key, group_items in groupby(data, key=grouper):
+            kk_new = key
+            for item in group_items:
+
+                if device + ' ' + item['memory'] \
+                        in seria:
+                    if kk_new == kk:
+                        sss.append(item)
+                    else:
+                        kk = kk_new
+                        item['series'] = '\n' + item['series']
+                        sss.append(item)
+
+        if 'Max' in message.text:
+            series = [
+                i['series'] + ' ' +
+                get_memory(i['mem_tmp'].capitalize()) + ' ' + i['color'].capitalize() + ' ' +
+                get_cost(str(int(float(i['cost'])))) + i['region']
+                for i in sss]
+            text = "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺')
+        else:
+            series = [
+                i['series'] + ' ' +
+                get_memory(i['mem_tmp']) + ' ' +
+                get_cost(str(int(float(i['cost'])))) + i['region']
+                for i in sss]
+            text = "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺')
+        out = [
+            ['Забронировать новое устройство'],
+            ['▪️ AirPods 2/3/Pro', '▪️ AirPods Max'],
+            ['⬅️Назад к новым устройствам']
+        ]
+        keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
+        keyboard_category.keyboard = out
+        if text:
+            text = get_clear_message(text + '\n\n' + help_text)
+        else:
+            text = 'Нет в наличии'
+            client.send_message(chat_id=message.chat.id,
+                                text=text,
+                                reply_markup=keyboard_category)
+            return 0
+
+        get_photo(message.text.replace('🔹 ', ''))
+
+        f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+
+        f1 = f1.read()
+        client.send_photo(chat_id=message.chat.id,
+                          photo=f1,
+                          caption=text,
+                          reply_markup=keyboard_category)
+        return 0
+    elif device == 'MacBook':
+        products = topical.macbook
+        sss = []
+        from itertools import groupby
+
+        def grouper(item):
+            """Будем использовать эту функцию для группировки сортировки."""
+            return item['color']
+
+        data = topical.macbook
+        data = sorted(data, key=grouper)
+        kk = ''
+        for key, group_items in groupby(data, key=grouper):
+            kk_new = key
+            for item in group_items:
+                if device + ' ' + item['series'] + ' ' + get_memory(item['memory']) \
+                        == seria and item['memory'] in seria:
+                    if kk_new == kk:
+                        sss.append(item)
+                    else:
+                        kk = kk_new
+                        item['device'] = '\n' + item['device']
+                        sss.append(item)
+
+        series = set((i['device'] + ' ' +
+                      i['series'] + ' ' +
+                      i['memory_ssd'] + ' ' +
+                      i['color'].capitalize() + ' ' +
+                      i['cost'] + ' ' +
+                      i['region']).replace('\n', '') for i in products
+                     if seria.replace(device + ' ', '') in i['series'])
+
+        seria = list(set('▪️ ' + device + ' ' + get_memory(i['series'])
+                         for i in products))
+        z = sorted(list([i] for i in seria))
         z = z[::-1]
         out = []
 
@@ -682,37 +832,36 @@ def new_model_step_1(message, extra=None, text=f'Выберите серию'):
             z.remove(tmp[0])
             z.remove(tmp[1])
             out.append([tmp[0][0], tmp[1][0]])
-        out.append(['⬅️Назад к новым устройствам'])
-    keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
-    keyboard_category.keyboard = out
-    client.send_message(chat_id=message.chat.id,
-                        text=text,
-                        reply_markup=keyboard_category)
+        keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
+        keyboard_category.keyboard = out
+        out.append([f'⬅️Назад к новым устройствам'])
+        out.insert(0, ['Забронировать новое устройство'])
+        text = "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺')
+        if not text:
+            client.send_message(chat_id=message.chat.id,
+                                text='Нет в наличии',
+                                reply_markup=keyboard_category)
+            return 0
+        text += '\n\n' + help_text
+        get_photo(message.text.replace('🔹 ', ''))
 
+        f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
 
-@client.message_handler(func=lambda message: message.text.split()[0] == '▪️')
-def new_model_step_1_2(message):
-
-    device = message.text.replace('▪️ ', '').split()[0]
-    seria = message.text.replace('▪️ ', '')
-    products = topical.iphone
-    series = set((i['device'] + ' ' + i['series']).replace('\n', '') for i in products
-                 if seria.replace(device + ' ', '') in i['series'])
+        f1 = f1.read()
+        client.send_photo(chat_id=message.chat.id,
+                          photo=f1,
+                          caption=text,
+                          reply_markup=keyboard_category)
+        return 0
 
     if series == set():
         new_model_step_1(message,
-                         extra='iPhone',
+                         extra=device,
                          text='Нет в наличии')
         return 0
-#     if message.text == '▪️ iPhone SE' or message.text == '▪️ iPhone XR':
-#         ss = message
-#         ss.text = ss.text.replace('▪️ ', '🔹  ')
-#         new_model_step_3(ss)
-#         return 0
     z = sorted([['🔸 ' + i] for i in series])
     z = z[::-1]
     out = []
-
     while z:
         if len(z) == 1:
             out.append(z[0])
@@ -721,7 +870,8 @@ def new_model_step_1_2(message):
         z.remove(tmp[0])
         z.remove(tmp[1])
         out.append([tmp[0][0], tmp[1][0]])
-    out.append(['⬅️Назад к новым устройствам'])
+
+    out.append([f'⬅️Выбрать другой {back_device}'])
     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_category.keyboard = out
     client.send_message(chat_id=message.chat.id,
@@ -751,65 +901,184 @@ def get_clear_name(name):
 
 
 def get_clear_message(message):
-    names_to_filter = ['iPhone ']
+    names_to_filter = ['iPhone ', 'Watch ', 'iPad ']
     for i in names_to_filter:
         if i in message:
             message = message.replace(i, '')
+        if 'Series' in message:
+            message = message.replace('Series ', 'AW ')
     return message
 
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '🔹')
 def new_model_step_3(message):
-    help_text = 'Ростест 🇷🇺 - официальная гарантия Apple 2 года.' \
-                '\n\nАмерика 🇺🇸 - официальная гарантия Apple 1 год.'
     seria = message.text.replace('🔹 ', '')
+    seria = seria.replace('🔸 ', '')
     device = seria.split()[0]
-    products = topical.iphone
-    sss = []
+    if 'iPhone' in device:
+        products = topical.iphone
+        sss = []
 
-    from itertools import groupby
+        from itertools import groupby
 
-    def grouper(item):
-        """Будем использовать эту функцию для группировки сортировки."""
-        return item['color']
+        def grouper(item):
+            """Будем использовать эту функцию для группировки сортировки."""
+            return item['color']
 
-    data = topical.iphone
-    data = sorted(data, key=grouper)
-    kk = ''
-    for key, group_items in groupby(data, key=grouper):
-        kk_new = key
-        for item in group_items:
-            if device + ' ' + item['series'] + ' ' + get_memory(item['memory']) \
-                    == seria and item['memory'] in seria:
-                if kk_new == kk:
-                    sss.append(item)
-                else:
-                    kk = kk_new
-                    item['device'] = '\n' + item['device']
-                    sss.append(item)
+        data = topical.iphone
+        data = sorted(data, key=grouper)
+        kk = ''
+        for key, group_items in groupby(data, key=grouper):
+            kk_new = key
+            for item in group_items:
+                if device + ' ' + item['series'] + ' ' + get_memory(item['memory']) \
+                        == seria and item['memory'] in seria:
+                    if kk_new == kk:
+                        sss.append(item)
+                    else:
+                        kk = kk_new
+                        item['device'] = '\n' + item['device']
+                        sss.append(item)
 
-    series = [
-        i['device'] + ' ' +
-        i['series'] + ' ' +
-        get_memory(i['memory']) + ' ' +
-        get_color(i['color']) + ' ' +
-        get_cost(str(int(float(i['cost'])))) + i['region']
-        for i in sss]
+        series = [
+            i['device'] + ' ' +
+            i['series'] + ' ' +
+            get_memory(i['memory']) + ' ' +
+            get_color(i['color']) + ' ' +
+            get_cost(str(int(float(i['cost'])))) + i['region']
+            for i in sss]
 
-    seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
-                     for i in products
-                     if
-                     (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ', '').lower()))
+        seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
+                         for i in products
+                         if
+                         (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ',
+                                                                                                          '').lower()))
 
-    z = sorted(list([i] for i in seria))
-    z = z[::-1]
+        z = sorted(list([i] for i in seria))
+        z = z[::-1]
+    elif 'iPad' in device:
+        products = topical.ipad
+        sss = []
+
+        from itertools import groupby
+
+        def grouper(item):
+            """Будем использовать эту функцию для группировки сортировки."""
+            return item['color']
+
+        data = topical.ipad
+        data = sorted(data, key=grouper)
+        kk = ''
+        for key, group_items in groupby(data, key=grouper):
+            kk_new = key
+            for item in group_items:
+                if device + ' ' + item['series'] + ' ' + get_memory(item['memory']) \
+                        == seria and item['memory'] in seria:
+                    if kk_new == kk:
+                        sss.append(item)
+                    else:
+                        kk = kk_new
+                        item['device'] = '\n' + item['device']
+                        sss.append(item)
+
+        series = set([
+            i['device'] + ' ' +
+            i['series'] + ' ' +
+            get_memory(i['memory']) + ' ' +
+            get_color(i['color']) + ' ' +
+            get_cost(str(int(float(i['cost'])))) + i['region']
+            for i in sss])
+
+        seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
+                         for i in products
+                         if
+                         (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ',
+                                                                                                          '').lower()))
+
+        z = sorted(list([i] for i in seria))
+        z = z[::-1]
+
+    elif 'Watch' in device:
+        products = topical.watch
+        sss = []
+
+        from itertools import groupby
+
+        def grouper(item):
+            """Будем использовать эту функцию для группировки сортировки."""
+            return item['color']
+
+        data = topical.watch
+        data = sorted(data, key=grouper)
+        kk = ''
+        for key, group_items in groupby(data, key=grouper):
+            kk_new = key
+            for item in group_items:
+                if device + ' ' + item['series'] \
+                        in seria:
+                    if kk_new == kk:
+                        sss.append(item)
+                    else:
+                        kk = kk_new
+                        item['device'] = '\n' + item['device']
+                        sss.append(item)
+
+        series = [
+            i['device'] + ' ' +
+            i['series'] + ' ' +
+            get_memory(i['memory']) + ' ' +
+            get_color(i['color']) + ' ' +
+            get_cost(str(int(float(i['cost'])))) + i['region']
+            for i in sss]
+        seria0 = message.text.replace('🔸 ', '').split()
+        seria1 = seria0[1]
+        seria2 = seria0[2]
+        seria = seria1 + ' ' + seria2
+        seria = set(('🔸 ' + i['device'] + ' ' + i['series']).replace('\n', '') for i in products
+                    if seria.replace(device + ' ', '') in i['series'])
+
+        z = sorted(list([i] for i in seria))
+        z = z[::-1]
+        out = []
+        while z:
+            if len(z) == 1:
+                out.append(z[0])
+                break
+            tmp = z[:2]
+            z.remove(tmp[0])
+            z.remove(tmp[1])
+            out.append([tmp[0][0], tmp[1][0]])
+
+        text = get_clear_message(
+            "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺') + '\n\n' + help_text)
+        keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
+        keyboard_category.keyboard = out
+        get_photo(message.text.replace('🔹 ', ''))
+        out.append([f'⬅️Выбрать другой {device}'])
+        out.insert(0, ['Забронировать новое устройство'])
+        f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+
+        f1 = f1.read()
+        client.send_photo(chat_id=message.chat.id,
+                          photo=f1,
+                          caption=text,
+                          reply_markup=keyboard_category)
+        return 0
+
     z.append([f'⬅️Выбрать другой {device}'])
     z.insert(0, ['Забронировать новое устройство'])
-    text = get_clear_message(
-        "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺') + '\n\n' + help_text)
+    text = "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺')
     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_category.keyboard = z
-    from tune_admin.get_photo import get_photo
+    if not text:
+        text = 'Выберите серию'
+        client.send_message(chat_id=message.chat.id,
+                            text=text,
+                            reply_markup=keyboard_category)
+        return 0
+    else:
+        text = get_clear_message(text + '\n\n' + help_text)
+
     get_photo(message.text.replace('🔹 ', ''))
 
     f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
@@ -837,14 +1106,37 @@ def new_model_step_2(message):
     elif '⬅️' in message.text:
         seria = message.text.replace('⬅️', '')
         seria = seria.replace('Выбрать другую серию', '')
-    products = topical.iphone
-    seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
-                     for i in products
-                     if
-                     (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ', '').lower()))
-    z = sorted(list([i] for i in seria))
-    z = z[::-1]
-    z.append([f'⬅️Выбрать другой {device}'])
+    if device == 'iPhone':
+        products = topical.iphone
+        seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
+                         for i in products
+                         if
+                         (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ',
+                                                                                                          '').lower()))
+        z = sorted(list([i] for i in seria))
+        z = z[::-1]
+        z.append([f'⬅️Выбрать другой {device}'])
+    elif 'iPad' in message.text:
+        new_model_step_3(message)
+        return 0
+
+    elif device == 'Watch':
+        new_model_step_3(message)
+        return 0
+    elif device == 'AirPods':
+        new_model_step_3(message)
+        return 0
+
+    elif device == 'MacBook':
+        products = topical.macbook
+        seria = list(set('🔹 ' + get_clear_name(seria) + ' ' + get_memory(i['memory'])
+                         for i in products
+                         if
+                         (device + i['series']).replace(' ', '').lower() == get_clear_name(seria).replace(' ',
+                                                                                                          '').lower()))
+        z = sorted(list([i] for i in seria))
+        z = z[::-1]
+        z.append([f'⬅️Выбрать другой {device}'])
     keyboard_category = telebot.types.ReplyKeyboardMarkup(True, True)
     keyboard_category.keyboard = z
     client.send_message(chat_id=message.chat.id,
@@ -982,11 +1274,11 @@ main_menu.append(['⬅️Главное меню'])
 def trade_main(message, text='Выберите устройство'):
     start_message(message,
                   text='Программа trade-in доступна!\n'
-                'С помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у'
-                 '(так же принятое по программе trade-in).'
-                'Чтобы узнать размер скидки выберите пункт «Связаться с менеджером»'
-                '\nИли позвоните по телефону: \n'
-                '+7 (932) 222-54-45')
+                       'С помощью нее вы можете сдать свое старое устройство Apple и получить скидку на новое или б/у'
+                       '(так же принятое по программе trade-in).'
+                       'Чтобы узнать размер скидки выберите пункт «Связаться с менеджером»'
+                       '\nИли позвоните по телефону: \n'
+                       '+7 (932) 222-54-45')
 
 
 @client.message_handler(commands=['trad'])
@@ -1494,7 +1786,6 @@ def admin_hours_users(message):
 
 @client.message_handler(content_types=['text'])
 def bitrix_client(message):
-    print(1)
     if __name__ == '__main__':
         if message.text.lower().split()[0] == 'забронировать|узнать' or \
                 message.text.lower() == 'купить новое устройство':
