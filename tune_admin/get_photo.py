@@ -7,7 +7,7 @@ def get_photo(series):
     path_to_iphone = '/home/apple/code/project1/tune/tune_admin/ac_photo/'
     if 'iphone' in name:
         if 'iphone13mini' in name:
-            return path_to_iphone + 'iphone/iphone_13_mini.jpg'
+            return path_to_iphone + 'iphone/iphone_13.jpg'
 
         if 'iphone13' in name and 'mini' not in name:
             return path_to_iphone + 'iphone/iphone_13_mini.jpg'
