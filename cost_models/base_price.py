@@ -74,9 +74,9 @@ class TopicalCost:
                     device = self._get_only_airpods(i)
                     self.airpods.append(device)
 
-#                 if 'macbook' in i:
-#                     device = self._get_only_macbook(i)
-#                     self.macbook.append(device)
+                if 'macbook' in i:
+                    device = self._get_only_macbook(i)
+                    self.macbook.append(device)
 
     @staticmethod
     def _get_clear_line(lines):
@@ -312,47 +312,45 @@ class TopicalCost:
 
         return data
 
-#     @staticmethod
-#     def _get_only_macbook(line):
-#         global color
-#         from cost_models.service import colors
-#         save_line = line
-#         line = line.replace('gb', 'Гб', )
-# #         line = line.replace('Gb', 'Гб', )
-#         year = '2019|2020|2021|2022|2023|2023'
-#         year = re.findall(year, line)[0]
-#         line = line.replace(year, '')
+    @staticmethod
+    def _get_only_macbook(line):
+        global color
+        from cost_models.service import colors
+        save_line = line
+        line = line.replace('gb', 'Гб', )
+        year = '2019|2020|2021|2022|2023|2023'
+        year = re.findall(year, line)[0]
+        line = line.replace(year, '')
 
-#         def get_ssd(line_ssd):
-#             ssd = 'ssd128|ssd256|ssd512'
-#             ssd = re.findall(ssd, line_ssd)[0]
-#             ssd = ssd.replace('ssd', 'SSD ')
-# #             ssd = ssd.replace('Tb', 'Тб')
-#             return ssd
+        def get_ssd(line_ssd):
+            ssd = 'ssd128|ssd256|ssd512|ssd1024|ssd1'
+            ssd = re.findall(ssd, line_ssd)[0]
+            ssd = ssd.replace('ssd', 'SSD ')
+            return ssd
 
-#         def get_ram(line_ram):
-#             ssd = '8Гб|12Гб|16Гб|24Гб|32Гб'
-#             ssd = re.findall(ssd, line_ram)[0]
-#             return ssd
+        def get_ram(line_ram):
+            ssd = '8Гб|12Гб|16Гб|24Гб|32Гб'
+            ssd = re.findall(ssd, line_ram)[0]
+            return ssd
 
-#         def get_series(line_series):
-#             series = 'air13|pro13'
-#             series = re.findall(series, line_series)[0]
-#             series = series.replace('air', 'Air ')
-#             series = series.replace('pro', 'Pro ')
-#             return series
+        def get_series(line_series):
+            series = 'air13|pro13|pro14'
+            series = re.findall(series, line_series)[0]
+            series = series.replace('air', 'Air ')
+            series = series.replace('pro', 'Pro ')
+            return series
 
-#         color = re.findall(colors, line)[0]
-#         data = {
-#             'device': 'MacBook',
-#             'year': year,
-#             'series': get_series(line),
-#             'memory': get_ram(line),
-#             'memory_ssd': get_ssd(line),
-#             'color': color,
-#             'cost': re.findall('\[(.*?)\]', line)[-1],
-#             'region': re.findall('америка|ростест', line)[0],
-#             'extra': save_line,
+        color = re.findall(colors, line)[0]
+        data = {
+            'device': 'MacBook',
+            'year': year,
+            'series': get_series(line),
+            'memory': get_ram(line),
+            'memory_ssd': get_ssd(line),
+            'color': color,
+            'cost': re.findall('\[(.*?)\]', line)[-1],
+            'region': re.findall('америка|ростест', line)[0],
+            'extra': save_line,
 
-#         }
-#         return data
+        }
+        return data
