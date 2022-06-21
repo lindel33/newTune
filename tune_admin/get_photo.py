@@ -48,7 +48,7 @@ def get_photo(series):
             return path_to_iphone + 'ipad/Pro_12_2021.jpg'
 
         if 'air' in name:
-            return path_to_iphone + 'ipad/air_2021.jpg'
+            return path_to_iphone + 'ipad/Air_2021.jpg'
 
         if 'mini' in name:
             return path_to_iphone + 'ipad/mini_6.jpg'
