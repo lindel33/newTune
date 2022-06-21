@@ -595,3 +595,32 @@ class NewPriceModel(models.Model):
                             count += 1
 
         return count
+    
+    
+class CSVModel(models.Model):
+    name = models.CharField(max_length=255,
+                            verbose_name='Название товара')
+    csv_id = models.CharField(max_length=50,
+                              verbose_name='Tilda ID')
+    cost = models.SmallIntegerField(verbose_name='Цена товара')
+    count = models.SmallIntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Управление CSV'
+        verbose_name_plural = 'Управление CSV'
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.count += 1
+        print(22)
+        from cost_models.startsvc import get_cvs_data, new_cvs_data
+        data = get_cvs_data()
+        for i in data:
+            if str(i['Tilda UID']) == str(self.csv_id):
+                i['Price'] = str(self.cost)
+                i['Title'] = str(self.name)
+        new_cvs_data(data)
+        super().save(*args, **kwargs)
+
