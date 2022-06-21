@@ -647,8 +647,10 @@ def new_model(message):
 
 from cost_models.base_price import TopicalCost
 
-topical = TopicalCost()
-topical.get_clear()
+def topicals():
+    topical = TopicalCost()
+    topical.get_clear()
+    return topical
 
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '🆕')
@@ -699,6 +701,7 @@ def new_model_step_1(message, extra=None, text=f'Выберите серию'):
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '▪️')
 def new_model_step_1_2(message):
+    topical = topicals()
     device = message.text.replace('▪️ ', '').split()[0]
     seria = message.text.replace('▪️ ', '')
     if device == 'iPhone':
@@ -920,6 +923,7 @@ def get_clear_message(message):
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '🔹')
 def new_model_step_3(message):
+    topical = topicals()
     seria = message.text.replace('🔹 ', '')
     seria = seria.replace('🔸 ', '')
     device = seria.split()[0]
@@ -1106,6 +1110,7 @@ def get_memory(memory):
 
 @client.message_handler(func=lambda message: message.text.split()[0] == '🔸')
 def new_model_step_2(message):
+    topical = topicals()
     device = message.text.split()[1]
     if '🔸' in message.text:
         seria = message.text.replace('🔸 ', '')
