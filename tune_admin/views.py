@@ -634,7 +634,8 @@ def show_model(message):
 @client.message_handler(func=lambda message: '⬅️Назад к новым устройствам' in message.text)
 def new_model(message):
     new_mod = [['🆕 iPhone'],
-               # ['🆕 iPad', '🆕 Watch'],
+               ['🆕 iPad', '🆕 Watch'],
+               ['🆕 AirPods'],
                # ['🆕 AirPods', '🆕 MacBook'],
                ['⬅️Главное меню'],
                ]
