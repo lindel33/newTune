@@ -837,9 +837,12 @@ def new_model_step_1_2(message):
         out.append([f'⬅️Назад к новым устройствам'])
         out.insert(0, ['Забронировать новое устройство'])
         text = "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺')
-        if not text:
+        if text:
+            text = get_clear_message(text + '\n\n' + help_text)
+        else:
+            text = 'Нет в наличии'
             client.send_message(chat_id=message.chat.id,
-                                text='Нет в наличии',
+                                text=text,
                                 reply_markup=keyboard_category)
             return 0
         text += '\n\n' + help_text
