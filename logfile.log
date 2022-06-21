@@ -6703,3 +6703,637 @@ Traceback (most recent call last):
   File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
     f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
 TypeError: expected str, bytes or os.PathLike object, not NoneType
+WARNING 2022-06-21 21:40:22,271 - Forbidden (Referer checking failed - no Referer.): /api/linkPF
+WARNING 2022-06-21 21:40:22,836 - Forbidden (Referer checking failed - no Referer.): /api/im/conf
+WARNING 2022-06-21 21:40:33,885 - Forbidden (Referer checking failed - no Referer.): /api/link/platform
+WARNING 2022-06-21 21:40:34,769 - Forbidden (Referer checking failed - no Referer.): /api/lastestBetLog
+WARNING 2022-06-21 21:40:53,476 - Forbidden (Referer checking failed - no Referer.): /km.asmx/getPlatParam
+WARNING 2022-06-21 21:41:30,604 - Forbidden (Referer checking failed - no Referer.): /api/notice
+ERROR 2022-06-21 21:43:56,605 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+ERROR 2022-06-21 21:43:56,884 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+ERROR 2022-06-21 21:43:59,018 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+ERROR 2022-06-21 21:44:03,373 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+ERROR 2022-06-21 21:44:11,653 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+ERROR 2022-06-21 21:45:33,429 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\iphone/iphone_13_mini.jpg'
+ERROR 2022-06-21 21:45:33,797 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\iphone/iphone_13_mini.jpg'
+ERROR 2022-06-21 21:45:35,998 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\iphone/iphone_13_mini.jpg'
+ERROR 2022-06-21 21:45:40,297 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\iphone/iphone_13_mini.jpg'
+ERROR 2022-06-21 21:45:40,587 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\ipad/Pro_11_2021.jpg'
+ERROR 2022-06-21 21:45:40,875 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\ipad/Pro_11_2021.jpg'
+ERROR 2022-06-21 21:45:43,066 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\ipad/Pro_11_2021.jpg'
+ERROR 2022-06-21 21:45:47,353 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\ipad/Pro_11_2021.jpg'
+ERROR 2022-06-21 21:45:48,658 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\iphone/iphone_13_mini.jpg'
+ERROR 2022-06-21 21:45:55,637 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\ipad/Pro_11_2021.jpg'
+ERROR 2022-06-21 21:46:04,972 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\iphone/iphone_13_mini.jpg'
+ERROR 2022-06-21 21:46:11,923 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\ipad/Pro_11_2021.jpg'
+ERROR 2022-06-21 21:46:37,271 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\iphone/iphone_13_mini.jpg'
+ERROR 2022-06-21 21:46:44,208 - Internal Server Error: /api/v1
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 54, in wrapped_view
+    return view_func(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1903, in bot
+    client.process_new_updates([update])
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 490, in process_new_updates
+    self.process_new_messages(new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 522, in process_new_messages
+    self._notify_command_handlers(self.message_handlers, new_messages)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 3449, in _notify_command_handlers
+    self._exec_task(message_handler['function'], message, pass_bot=message_handler['pass_bot'], task_type='handler')
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/telebot/__init__.py", line 784, in _exec_task
+    task(*args, **kwargs)
+  File "/home/apple/code/project1/tune/tune_admin/views.py", line 1084, in new_model_step_3
+    f1 = open(get_photo(message.text.replace('🔹 ', '')), 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lindel\\Py_Projects\\newTune\\tune_admin\\ac_photo\\ipad/Pro_11_2021.jpg'
+ERROR 2022-06-21 21:51:53,096 - Internal Server Error: /cost_models/newpricemodel/
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/mysql/base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 320, in _query
+    self._do_get_result(db)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 145, in _do_get_result
+    self._result = result = self._get_result()
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 352, in _get_result
+    return self._get_db().store_result()
+MySQLdb._exceptions.DataError: (1264, "Out of range value for column 'cost' at row 6")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/options.py", line 616, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/utils/decorators.py", line 130, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/cache.py", line 44, in _wrapped_view_func
+    response = view_func(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/sites.py", line 232, in inner
+    return view(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/utils/decorators.py", line 43, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/utils/decorators.py", line 130, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/options.py", line 1723, in changelist_view
+    response = self.response_action(request, queryset=cl.get_queryset(request))
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/options.py", line 1408, in response_action
+    response = func(self, request, queryset)
+  File "/home/apple/code/project1/tune/cost_models/admin.py", line 49, in download_csv
+    create_new_cvs()
+  File "/home/apple/code/project1/tune/cost_models/new_csv.py", line 17, in create_new_cvs
+    CSVModel.objects.bulk_create(
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/query.py", line 514, in bulk_create
+    returned_columns = self._batched_insert(
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/query.py", line 1287, in _batched_insert
+    inserted_rows.extend(self._insert(
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/query.py", line 1270, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/sql/compiler.py", line 1416, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/mysql/base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 320, in _query
+    self._do_get_result(db)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 145, in _do_get_result
+    self._result = result = self._get_result()
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 352, in _get_result
+    return self._get_db().store_result()
+django.db.utils.DataError: (1264, "Out of range value for column 'cost' at row 6")
+WARNING 2022-06-21 21:52:21,307 - Not Found: /favicon.ico
+ERROR 2022-06-21 21:55:13,683 - Internal Server Error: /cost_models/newpricemodel/
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/mysql/base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 320, in _query
+    self._do_get_result(db)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 145, in _do_get_result
+    self._result = result = self._get_result()
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 352, in _get_result
+    return self._get_db().store_result()
+MySQLdb._exceptions.DataError: (1264, "Out of range value for column 'cost' at row 6")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/options.py", line 616, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/utils/decorators.py", line 130, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/cache.py", line 44, in _wrapped_view_func
+    response = view_func(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/sites.py", line 232, in inner
+    return view(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/utils/decorators.py", line 43, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/utils/decorators.py", line 130, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/options.py", line 1723, in changelist_view
+    response = self.response_action(request, queryset=cl.get_queryset(request))
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/options.py", line 1408, in response_action
+    response = func(self, request, queryset)
+  File "/home/apple/code/project1/tune/cost_models/admin.py", line 49, in download_csv
+    create_new_cvs()
+  File "/home/apple/code/project1/tune/cost_models/new_csv.py", line 17, in create_new_cvs
+    CSVModel.objects.bulk_create(
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/query.py", line 514, in bulk_create
+    returned_columns = self._batched_insert(
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/query.py", line 1287, in _batched_insert
+    inserted_rows.extend(self._insert(
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/query.py", line 1270, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/sql/compiler.py", line 1416, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/mysql/base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 320, in _query
+    self._do_get_result(db)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 145, in _do_get_result
+    self._result = result = self._get_result()
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 352, in _get_result
+    return self._get_db().store_result()
+django.db.utils.DataError: (1264, "Out of range value for column 'cost' at row 6")
+ERROR 2022-06-21 21:58:09,461 - Internal Server Error: /cost_models/newpricemodel/
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/mysql/base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 320, in _query
+    self._do_get_result(db)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 145, in _do_get_result
+    self._result = result = self._get_result()
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 352, in _get_result
+    return self._get_db().store_result()
+MySQLdb._exceptions.DataError: (1406, "Data too long for column 'name' at row 255")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/options.py", line 616, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/utils/decorators.py", line 130, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/views/decorators/cache.py", line 44, in _wrapped_view_func
+    response = view_func(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/sites.py", line 232, in inner
+    return view(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/utils/decorators.py", line 43, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/utils/decorators.py", line 130, in _wrapped_view
+    response = view_func(request, *args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/options.py", line 1723, in changelist_view
+    response = self.response_action(request, queryset=cl.get_queryset(request))
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/contrib/admin/options.py", line 1408, in response_action
+    response = func(self, request, queryset)
+  File "/home/apple/code/project1/tune/cost_models/admin.py", line 49, in download_csv
+    create_new_cvs()
+  File "/home/apple/code/project1/tune/cost_models/new_csv.py", line 17, in create_new_cvs
+    CSVModel.objects.bulk_create(
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/query.py", line 514, in bulk_create
+    returned_columns = self._batched_insert(
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/query.py", line 1287, in _batched_insert
+    inserted_rows.extend(self._insert(
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/query.py", line 1270, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/models/sql/compiler.py", line 1416, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/django/db/backends/mysql/base.py", line 73, in execute
+    return self.cursor.execute(query, args)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 206, in execute
+    res = self._query(query)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 320, in _query
+    self._do_get_result(db)
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 145, in _do_get_result
+    self._result = result = self._get_result()
+  File "/home/apple/code/project1/env/lib/python3.8/site-packages/MySQLdb/cursors.py", line 352, in _get_result
+    return self._get_db().store_result()
+django.db.utils.DataError: (1406, "Data too long for column 'name' at row 255")
