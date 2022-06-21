@@ -45,6 +45,8 @@ class NewPriceModelAdmin(admin.ModelAdmin):
         f = open('/home/apple/code/project1/tune/cost_models/store.csv', 'r')
         response = HttpResponse(f, content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename=pricetilda.csv'
+        from cost_models.new_csv import create_new_cvs
+        create_new_cvs()
         return response
 
     def reload(self, request, queryset):
