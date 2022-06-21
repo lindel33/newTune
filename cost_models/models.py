@@ -626,4 +626,5 @@ class CSVModel(models.Model):
         from tune_admin.views import topical
 
         topical = topical.__new__(TopicalCost)
-
+        import os
+        res = os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
