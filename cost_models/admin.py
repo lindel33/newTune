@@ -47,8 +47,6 @@ class NewPriceModelAdmin(admin.ModelAdmin):
         response['Content-Disposition'] = 'attachment; filename=pricetilda.csv'
         from cost_models.new_csv import create_new_cvs
         create_new_cvs()
-        from tune_admin.views import topical
-        topical.get_clear()
         return response
 
     def reload(self, request, queryset):
