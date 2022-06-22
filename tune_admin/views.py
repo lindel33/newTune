@@ -1813,9 +1813,12 @@ def bitrix_client(message):
             start_message(message, text='Пожалуйста дождитесь ответа менеджера,'
                                         ' он поможет Вам забронировать устройство '
                                         'или расскажет о нем более подробно 👩🏻‍💻')
-
-
-        requests.post(URL_BITRIX, json=ts)
+    
+            jsn = message.__dict__.get('json')
+            ts = {'update_id': 287246100,
+                  'message': jsn}
+            requests.post(URL_BITRIX, json=ts)
+            
     except IndexError as _:
         logger.error(f"Ошибка bitrix_client")
         for i in admin_chat_id:
@@ -1823,6 +1826,8 @@ def bitrix_client(message):
                                 text='Ошибка bitrix_client'
                                      '\n\nТЕКСТ: \n' + message.text +
                                      '\n\nCHAT ID\n' + message.chat.id)
+
+
 
 
 @client.message_handler(content_types=['voice'])
