@@ -955,7 +955,7 @@ def new_model_step_3(message):
         series = [
             i['device'] + ' ' +
             i['series'] + ' ' +
-            get_memory(i['memory']) + ' ' +
+            get_memory(i['memory'].replace(' ', '')) + ' ' +
             get_color(i['color']) + ' ' +
             get_cost(str(int(float(i['cost'])))) + i['region']
             for i in sss]
