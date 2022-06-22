@@ -14,7 +14,7 @@ class SendGlobalMessageAdmin(admin.ModelAdmin):
 @admin.register(UserModel)
 class UserModelAdmin(admin.ModelAdmin):
     list_display = ['name', 'user_id', 'first_name', 'last_name', 'region_user', 'notifications', ]
-    search_fields = ('user_id', )
+    search_fields = ('user_id', 'name', )
 
 @admin.register(RegionUserModel)
 class RegionUserModelAdmin(admin.ModelAdmin):
