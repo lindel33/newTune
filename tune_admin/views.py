@@ -759,7 +759,7 @@ def new_model_step_1_2(message):
         else:
             series = [
                 i['series'] + ' ' +
-                get_memory(i['mem_tmp']) + ' ' +
+                get_memory(i['mem_tmp'].capitalize()) + ' ' +
                 get_cost(str(int(float(i['cost'])))) + i['region']
                 for i in sss]
             text = "\n".join(series).replace('америка', '🇺🇸').replace('ростест', '🇷🇺')
