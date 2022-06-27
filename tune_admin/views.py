@@ -1786,13 +1786,24 @@ def set_re_test_false(message):
         start_message(message)
 
 
-@client.message_handler(commands=['server_restart'])
-def admin_hours_users(message):
+@client.message_handler(func=lambda message: '🔑' in message.text)
+def admin_save_post(message):
     if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
-        res = os.system('sudo supervisorctl status gunicorn | sed "s/.*[pid ]\([0-9]\+\)\,.*/\1/" | xargs kill -HUP')
-        client.send_message(chat_id=message.chat.id,
-                            text=f'Статус перезагрузки: {res}' + '\n\n\n Показать сервисное меню /GetService',
-                            )
+        if '✅' in message.text:
+            product_id = message.text.split('=')[-1]
+            Product.objects.filter(id=product_id).update(moderation=True)
+            start_message(message=message,
+                          text='Пост успешно опубликован')
+        if '❌' in message.text:
+            product_id = message.text.split('=')[-1]
+            Product.objects.filter(id=product_id).delete()
+            start_message(message=message,
+                          text='Пост был удален(Отменить нельзя)')
+        if '↪' in message.text:
+            product_id = message.text.split('=')[-1]
+            Product.objects.filter(id=product_id).update(moderation=True)
+            start_message(message=message,
+                          text='Пост отложен\nВы можете опубликовать пост через админ-панель')
     else:
         start_message(message)
 
