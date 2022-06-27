@@ -1901,7 +1901,7 @@ def bot(request):
 
             json_data = request.body.decode('utf-8')
             update = telebot.types.Update.de_json(json_data)
-            if update.message:
+            if update.message.text:
                 us_id = str(update.message.chat.id) + str(
                     (datetime.datetime.now() + datetime.timedelta(hours=3)).strftime('%H'))
                 list_uss = StaticUserHourModel.objects.all()
