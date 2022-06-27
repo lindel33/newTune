@@ -425,7 +425,10 @@ class UserModel(models.Model):
                                     verbose_name='Регион',)
     notifications = models.BooleanField('Уведомления',
                                         default=True)
-          
+    service_notifications = models.BooleanField('Технические уведомления',
+                                        default=False)
+    provider_notifications = models.BooleanField('Уведомления постов поставщтка',
+                                        default=False)
     class Meta:
         verbose_name = 'Регистрация пользователей'
         verbose_name_plural = 'Регистрация пользователей'
