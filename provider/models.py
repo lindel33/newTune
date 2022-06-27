@@ -145,7 +145,7 @@ class ProviderProduct(models.Model):
             self.base_text = str(self.base_text) + '\n' + str(self.guaranty) + '\n'
         self.base_text = str(self.base_text) + default_text
         if self.device_provider:
-            Product.objects.create(
+            res = Product.objects.create(
                 image_1=self.image_1,
                 image_2=self.image_2,
                 image_3=self.image_3,
@@ -182,6 +182,44 @@ class ProviderProduct(models.Model):
             )
             self.device_provider = False
         super().save(*args, **kwargs)
+        import telebot
+        from tune_admin.models import UserModel
+        admins = UserModel.objects.filter(super_user=True, provider_notifications=True).values_list('user_id')
+        admins = [i[0] for i in admins]
+        token = '5376806714:AAELQVr7_Xe648jHUnI6ZmVa32VPqikNz8Q'
+        path_to_media = ''
+        client = telebot.TeleBot(token=token)
+        for chat_id in admins:
+                client.send_message(chat_id=chat_id,
+                                    text=f'Поставщик {self.author} создал товар')
+                if self.image_3:
+                    f1, f2, f3 = open(path_to_media + str(self.image_1), 'rb'), \
+                                 open(path_to_media + str(self.image_2), 'rb'), \
+                                 open(path_to_media + str(self.image_3), 'rb')
+                    f1, f2, f3 = f1.read(), f2.read(), f3.read()
+                    client.send_media_group(chat_id=chat_id, media=[
+                        telebot.types.InputMediaPhoto(f1, caption=self.base_text, parse_mode='HTML'),
+                        telebot.types.InputMediaPhoto(f2),
+                        telebot.types.InputMediaPhoto(f3), ])
+                else:
+                    f1, f2 = open(path_to_media + str(self.image_1), 'rb'), \
+                                 open(path_to_media + str(self.image_2), 'rb')
+                    f1, f2 = f1.read(), f2.read()
+                    client.send_media_group(chat_id=chat_id, media=[
+                        telebot.types.InputMediaPhoto(f1, caption=self.base_text, parse_mode='HTML'),
+                        telebot.types.InputMediaPhoto(f2),])
+
+                out = [
+                    [f'🔑✅ Допустить пост к публикации id={res.id}'],
+                    [f'🔑↪️ Отложить рассмотрение id={res.id}'],
+                    [f'🔑❌ УДАЛИТЬ ПОСТ (БЕЗВОЗРАТНО) id={res.id}'],
+                    ['⬅️Главное меню']
+                ]
+                keyboard = telebot.types.ReplyKeyboardMarkup(True, True)
+                keyboard.keyboard = out
+                client.send_message(chat_id=chat_id,
+                                    text='Что сделать с постом?',
+                                    reply_markup=keyboard)
 
     def __str__(self):
         return self.name
