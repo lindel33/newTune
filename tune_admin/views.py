@@ -1976,7 +1976,7 @@ def reg_user(update):
                           text='Ваше меню было обновлено!')
 
     except:
-        logger.error(f"Внешний прием update (reg_user)")
+        logger.error(f"Внешний прием update (reg_user), {update}")
 
 
 def stat_user(update):
@@ -1994,7 +1994,7 @@ def stat_user(update):
                 last_name=message.chat.last_name
             )
     except:
-        logger.error(f"Внешний прием update (stat_user)")
+        logger.error(f"Внешний прием update (stat_user), {update}")
 
 
 @csrf_exempt
