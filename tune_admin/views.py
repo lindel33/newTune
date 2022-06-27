@@ -1973,8 +1973,7 @@ def reg_user(update):
                 full_id=str(update.message.chat.username),
             )
             start_message(message=update.message,
-                          text='У нас обновились товары!\n'
-                               'Вы автоматически возвращены в главное меню')
+                          text='Ваше меню было обновлено!')
 
     except:
         logger.error(f"Внешний прием update (reg_user)")
