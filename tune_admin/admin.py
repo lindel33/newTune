@@ -124,7 +124,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ['name', 'price', 'article', 'category', 'series', 'sale', 'moderation', 'booking', 'sell', 'author', 'day_created', ]
     search_fields = ('name','article', 'provider_device', 'author__username', )
     exclude = ('name_tmp', 'up_price', 'author', 'day_next_publish', 'device_provider', 'www')
-    actions = [plus, plust, minus, minust, cost10, cost20, cost30, sell, 'new_sale']
+    actions = [plus, plust, minus, minust, cost10, cost20, cost30, sell, 'new_sale', 'drop_sale']
 
     admin.site.site_header = 'TuneApple'
     admin.site.site_title = 'TuneAppleAdmin'
