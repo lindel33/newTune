@@ -186,8 +186,8 @@ class ProviderProduct(models.Model):
         from tune_admin.models import UserModel
         admins = UserModel.objects.filter(super_user=True, provider_notifications=True).values_list('user_id')
         admins = [i[0] for i in admins]
-        token = '5376806714:AAELQVr7_Xe648jHUnI6ZmVa32VPqikNz8Q'
-        path_to_media = ''
+        token = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'
+        path_to_media = '/home/apple/code/project1/tune/media/'
         client = telebot.TeleBot(token=token)
         for chat_id in admins:
                 client.send_message(chat_id=chat_id,
