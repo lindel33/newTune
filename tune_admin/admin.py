@@ -141,11 +141,11 @@ class PostAdmin(admin.ModelAdmin):
 
     @staticmethod
     @admin.action(description='Обновить акции')
-    def new_sale( modeladmin, request, queryset):
+    def new_sale(modeladmin, request, queryset):
         all_pro = Product.objects.all()
         for i in all_pro:
             if i.sale == True:
-                i.price = i.price + 2000
+                i.discount_cost = 0
                 i.save()
         Product.objects.update(sale=False)
         import random
@@ -163,19 +163,18 @@ class PostAdmin(admin.ModelAdmin):
             tomorrow = str(tomorrow).split()[0]
             if sale_products not in exit_list:
                 if day_created < tomorrow:
-                    sale_products.price = sale_products.price - 2000
+                    sale_products.discount_cost = sale_products.price - 2000
                     sale_products.sale = True
                     sale_products.save()
                     exit_list.append(1)
 
-                    
     @staticmethod
     @admin.action(description='Сбросить все акции')
-    def drop_sale( modeladmin, request, queryset):
+    def drop_sale(modeladmin, request, queryset):
         all_pro = Product.objects.all()
         for i in all_pro:
             if i.sale == True:
-                i.price = i.price + 2000
+                i.discount_cost = 0
                 i.save()
         Product.objects.update(sale=False)
         
