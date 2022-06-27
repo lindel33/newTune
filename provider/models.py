@@ -190,8 +190,6 @@ class ProviderProduct(models.Model):
         path_to_media = '/home/apple/code/project1/tune/media/'
         client = telebot.TeleBot(token=token)
         for chat_id in admins:
-                client.send_message(chat_id=chat_id,
-                                    text=f'Поставщик {self.author} создал товар')
                 if self.image_3:
                     f1, f2, f3 = open(path_to_media + str(self.image_1), 'rb'), \
                                  open(path_to_media + str(self.image_2), 'rb'), \
@@ -208,7 +206,10 @@ class ProviderProduct(models.Model):
                     client.send_media_group(chat_id=chat_id, media=[
                         telebot.types.InputMediaPhoto(f1, caption=self.base_text, parse_mode='HTML'),
                         telebot.types.InputMediaPhoto(f2),])
-
+                info = f'Категория: {self.category}' \
+                       f'\nСерия: {self.series}'
+                client.send_message(chat_id=chat_id,
+                                    text=f'Товар создал: {self.author}' + '\n\n' + info)
                 out = [
                     [f'🔑✅ Допустить пост к публикации id={res.id}'],
                     [f'🔑↪️ Отложить рассмотрение id={res.id}'],
