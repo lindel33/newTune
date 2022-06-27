@@ -1791,21 +1791,29 @@ def admin_save_post(message):
     if UserModel.objects.filter(user_id=str(message.chat.id), super_user=True).exists():
         if '✅' in message.text:
             product_id = message.text.split('=')[-1]
-            Product.objects.filter(id=product_id).update(moderation=True)
-            start_message(message=message,
-                          text='Пост успешно опубликован')
+            try:
+                Product.objects.filter(id=product_id).update(moderation=True)
+                start_message(message=message,
+                              text='Пост успешно опубликован')
+            except:
+                if Product.objects.filter(id=product_id, moderation=True).exists():
+                    start_message(message=message,
+                                  text='Пост уже был опубликован другим модератором')
+                elif not Product.objects.filter(id=product_id, moderation=True).exists():
+                    start_message(message=message,
+                                  text='Пост уже был удален другим модератором ')
         if '❌' in message.text:
             product_id = message.text.split('=')[-1]
-            Product.objects.filter(id=product_id).delete()
-            start_message(message=message,
-                          text='Пост был удален(Отменить нельзя)')
+            try:
+                Product.objects.filter(id=product_id).delete()
+                start_message(message=message,
+                              text='Пост был удален(Отменить нельзя)')
+            except:
+                start_message(message=message,
+                              text='Пост уже был удален другим модератором')
         if '↪' in message.text:
-            product_id = message.text.split('=')[-1]
-            Product.objects.filter(id=product_id).update(moderation=True)
             start_message(message=message,
-                          text='Пост отложен\nВы можете опубликовать пост через админ-панель')
-    else:
-        start_message(message)
+                          text='Вы пропустили этот пост')
 
 
 @client.message_handler(content_types=['text'])
