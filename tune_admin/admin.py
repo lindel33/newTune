@@ -168,16 +168,24 @@ class PostAdmin(admin.ModelAdmin):
                     sale_products.save()
                     exit_list.append(1)
 
+#     @staticmethod
+#     @admin.action(description='Сбросить все акции')
+#     def drop_sale(modeladmin, request, queryset):
+#         all_pro = Product.objects.all()
+#         for i in all_pro:
+#             if i.sale == True:
+#                 i.discount_cost = 0
+#                 i.save()
+#         Product.objects.update(sale=False)
     @staticmethod
     @admin.action(description='Сбросить все акции')
     def drop_sale(modeladmin, request, queryset):
         all_pro = Product.objects.all()
         for i in all_pro:
             if i.sale == True:
-                i.discount_cost = 0
+                i.price = i.price + 2000
                 i.save()
         Product.objects.update(sale=False)
-        
     def get_queryset(self, request):
         # from userprofile.models import UserProfile
         # from django.contrib.auth.models import User
