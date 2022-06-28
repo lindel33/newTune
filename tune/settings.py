@@ -13,9 +13,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'ljw@!#$uwio5u43u45u35u@#q4utiuopi34io5uodas231123@!#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['tuneapple.space','51.250.106.80','tuneapple.xyz', 'https://tuneapple.xyz/', '127.0.0.1', 'https://tuneapple.xyz/panel/homelogin/?next=/panel/home', 'https://tuneapple.xyz/']
+ALLOWED_HOSTS = ['www.tuneapple.space','tuneapple.space','51.250.106.80','tuneapple.xyz', 'https://tuneapple.xyz/', '127.0.0.1', 'https://tuneapple.xyz/panel/homelogin/?next=/panel/home', 'https://tuneapple.xyz/']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
