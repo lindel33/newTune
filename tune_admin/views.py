@@ -11,7 +11,7 @@ import logging
 from tune_admin.get_photo import get_photo
 
 if __name__ == '__main__':
-    URL_BITRIX = ''
+    URL_BITRIX = 'https://im-ru.bitrix.info/imwebhook/eh/fd371add77a95857396468f4f38e6f691656764799/'
     project_path = os.path.dirname(os.path.abspath('../../main.py'))
     sys.path.append(project_path)
     os.environ["DJANGO_SETTINGS_MODULE"] = "tune.settings"
@@ -28,7 +28,7 @@ if __name__ == '__main__':
                         level=logging.ERROR)
 
 if __name__ != '__main__':
-    URL_BITRIX = 'https://im-ru.bitrix.info/imwebhook/eh/35c7769507e37dc0864578224311b4dc1656764636/'
+    URL_BITRIX = 'https://im-ru.bitrix.info/imwebhook/eh/fd371add77a95857396468f4f38e6f691656764799/'
     TOKEN = '5239855839:AAFeQBXF4EmVJK7DDy6RN9rPeIIgskPWLig'
     client = telebot.TeleBot(TOKEN, threaded=False)
     path_to_media = '/home/apple/code/project1/tune/media/'
