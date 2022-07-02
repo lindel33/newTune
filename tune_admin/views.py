@@ -1833,11 +1833,11 @@ def bitrix_client(message):
                                         ' он поможет Вам забронировать устройство '
                                         'или расскажет о нем более подробно 👩🏻‍💻')
     
-            jsn = message.__dict__.get('json')
-            ts = {'update_id': 287246100,
-                  'message': jsn}
-            requests.post(URL_BITRIX, json=ts)
-            requests.post('https://im-ru.bitrix.info/imwebhook/eh/ca1bf54311c14fb2e7281238b5bcd5d41653467218/', json=ts)
+        jsn = message.__dict__.get('json')
+        ts = {'update_id': 287246100,
+              'message': jsn}
+        requests.post(URL_BITRIX, json=ts)
+        requests.post('https://im-ru.bitrix.info/imwebhook/eh/ca1bf54311c14fb2e7281238b5bcd5d41653467218/', json=ts)
     except IndexError as _:
         logger.error(f"Ошибка bitrix_client")
         for i in admin_chat_id:
