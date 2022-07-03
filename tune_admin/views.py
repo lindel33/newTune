@@ -2003,8 +2003,8 @@ def bot(request):
         json_data = request.body.decode('utf-8')
         update = telebot.types.Update.de_json(json_data)
         # if 'text' in update.message:
-        reg_user(update)
-        stat_user(update)
+#         reg_user(update)
+#         stat_user(update)
         client.process_new_updates([update])
 
     return HttpResponse(200)
