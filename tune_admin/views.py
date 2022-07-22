@@ -141,19 +141,22 @@ def get_current_product(message):
 
 
 def get_products(category_name, message):
-    id_category = SeriesCategory.objects.values('id').filter(category__icontains=f'{category_name}')
-    result = Product.objects.values('name').filter(series_id=id_category[0]['id'],
-                                                   moderation=True,
-                                                   booking=False,
-                                                   sell=False,
-                                                   regin=UserModel.objects.get(
-                                                       user_id=message.chat.id
-                                                   ).region_user
-                                                   )
-    list_product = []
-    for i in result:
-        list_product.append(i['name'])
-    return list_product
+    try:
+        id_category = SeriesCategory.objects.values('id').filter(category__icontains=f'{category_name}')
+        result = Product.objects.values('name').filter(series_id=id_category[0]['id'],
+                                                       moderation=True,
+                                                       booking=False,
+                                                       sell=False,
+                                                       regin=UserModel.objects.get(
+                                                           user_id=message.chat.id
+                                                       ).region_user
+                                                       )
+        list_product = []
+        for i in result:
+            list_product.append(i['name'])
+        return list_product
+    except:
+        pass
 
 
 def get_price(price_min, price_max, message):
