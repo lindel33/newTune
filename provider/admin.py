@@ -6,6 +6,7 @@ from .models import ProviderProduct
 class ProviderProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'author', 'provider_device']
     exclude = ('booking', 'count', 'moderation', 'up_price', 'day_next_publish', 'name_tmp', 'device_provider', 'provider_device', 'author')
+    list_filter = ['sell', 'series']
     
     def save_model(self, request, obj, form, change):
         if not obj.pk:
@@ -20,29 +21,28 @@ class ProviderProductAdmin(admin.ModelAdmin):
     
     def change_view(self, request, object_id, form_url="", extra_context=None):
         self.readonly_fields = ['image_1',
-                       'image_2',
-                       'image_3',
-                       'price',
-                       'smile',
-                       'name',
-                       'tests',
-                       'article',
-                       'state',
-                       'state_akb',
-                       'works',
-                       'kit',
-                       'guaranty',
-                       'custom_guaranty',
-                       'base_text',
-                       'regin',
-                       'category',
-                       'series',
-                      ]
+                                'image_2',
+                                'image_3',
+                                'price',
+                                'smile',
+                                'name',
+                                'tests',
+                                'article',
+                                'state',
+                                'state_akb',
+                                'works',
+                                'kit',
+                                'guaranty',
+                                'custom_guaranty',
+                                'base_text',
+                                'regin',
+                                'category',
+                                'series',
+                                ]
         self.fields = ['image_1',
                        'image_2',
                        'image_3',
                        'sell',
-                       'booking',
                        'price',
                        'smile',
                        'name',
@@ -58,6 +58,6 @@ class ProviderProductAdmin(admin.ModelAdmin):
                        'regin',
                        'category',
                        'series',
-                      ]
+                       ]
 
         return self.changeform_view(request, object_id, form_url, extra_context)
