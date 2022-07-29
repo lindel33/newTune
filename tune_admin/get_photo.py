@@ -17,10 +17,13 @@ def get_photo(series):
 
         if 'iphone12mini' in name:
             return path_to_iphone + 'iphone/iphone_12.jpg'
-
+        
+        if 'iphone12pro' in name and 'mini' not in name:
+            return path_to_iphone + 'iphone/iphone_12_pro.jpg'
+        
         if 'iphone12' in name and 'mini' not in name:
             return path_to_iphone + 'iphone/iphone_12.jpg'
-
+        
         if 'iphone11' in name and 'mini' not in name:
             return path_to_iphone + 'iphone/iphone_11.jpg'
 
